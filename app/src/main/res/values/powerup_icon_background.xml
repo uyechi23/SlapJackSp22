@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="menu_button_background">#FFAAAAAA</color>
+    <color name="powerup_icon_background">#FFD470</color>
 </resources>

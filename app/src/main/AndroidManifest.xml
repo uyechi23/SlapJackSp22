@@ -9,9 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrazyEights_lis24_millemal22_sakata24_uyechi23">
+
+        <!--
+            External Citation
+                Date:       28 January 2022
+                Problem:    Could not set default screen orientation to landscape
+                Resource:   https://stackoverflow.com/questions/3723823/i-want-my-android-application-to-be-only-run-in-portrait-mode#:~:text=android%3AscreenOrientation%3D%22portrait%22%20you,set%20the%20default%20orientation%20mode.
+                Solution:   Modified the AndroidManifest.xml file as shown in the example from this post
+        -->
+
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

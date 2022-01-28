@@ -10,14 +10,15 @@
         android:id="@+id/user_interface"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/default_background">
 
         <LinearLayout
             android:id="@+id/menu_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
+            android:background="@color/translucent_black">
 
             <!--
             External Citation
@@ -36,40 +37,23 @@
                 android:src="@mipmap/menu_button_round"
                 android:contentDescription="@string/menu_icon_desc"
                 android:tooltipText="@string/menu_icon_desc"
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="5dp"/>
-
-            <TextView
-                android:id="@+id/menu_bar_text"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textSize="20sp"
-                android:gravity="center_vertical"
-                android:text="@string/menu_icon_name"/>
+                android:paddingVertical="10sp"
+                android:paddingHorizontal="10sp"/>
 
             <ImageButton
-                android:id="@+id/settings_button"
+                android:id="@+id/powerup_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
                 android:background="@color/transparent"
-                android:contentDescription="@string/settings_icon_desc"
-                android:paddingHorizontal="5dp"
-                android:paddingVertical="5dp"
-                android:src="@mipmap/menu_button_round"
-                android:tooltipText="@string/settings_icon_desc" />
+                android:src="@mipmap/powerup_icon"
+                android:contentDescription="@string/powerup_icon_desc"
+                android:tooltipText="@string/powerup_icon_desc"
+                android:paddingVertical="10sp"
+                android:paddingHorizontal="10sp"/>
 
-            <TextView
-                android:id="@+id/settings_bar_text"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:paddingHorizontal="5dp"
-                android:text="@string/settings_icon_name"/>
-            
+
         </LinearLayout>
+
 
     </LinearLayout>
 
