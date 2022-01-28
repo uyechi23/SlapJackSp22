@@ -6,13 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:id="@+id/user_interface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/menu_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <!--
+            External Citation
+                Date:       28 January 2022
+                Problem:    Could not get menu icon to properly display on regular Button
+                Resources:  https://developer.android.com/reference/android/widget/ImageButton
+                            https://developer.android.com/studio/write/image-asset-studio
+                Solution:   Changed Button to ImageButton to use the android:src property
+                            Generated icon resource files using Android Studio's asset generator
+            -->
+            <ImageButton
+                android:id="@+id/menu_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:src="@mipmap/menu_button_round"
+                android:contentDescription="@string/menu_icon_desc"
+                android:tooltipText="@string/menu_icon_desc"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="5dp"/>
+
+            <TextView
+                android:id="@+id/menu_bar_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:text="@string/menu_icon_name"/>
+            
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
