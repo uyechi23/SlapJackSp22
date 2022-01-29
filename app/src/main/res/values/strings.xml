@@ -8,4 +8,9 @@
     <string name="settings_icon_desc">An icon for the settings button</string>
     <string name="friends_list_name">Friends</string>
     <string name="friends_list_desc">An icon for the friends menu</string>
+    <string name="num_deck_string">Cards in\nDeck: 36</string>
+    <string name="player_name">Frodo</string>
+    <string name="middle_left_player_name">Gandalf</string>
+    <string name="top_center_player_name">Sauron</string>
+    <string name="middle_right_player_name">Legolas</string>
 </resources>
