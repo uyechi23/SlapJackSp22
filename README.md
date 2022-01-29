@@ -13,6 +13,11 @@ This project is an Android app that runs Crazy Eights. Not much is implemented a
 - Complex AI
 
 # Version History
-- Version 0 (January 21, 2022)
+- January 21, 2022
     - Created GitHub repository
     - Setup VCS
+- January 28, 2022
+    - Finished Menu Bar Design
+    - Finished Game Layout Design
+    - Added playing card asset files
+    - Generated button icon asset files
