@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- External Citation
+        Date:       28 January 2022
+        Problem:    Needed to draw card faces on screen
+        Resource:   https://www.kenney.nl/assets/playing-cards-pack
+        Solution:   Used an open-source .png asset set for pixel art playing cards
+    -->
+
     <LinearLayout
         android:id="@+id/user_interface"
         android:layout_width="match_parent"
@@ -84,6 +91,16 @@
                 tools:ignore="RedundantDescriptionCheck" />
 
         </LinearLayout>
+
+        <!--
+            External Citation:
+                Date:       28 January 2022
+                Problem:    Needed to organize game space for the user interface
+                Resource:   https://developer.android.com/reference/android/widget/GridLayout?authuser=1
+                Solution:   Instead of using nested Linear Layouts, use a Grid Layout to organize items.
+                            May switch this out for another Android Layout widget later on, but for now,
+                            this will be the temporary partitioning tool for the game space
+        -->
 
         <GridLayout
             android:layout_width="match_parent"
@@ -375,8 +392,6 @@
                 android:layout_columnWeight="1"
                 android:gravity="center">
             </LinearLayout>
-
-
 
         </GridLayout>
 
