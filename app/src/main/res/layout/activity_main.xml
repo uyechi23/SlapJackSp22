@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,7 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/translucent_black">
+            android:background="@color/translucent_black"
+            android:layout_weight="0"
+            tools:ignore="InefficientWeight">
 
             <!--
             External Citation
@@ -45,12 +46,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:src="@mipmap/powerup_icon"
+                android:src="@mipmap/powerup_icon_round"
                 android:contentDescription="@string/powerup_icon_desc"
                 android:tooltipText="@string/powerup_icon_desc"
                 android:paddingVertical="10sp"
                 android:paddingHorizontal="10sp"/>
 
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:ignore="NestedWeights" />
+
+            <ImageButton
+                android:id="@+id/friends_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="end"
+                android:src="@mipmap/friends_list_round"
+                android:contentDescription="@string/friends_list_desc"
+                android:tooltipText="@string/friends_list_desc"
+                android:paddingVertical="10sp"
+                android:paddingHorizontal="10sp"/>
+
+            <ImageButton
+                android:id="@+id/settings_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="end"
+                android:src="@mipmap/settings_option_round"
+                android:contentDescription="@string/settings_icon_desc"
+                android:tooltipText="@string/settings_icon_desc"
+                android:paddingVertical="10sp"
+                android:paddingHorizontal="10sp"
+                android:outlineProvider="background"/>
 
         </LinearLayout>
 

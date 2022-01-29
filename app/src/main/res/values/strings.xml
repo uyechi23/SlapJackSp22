@@ -6,4 +6,6 @@
     <string name="powerup_icon_desc">An icon for the powerup menu</string>
     <string name="settings_icon_name">Settings</string>
     <string name="settings_icon_desc">An icon for the settings button</string>
+    <string name="friends_list_name">Friends</string>
+    <string name="friends_list_desc">An icon for the friends menu</string>
 </resources>
