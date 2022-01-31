@@ -21,3 +21,6 @@ This project is an Android app that runs Crazy Eights. Not much is implemented a
     - Finished Game Layout Design
     - Added playing card asset files
     - Generated button icon asset files
+- January 31, 2022
+    - Added turn indicator
+    - Added valid move indicator
