@@ -10,4 +10,6 @@
     <color name="transparent">#00000000</color>
     <color name="translucent_black">#7F000000</color>
     <color name="default_background">#FF88AADD</color>
+    <color name="yellow">#FFFFFF00</color>
+    <color name="translucent_yellow">#7FFFFF00</color>
 </resources>

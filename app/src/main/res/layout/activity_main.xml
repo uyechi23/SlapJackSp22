@@ -354,14 +354,23 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/card_clubs_02"
+                        android:src="@drawable/card_clubs_07"
                         tools:ignore="ContentDescription" />
+
+                    <!--
+                        External Citation:
+                            Date:       31 January 2022
+                            Problem:    Needed to "gray out" unplayable card(s)
+                            Resource:   https://handyopinion.com/how-to-change-tint-color-for-an-image-in-android/
+                            Solution:   Used the android:tint XML attribute as shown in the example
+                    -->
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/card_hearts_k"
-                        tools:ignore="ContentDescription" />
+                        tools:ignore="ContentDescription,UseAppTint"
+                        android:tint="@color/translucent_black"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -377,9 +386,9 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:background="@color/black"
-                    android:backgroundTint="@color/translucent_black"
+                    android:backgroundTint="@color/translucent_yellow"
                     android:text="@string/player_name"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 
