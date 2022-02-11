@@ -3,7 +3,7 @@
 ## Official Rules (Source)
 The official Rules for Crazy Eights is here: https://bicyclecards.com/how-to-play/crazy-eights/
 
-## Rules (Single Round)
+## Rules (Mid-Round)
 A single round of Crazy Eights starts by dealing 5 cards to each player. The remaining cards in the deck are placed face-down,
 and the top card is flipped over to reveal it's value, and placed face-up beside the deck. If that card's value is an eight,
 it is shuffled into the deck and the next card is flipped over. The round begins with the player left of the dealer.
@@ -26,6 +26,15 @@ are based on the table below:
 
 
 ## Exceptions to Rules
-### [Single Round] Dealer/Player Order
+### [Mid-Round] Dealer/Player Order
 Since this version of the game has no dealers, the Player objects in the game will be stored in a random order prior to
 the start of the game. This order will change between rounds, but will essentially establish the turn sequence for a single round.
+
+### [Mid-Round] When the Deck Runs Out
+When play-testing this game, we thought it was more fun if we kept shuffling the cards back into the deck once the deck runs out.
+Our game will support this method, re-filling the deck using the cards that were played previously (shuffled, of course).
+
+### [Post-Round] Point System
+Points awarded will only be saved on Player accounts (either Local or Proxy). AI Players will not have the option of storing points
+on their Player object. How this will be achieved depends on what we're able to do - but possibly a resource file that consists
+of data on a particular Player (with a unique username). This may include point total, cosmetics, level, boosts/upgrades, and more.
