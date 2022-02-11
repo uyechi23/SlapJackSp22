@@ -24,3 +24,5 @@ This project is an Android app that runs Crazy Eights. Not much is implemented a
 - January 31, 2022
     - Added turn indicator
     - Added valid move indicator
+- February 10, 2022
+    - Added 
