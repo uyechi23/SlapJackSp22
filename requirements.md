@@ -25,7 +25,7 @@ are based on the table below:
 | All other cards   | Pip count |
 
 
-## Exceptions to Rules (Single Round)
-### Dealer/Player Order
+## Exceptions to Rules
+### [Single Round] Dealer/Player Order
 Since this version of the game has no dealers, the Player objects in the game will be stored in a random order prior to
 the start of the game. This order will change between rounds, but will essentially establish the turn sequence for a single round.
