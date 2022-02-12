@@ -34,6 +34,11 @@ the start of the game. This order will change between rounds, but will essential
 When play-testing this game, we thought it was more fun if we kept shuffling the cards back into the deck once the deck runs out.
 Our game will support this method, re-filling the deck using the cards that were played previously (shuffled, of course).
 
+### [Mid-Round] Playing multiple cards
+A player can play multiple cards if they have another card of the same value. At least one of the cards played must be a valid
+card. To handle this, our game will use a tap-and-slide feature to play multiple cards. The player must tap the card(s) they want
+to play, and then slide upward to confirm that turn.
+
 ### [Post-Round] Point System
 Points awarded will only be saved on Player accounts (either Local or Proxy). AI Players will not have the option of storing points
 on their Player object. How this will be achieved depends on what we're able to do - but possibly a resource file that consists
