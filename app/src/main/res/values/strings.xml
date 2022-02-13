@@ -15,4 +15,5 @@
     <string name="middle_right_player_name">Legolas</string>
     <string name="select_a_suit">Select a suit...</string>
     <string name="current_player_frodo">Current Player: Frodo</string>
+    <string name="pass">Pass</string>
 </resources>
