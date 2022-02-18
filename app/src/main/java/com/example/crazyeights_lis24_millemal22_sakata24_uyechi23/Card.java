@@ -20,11 +20,10 @@ public class Card {
         // calculate card value (an integer representing the face value of the card)
         switch(face){
             case "Ace": this.value = 1; break;
-            case "King":
-            case "Queen":
-            case "Jack":
-            case "Ten":
-                this.value = 10; break;
+            case "King": // same as queen
+            case "Queen": // same as jack
+            case "Jack": // same as 10
+            case "Ten": this.value = 10; break;
             case "Nine": this.value = 9; break;
             case "Eight": this.value = 8; break;
             case "Seven": this.value = 7; break;
