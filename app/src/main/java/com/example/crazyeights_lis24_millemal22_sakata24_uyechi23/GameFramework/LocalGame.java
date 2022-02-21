@@ -1,31 +1,32 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework;
 
-import edu.up.cs301.game.GameFramework.actionMessage.EndTurnAction;
-import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
-import edu.up.cs301.game.GameFramework.actionMessage.GameOverAckAction;
-import edu.up.cs301.game.GameFramework.actionMessage.MyNameIsAction;
-import edu.up.cs301.game.GameFramework.actionMessage.ReadyAction;
-import edu.up.cs301.game.GameFramework.actionMessage.TimerAction;
-import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
-import edu.up.cs301.game.GameFramework.infoMessage.BindGameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.GameOverInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.NotYourTurnInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.StartGameInfo;
-import edu.up.cs301.game.GameFramework.utilities.GameTimer;
-import edu.up.cs301.game.GameFramework.utilities.Tickable;
-import edu.up.cs301.game.GameFramework.utilities.Logger;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.EndTurnAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.GameAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.GameOverAckAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.MyNameIsAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.ReadyAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.TimerAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.BindGameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameOverInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameState;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.IllegalMoveInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.NotYourTurnInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.StartGameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.GameTimer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.Logger;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.Tickable;
 
 /**
  * A class that knows how to play the game. The data in this class represent the
  * state of a game. The state represented by an instance of this class can be a
  * complete state (as might be used by the main game activity) or a partial
  * state as it would be seen from the perspective of an individual player.
- *
+ * <p>
  * Each game has a unique state definition, so this abstract base class has
  * little inherent functionality.
  *
@@ -64,12 +65,8 @@ public abstract class LocalGame implements Game, Tickable {
     // this game's timer and timer action
     private GameTimer myTimer = new GameTimer(this);
 
-    //How many setup phases we have, initially set to 0
-    private int numSetupTurns = 0;
-
-    //How many setup turns have passed, initially set to 0
-    private int currentSetupTurn = 0;
-
+    // the game's state
+    protected GameState state;
 
     /**
      * Returns the game's timer
@@ -83,15 +80,14 @@ public abstract class LocalGame implements Game, Tickable {
     /**
      * starts the game
      *
-     * @param players
-     * 			the list of players who are playing in the game
+     * @param players the list of players who are playing in the game
      */
     public void start(GamePlayer[] players) {
         // if the game has already started, don't restart
         if (this.players != null) return;
 
         // create/store a copy of the player array
-        this.players = (GamePlayer[])players.clone();
+        this.players = (GamePlayer[]) players.clone();
 
         // create an array for the players' names; these names will be
         // filled during the initial message-protocol between the game
@@ -99,7 +95,7 @@ public abstract class LocalGame implements Game, Tickable {
         this.playerNames = new String[players.length];
 
         // start the thread for this game
-        synchronized(this) {
+        synchronized (this) {
             // if already started, don't restart
             if (running) return;
             running = true; // mark as running
@@ -135,8 +131,7 @@ public abstract class LocalGame implements Game, Tickable {
      * this method should remove any information from the game that the player is not
      * allowed to know.
      *
-     * @param p
-     * 			the player to notify
+     * @param p the player to notify
      */
     protected abstract void sendUpdatedStateTo(GamePlayer p);
 
@@ -153,10 +148,9 @@ public abstract class LocalGame implements Game, Tickable {
 
     /**
      * Determines the numeric player ID (0 through whatever) for the given player.
-     * @param p
-     * 			the player whose player ID we want
-     * @return
-     * 			the player's ID, or -1 if the player is not a player in this game
+     *
+     * @param p the player whose player ID we want
+     * @return the player's ID, or -1 if the player is not a player in this game
      */
     protected final int getPlayerIdx(GamePlayer p) {
         for (int i = 0; i < players.length; i++) {
@@ -171,12 +165,11 @@ public abstract class LocalGame implements Game, Tickable {
      * Invoked whenever the game's thread receives a message (e.g., from a player
      * or from a timer).
      *
-     * @param msg
-     * 			the message that was received
+     * @param msg the message that was received
      */
     private void receiveMessage(Message msg) {
         if (msg.obj instanceof GameAction) { // ignore if not GameAction
-            GameAction action = (GameAction)msg.obj;
+            GameAction action = (GameAction) msg.obj;
 
             // CASE 1: the game is at the stage where we we waiting for
             // players to tell us their names. In this case, we expect
@@ -186,13 +179,13 @@ public abstract class LocalGame implements Game, Tickable {
             if (action instanceof MyNameIsAction &&
                     gameStage == GameStage.WAITING_FOR_NAMES) {
                 MyNameIsAction mnis = (MyNameIsAction) action;
-                Logger.debugLog(TAG, "received 'myNameIs' ("+mnis.getName()+")");
+                Logger.debugLog(TAG, "received 'myNameIs' (" + mnis.getName() + ")");
 
                 // mark that player as having given us its name
                 int playerIdx = getPlayerIdx(mnis.getPlayer());
                 if (playerIdx >= 0 && playerNames[playerIdx] == null) {
                     playerNames[playerIdx] = mnis.getName(); // store player name
-                    synchronized (this){
+                    synchronized (this) {
                         playerNameCount++;
                     }
                 }
@@ -206,21 +199,20 @@ public abstract class LocalGame implements Game, Tickable {
                     playersReady = new boolean[players.length]; // array to keep track of players responding
                     for (GamePlayer p : players) {
                         p.sendInfo(
-                                new StartGameInfo((String[])playerNames.clone()));
+                                new StartGameInfo((String[]) playerNames.clone()));
                     }
                 }
-            }
-            else if (action instanceof ReadyAction &&
+            } else if (action instanceof ReadyAction &&
                     gameStage == GameStage.WAITING_FOR_READY) {
 
                 // CASE 2: we have told all players that the game is about to start;
                 // we are now processing ReadyAction messages from each player to
                 // acknowledge this.
-                ReadyAction ra = (ReadyAction)action;
+                ReadyAction ra = (ReadyAction) action;
 
                 // mark the given player as being ready
                 int playerIdx = getPlayerIdx(ra.getPlayer());
-                Logger.debugLog(TAG, "got 'ready' ("+playerNames[playerIdx]+")");
+                Logger.debugLog(TAG, "got 'ready' (" + playerNames[playerIdx] + ")");
                 if (playerIdx >= 0 && !playersReady[playerIdx]) {
                     playersReady[playerIdx] = true;
                     synchronized (this) {
@@ -235,26 +227,25 @@ public abstract class LocalGame implements Game, Tickable {
                     //If we have to actually perform a setup phase, so check for that and send out
                     //info accordingly.
                     gameStage = GameStage.SETUP_PHASE;
-                    if(this.numSetupTurns == 0){ gameStage = GameStage.DURING_GAME;}
-                    Logger.log(TAG, "Numof setup turns is "+ this.numSetupTurns);
+                    if (this.state.getNumSetupTurns() == 0) {
+                        gameStage = GameStage.DURING_GAME;
+                    }
+                    Logger.log(TAG, "Num of setup turns is " + this.state.getNumSetupTurns());
                     Logger.debugLog(TAG, "broadcasting initial state - setup phase");
                     // send each player the initial state of the game
                     sendAllUpdatedState();
                 }
-            }
-            else if (action instanceof TimerAction && gameStage == GameStage.DURING_GAME) {
+            } else if (action instanceof TimerAction && gameStage == GameStage.DURING_GAME) {
 
                 // CASE 3: it's during the game, and we get a timer action
 
                 // Only perform the "tick" if it was our timer; otherwise, just post the message
-                if (((TimerAction)action).getTimer() == myTimer) {
+                if (((TimerAction) action).getTimer() == myTimer) {
                     this.timerTicked();
-                }
-                else {
+                } else {
                     this.checkAndHandleAction(action);
                 }
-            }
-            else if (action instanceof GameAction && gameStage == GameStage.DURING_GAME) {
+            } else if (action instanceof GameAction && gameStage == GameStage.DURING_GAME) {
 
                 // CASE 4: it's during the game, and we get an action from a player
                 this.checkAndHandleAction(action);
@@ -262,8 +253,7 @@ public abstract class LocalGame implements Game, Tickable {
             //CASE 5: We are setup phase and we get an action from a player
             else if (action instanceof GameAction && gameStage == GameStage.SETUP_PHASE) {
                 this.checkAndHandleAction(action);
-            }
-            else if (action instanceof GameOverAckAction && gameStage == GameStage.GAME_OVER) {
+            } else if (action instanceof GameOverAckAction && gameStage == GameStage.GAME_OVER) {
 
                 // CASE 6: the game is over, and we are waiting for each player to
                 // acknowledge this
@@ -282,8 +272,7 @@ public abstract class LocalGame implements Game, Tickable {
      * Handles an action that is sent to the game, checking to ensure
      * checkIfGameOver player is allowed to move, that the move is legal, etc.
      *
-     * @param action
-     * 			the action that was sent
+     * @param action the action that was sent
      */
     private final void checkAndHandleAction(GameAction action) {
 
@@ -293,7 +282,8 @@ public abstract class LocalGame implements Game, Tickable {
 
         // if the player is NOT a player who is presently allowed to
         // move, send the player a message
-        if (!canMove(playerId)) {;
+        if (!canMove(playerId)) {
+            ;
             player.sendInfo(new NotYourTurnInfo());
             return;
         }
@@ -311,11 +301,11 @@ public abstract class LocalGame implements Game, Tickable {
 
         //The move was legal, and if we are in setup phase, and this is the last player in the list's
         //turn then we need to increment the setup phase counter and update our phase accordingly.
-        if(this.gameStage == GameStage.SETUP_PHASE){
-            if((this.players.length-1 == playerId) && action instanceof EndTurnAction){
-                this.currentSetupTurn++;
+        if (this.gameStage == GameStage.SETUP_PHASE) {
+            if ((this.players.length - 1 == playerId) && action instanceof EndTurnAction) {
+                this.state.incCurrentSetupTurn();
             }
-            if(this.currentSetupTurn >= this.numSetupTurns){
+            if (this.state.getCurrentSetupTurn() >= this.state.getNumSetupTurns()) {
                 this.gameStage = GameStage.DURING_GAME;
             }
         }
@@ -335,10 +325,8 @@ public abstract class LocalGame implements Game, Tickable {
      * Tell whether the given player is allowed to make a move at the
      * present point in the game.
      *
-     * @param playerIdx
-     * 		the player's player-number (ID)
-     * @return
-     * 		true iff the player is allowed to move
+     * @param playerIdx the player's player-number (ID)
+     * @return true iff the player is allowed to move
      */
     protected abstract boolean canMove(int playerIdx);
 
@@ -346,17 +334,15 @@ public abstract class LocalGame implements Game, Tickable {
      * Check if the game is over. It is over, return a string that tells
      * who the winner(s), if any, are. If the game is not over, return null;
      *
-     * @return
-     * 			a message that tells who has won the game, or null if the
-     * 			game is not over
+     * @return a message that tells who has won the game, or null if the
+     * game is not over
      */
     protected abstract String checkIfGameOver();
 
     /**
      * Finishes up the game
      *
-     * @param msg
-     * 			The message that tells who, if anyone, won the game
+     * @param msg The message that tells who, if anyone, won the game
      */
     private final void finishUpGame(String msg) {
 
@@ -377,18 +363,15 @@ public abstract class LocalGame implements Game, Tickable {
     /**
      * Makes a move on behalf of a player.
      *
-     * @param action
-     * 			The move that the player has sent to the game
-     * @return
-     * 			Tells whether the move was a legal one.
+     * @param action The move that the player has sent to the game
+     * @return Tells whether the move was a legal one.
      */
     protected abstract boolean makeMove(GameAction action);
 
     /**
      * sends a given action to the Game object
      *
-     * @param action
-     *            the action to send
+     * @param action the action to send
      */
     public final void sendAction(GameAction action) {
         // wait until handler is set
@@ -437,20 +420,12 @@ public abstract class LocalGame implements Game, Tickable {
     }
 
     /**
-     * For setting the number of setup turns in the game.
-     * To be set in the constructor of the game-specific version of LocalGame.
-     * @param setupTurnNumber
-     */
-    public void setNumSetupTurns(int setupTurnNumber){
-        this.numSetupTurns = setupTurnNumber;
-    }
-
-    /**
      * Returns whether or not we are in setup phase.
+     *
      * @return
      */
-    public boolean inSetupPhase(){
-        if(this.gameStage == GameStage.SETUP_PHASE){
+    public boolean inSetupPhase() {
+        if (this.gameStage == GameStage.SETUP_PHASE) {
             return true;
         }
         return false;
@@ -458,10 +433,27 @@ public abstract class LocalGame implements Game, Tickable {
 
     /**
      * Returns the current setup turn number we are on.
+     *
      * @return The turn number of setup we are on
      */
-    public int setupTurnNumber(){
-        return this.currentSetupTurn;
+    public int setupTurnNumber() {
+        return this.state.getCurrentSetupTurn();
+    }
+
+    //TESTING
+
+    public GamePlayer[] getPlayers() {
+        return players;
+    }
+
+    /**
+     * returns the current gameState
+     *
+     * @return GameState
+     */
+    @Override
+    public GameState getGameState() {
+        return state;
     }
 
 }// class LocalGame

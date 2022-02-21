@@ -8,7 +8,7 @@ import android.widget.Toast;
  * Logger is a class used for all logging purposes.
  * It can perform regular logging as well as toast logging.
  *
- * Author: Nicole Kister
+ * @author: Nicole Kister
  */
 public class Logger {
     //Tag for logging
@@ -38,15 +38,14 @@ public class Logger {
      * @param loggingTag
      * @param logMessage
      */
-    public static void log(String loggingTag, String logMessage){
-        if(loggingTag.length() > 23){
-            Log.wtf("LOGGING ERROR", "Logging Tag ("+loggingTag+") cannot exceed 23 characters");
-        }
-        else {
+    public static void log(String loggingTag, String logMessage) {
+        if (loggingTag.length() > 23) {
+            Log.wtf("LOGGING ERROR", "Logging Tag (" + loggingTag + ") cannot exceed 23 characters");
+        } else {
             Log.i(loggingTag, logMessage);
         }
         //Toast Logging
-        if(toast) {
+        if (toast) {
             Toast.makeText(context, logMessage, LENGTH).show();
         }
     }
@@ -64,11 +63,11 @@ public class Logger {
      * @param logMessage
      * @param logType
      */
-    public static void log(String loggingTag, String logMessage, int logType){
-        switch (logType){
+    public static void log(String loggingTag, String logMessage, int logType) {
+        switch (logType) {
             //Debug logging
             case DEBUG:
-                if(debug){
+                if (debug) {
                     Log.d(loggingTag, logMessage);
                 }
                 break;
@@ -92,7 +91,7 @@ public class Logger {
                 break;
         }
         //Toast logging
-        if(toast && (debug || !debug && logType != DEBUG)) {
+        if (toast && (debug || !debug && logType != DEBUG)) {
             Toast.makeText(context, logMessage, LENGTH).show();
         }
     }
@@ -107,8 +106,8 @@ public class Logger {
      * @param loggingTag
      * @param logMessage
      */
-    public static void debugLog(String loggingTag, String logMessage){
-        if (debug){
+    public static void debugLog(String loggingTag, String logMessage) {
+        if (debug) {
             Log.d(loggingTag, logMessage);
         }
 
@@ -116,27 +115,27 @@ public class Logger {
     }
 
     //Getters and setters
-    public static boolean getDebugValue(){
+    public static boolean getDebugValue() {
         return debug;
     }
 
-    public static boolean getToastValue(){
+    public static boolean getToastValue() {
         return toast;
     }
 
-    public static void setDebugValue(boolean newDebug){
+    public static void setDebugValue(boolean newDebug) {
         debug = newDebug;
     }
 
-    public static void setToastValue(boolean newToast){
+    public static void setToastValue(boolean newToast) {
         toast = newToast;
     }
 
-    public static void setContext(Context newContext){
+    public static void setContext(Context newContext) {
         context = newContext;
     }
 
-    public static void setLength(int length){
+    public static void setLength(int length) {
         LENGTH = length;
     }
 }

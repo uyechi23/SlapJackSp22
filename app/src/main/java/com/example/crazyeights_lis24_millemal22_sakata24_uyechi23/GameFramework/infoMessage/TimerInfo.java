@@ -1,6 +1,6 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage;
 
-import edu.up.cs301.game.GameFramework.utilities.GameTimer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.GameTimer;
 
 /**
  * The a message from to a player (typically sent by a timer) that the timer's
@@ -22,8 +22,7 @@ public class TimerInfo extends GameInfo {
     /**
      * constructor
      *
-     * @param timer
-     * 		the timer that generated this "tick"
+     * @param timer the timer that generated this "tick"
      */
     public TimerInfo(GameTimer timer) {
         myTimer = timer;
@@ -32,8 +31,7 @@ public class TimerInfo extends GameInfo {
     /**
      * getter method for the timer
      *
-     * @return
-     * 		the timer that generated the "tick"
+     * @return the timer that generated the "tick"
      */
     public GameTimer getTimer() {
         return myTimer;

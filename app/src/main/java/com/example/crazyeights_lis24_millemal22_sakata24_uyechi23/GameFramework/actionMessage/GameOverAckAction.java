@@ -1,6 +1,6 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage;
 
-import edu.up.cs301.game.GameFramework.GamePlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 
 /**
  * An action by which the player acknowledges that the game is over.
@@ -17,8 +17,7 @@ public class GameOverAckAction extends GameAction {
     /**
      * constructor
      *
-     * @param p
-     * 		the player to sent the action
+     * @param p the player to sent the action
      */
     public GameOverAckAction(GamePlayer p) {
         super(p);

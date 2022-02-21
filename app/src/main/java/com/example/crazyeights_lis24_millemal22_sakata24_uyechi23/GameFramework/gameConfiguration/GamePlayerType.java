@@ -1,10 +1,10 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.gameConfiguration;
 
-import edu.up.cs301.game.GameFramework.GamePlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 
 /**
  * class GamePlayerType
- *
+ * <p>
  * An instance of this class describes a single type of game player. Typical
  * player types include: "local human player", "remote human player",
  * "easy AI player" and "hard AI player".
@@ -36,7 +36,9 @@ public abstract class GamePlayerType implements Cloneable /*, Serializable*/ {
 //	 */
 //	public String playerClassName;
 
-    /** ctor provided for convenience to initialize instance variables */
+    /**
+     * ctor provided for convenience to initialize instance variables
+     */
     public GamePlayerType(String typeName) {
         this.typeName = typeName;
     }
@@ -60,5 +62,13 @@ public abstract class GamePlayerType implements Cloneable /*, Serializable*/ {
 
     //	public abstract GamePlayer createPlayer(Game game, int playerNum);
     public abstract GamePlayer createPlayer(String name);
+
+    // This compares to player types
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof GamePlayerType)) return false;
+        GamePlayerType gamePlayerType = (GamePlayerType) object;
+        return this.typeName.equals(gamePlayerType.typeName);
+    }
 
 }// class GamePlayerType

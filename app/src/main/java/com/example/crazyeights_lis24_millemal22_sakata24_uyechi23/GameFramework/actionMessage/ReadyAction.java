@@ -1,6 +1,6 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage;
 
-import edu.up.cs301.game.GameFramework.GamePlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 
 /**
  * An action by which the player tells the game its name
@@ -15,10 +15,10 @@ public class ReadyAction extends GameAction {
     // to satisfy the Serializable interface
     private static final long serialVersionUID = -5286032209480788772L;
 
-    /** constructor
+    /**
+     * constructor
      *
-     * @param p
-     * 		the player who sent the action
+     * @param p the player who sent the action
      */
     public ReadyAction(GamePlayer p) {
         super(p);

@@ -1,15 +1,15 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage;
 
-import java.io.Serializable;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.Game;
 
-import edu.up.cs301.game.GameFramework.Game;
+import java.io.Serializable;
 
 /**
  * An informational message that is sent from the game to a player.  The
  * most common information will probably be the state of the game (GameState),
  * but there are also other informational items send to a player (e.g.,
  * telling what his player number is, that his last move was illegal).
- * <P>
+ * <p>
  * Several "generic" of GameInfo classes are already defined.  These
  * include BindGameInfo and IllegalMoveInfo.
  *
@@ -30,8 +30,7 @@ public abstract class GameInfo implements Serializable {
      * The intent is that this be method be called only by ProxyGame and
      * ProxyPlayer.
      *
-     * @param g
-     * 		the game to which the objects 'game' attribute is to be set
+     * @param g the game to which the objects 'game' attribute is to be set
      */
     public void setGame(Game g) {
         // the default behavior is to do nothing, as it is expected that most

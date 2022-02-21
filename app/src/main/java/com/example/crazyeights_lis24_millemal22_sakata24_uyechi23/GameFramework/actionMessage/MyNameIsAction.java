@@ -1,6 +1,6 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage;
 
-import edu.up.cs301.game.GameFramework.GamePlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 
 /**
  * An action by which the player tells the game its name
@@ -18,12 +18,11 @@ public class MyNameIsAction extends GameAction {
     // the player's name
     private String name;
 
-    /** constructor
+    /**
+     * constructor
      *
-     * @param p
-     * 		the player who sent the action
-     * @param name
-     * 		the player's name
+     * @param p    the player who sent the action
+     * @param name the player's name
      */
     public MyNameIsAction(GamePlayer p, String name) {
         super(p); // invoke superclass constructor
@@ -33,8 +32,7 @@ public class MyNameIsAction extends GameAction {
     /**
      * getter-method for the name
      *
-     * @return
-     * 		the player's name
+     * @return the player's name
      */
     public String getName() {
         return name;

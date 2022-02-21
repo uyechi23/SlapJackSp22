@@ -1,7 +1,5 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,26 +20,34 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.TabHost.TabSpec;
-import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
-import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
-import edu.up.cs301.game.GameFramework.utilities.IPCoder;
-import edu.up.cs301.game.GameFramework.utilities.Logger;
-import edu.up.cs301.game.GameFramework.utilities.MessageBox;
-import edu.up.cs301.game.R;
+
+import java.util.ArrayList;
+
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.gameConfiguration.GameConfig;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.gameConfiguration.GamePlayerType;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameState;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.IPCoder;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.Logger;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.MessageBox;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.Saving;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
+
 
 /**
  * class GameMainActivity
- *
+ * <p>
  * is the main activity for the game framework. To create a new game, create a
  * sub-class of this class that implements its abstract methods below.
  *
  * @author Andrew M. Nuxoll
  * @author Steven R. Vegdahl
- * @date Version 2013
+ * @author Eric Imperio
+ * @date Version 2020
  */
 public abstract class GameMainActivity extends Activity implements
         View.OnClickListener {
@@ -84,7 +90,7 @@ public abstract class GameMainActivity extends Activity implements
     TableLayout playerTable = null;
     public ArrayList<TableRow> tableRows = new ArrayList<TableRow>();
 
-    public ArrayList<TableRow> test (){
+    public ArrayList<TableRow> test() {
         return tableRows;
     }
 
@@ -100,37 +106,38 @@ public abstract class GameMainActivity extends Activity implements
      * GameMainActivity that implements the following methods.
      * --------------------------------------------------------------------
      */
+
     /**
      * Creates a default, game-specific configuration for the current game.
-     *
+     * <p>
      * IMPORTANT: The default configuration must be a legal configuration!
      *
      * @return an instance of the GameConfig class that defines a default
-     *         configuration for this game. (The default may be subsequently
-     *         modified by the user if this is allowed.)
+     * configuration for this game. (The default may be subsequently
+     * modified by the user if this is allowed.)
      */
     public abstract GameConfig createDefaultConfig();
 
     /**
      * createLocalGame
-     *
+     * <p>
      * Creates a new game that runs on the server tablet. For example, if
      * you were creating tic-tac-toe, you would implement this method to return
      * an instance of your TTTLocalGame class which, in turn, would be a
      * subclass of {@link LocalGame}.
      *
+     * @param gameState The desired gameState to start at or null for new game
      * @return a new, game-specific instance of a sub-class of the LocalGame
-     *         class.
+     * class.
      */
-    public abstract LocalGame createLocalGame();
+    public abstract LocalGame createLocalGame(GameState gameState);
 
     /**
      * Creates a "proxy" game that acts as an intermediary between a local
      * player and a game that is somewhere else on the net.
      *
-     * @param hostName
-     *            the name of the machine where the game resides. (e.g.,
-     *            "upibmg.egr.up.edu")
+     * @param hostName the name of the machine where the game resides. (e.g.,
+     *                 "upibmg.egr.up.edu")
      * @return the ProxyGame object that was created
      */
     private ProxyGame createRemoteGame(String hostName) {
@@ -143,9 +150,10 @@ public abstract class GameMainActivity extends Activity implements
      * Public Methods
      * --------------------------------------------------------------------
      */
+
     /**
      * onCreate
-     *
+     * <p>
      * "main" for the game framework
      */
     @Override
@@ -179,23 +187,22 @@ public abstract class GameMainActivity extends Activity implements
 
             // allow buttons to interact
             justStarted = false;
-        }
-        else { // special run (during debugging?): use the given configuration, unmodified
-            String msg = launchGame(this.config);
+        } else { // special run (during debugging?): use the given configuration, unmodified
+            String msg = launchGame(this.config, null);
             if (msg != null) {
                 // we have an error message
                 MessageBox.popUpMessage(msg, this);
             }
         }
 
-        if (((CheckBox) findViewById(R.id.on_screenLogging)).isChecked()) {
+        if (((CheckBox) findViewById(R.id.onScreenLogging)).isChecked()) {
             Logger.setToastValue(true);
         } else {
             Logger.setToastValue(false);
         }
-        if (((CheckBox) findViewById(R.id.debugLogging)).isChecked()){
+        if (((CheckBox) findViewById(R.id.debugLogging)).isChecked()) {
             Logger.setDebugValue(true);
-        }else {
+        } else {
             Logger.setDebugValue(false);
         }
     }// onCreate
@@ -203,11 +210,10 @@ public abstract class GameMainActivity extends Activity implements
     /**
      * Returns the name of the configuration save-file.
      *
-     * @return
-     * 		the name of the configuration file for this application to use
+     * @return the name of the configuration file for this application to use
      */
     private String saveFileName() {
-        return "savedConfig"+getPortNumber()+".dat";
+        return "savedConfig" + getPortNumber() + ".dat";
     }//saveFileName
 
     /**
@@ -227,8 +233,7 @@ public abstract class GameMainActivity extends Activity implements
                             getSystemService(Context.INPUT_METHOD_SERVICE);
                     inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                             InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                }
-                catch (Exception x) {
+                } catch (Exception x) {
                     // catch and ignore any exceptions we might encounter
                 }
             }
@@ -261,8 +266,7 @@ public abstract class GameMainActivity extends Activity implements
             if (guiPlayer != null) {
                 // if there is a GUI player, link it to the activity
                 guiPlayer.gameSetAsGui(this);
-            }
-            else {
+            } else {
                 // if there is no GUI player, set the layout to be one
                 // with a "no GUI" message
                 setContentView(R.layout.game_no_gui);
@@ -273,13 +277,12 @@ public abstract class GameMainActivity extends Activity implements
     /**
      * Creates the game and players, and starts the game.
      *
-     * @param config
-     *            is the configuration for this game
-     * @return
-     * 			null if the launch was successful; otherwise a message telling
-     * 			why game could not be launched
+     * @param config    is the configuration for this game
+     * @param gameState the gameState for this game
+     * @return null if the launch was successful; otherwise a message telling
+     * why game could not be launched
      */
-    private final String launchGame(GameConfig config) {
+    private final String launchGame(GameConfig config, GameState gameState) {
 
         // Set the title text with the game's name
         this.setTitle(config.getGameName());
@@ -288,7 +291,7 @@ public abstract class GameMainActivity extends Activity implements
         // until further down so that we do not attempt to make the
         // network connection until other errors are checked)
         if (config.isLocal()) { // local game
-            game = createLocalGame();
+            game = createLocalGame(gameState);
             // verify we have a game
             if (game == null) {
                 return Resources.getSystem().getString(R.string.Game_Creation_Error_Msg);
@@ -310,7 +313,7 @@ public abstract class GameMainActivity extends Activity implements
             players[i] = gpt.createPlayer(name); // create the player
 
             // check that the player name is legal
-            if (name.length() <= 0 && gpt != availTypes[availTypes.length-1]) {
+            if (name.length() <= 0 && gpt != availTypes[availTypes.length - 1]) {
                 // disallow an empty player name, unless it's a dummy (proxy) player
                 return getString(R.string.Local_Player_Name_Error_Msg);
             }
@@ -320,8 +323,7 @@ public abstract class GameMainActivity extends Activity implements
             if (players[i].requiresGui()) {
                 requiresGuiCount++;
                 guiPlayer = players[i];
-            }
-            else if (guiPlayer == null && players[i].supportsGui()) {
+            } else if (guiPlayer == null && players[i].supportsGui()) {
                 guiPlayer = players[i];
             }
         }
@@ -344,8 +346,7 @@ public abstract class GameMainActivity extends Activity implements
         // otherwise set the GUI to be a "dummy" one with a "no GUI" message
         if (guiPlayer != null) {
             guiPlayer.gameSetAsGui(this);
-        }
-        else {
+        } else {
             // set the layout to be one with a "no GUI" message
             setContentView(R.layout.game_no_gui);
         }
@@ -427,7 +428,7 @@ public abstract class GameMainActivity extends Activity implements
 
             // set up our spinner so that when its last element ("Network Player") is selected,
             // the corresponding EditText (the player name) is disabled.
-            typeSpinner.setOnItemSelectedListener(new SpinnerListListener(playerName, availTypes.length-1));
+            typeSpinner.setOnItemSelectedListener(new SpinnerListListener(playerName, availTypes.length - 1));
 
         }// for
 
@@ -438,13 +439,13 @@ public abstract class GameMainActivity extends Activity implements
 
     protected void initRemoteWidgets() {
         //Set the remote name
-        EditText remoteNameEditText = (EditText)findViewById(R.id.remoteNameEditText);
+        EditText remoteNameEditText = (EditText) findViewById(R.id.remoteNameEditText);
         remoteNameEditText.setText(config.getRemoteName());
 
         // index of remote player type
         GamePlayerType remotePlayerType = config.getRemoteSelType();
         GamePlayerType[] availTypes = config.getAvailTypes();
-        Spinner remoteTypeSpinner = (Spinner)findViewById(R.id.remote_player_spinner);
+        Spinner remoteTypeSpinner = (Spinner) findViewById(R.id.remote_player_spinner);
         for (int j = 0; j < availTypes.length; ++j) {
             if (remotePlayerType.getTypeName().equals(availTypes[j].getTypeName())) {
                 remoteTypeSpinner.setSelection(j);
@@ -453,17 +454,16 @@ public abstract class GameMainActivity extends Activity implements
         }
 
         //Set the IP code
-        EditText ipCodeEditText = (EditText)findViewById(R.id.remoteIPCodeEditText);
+        EditText ipCodeEditText = (EditText) findViewById(R.id.remoteIPCodeEditText);
         ipCodeEditText.setText(config.getIpCode());
     }
 
-    protected void initSettingsTab(){
+    protected void initSettingsTab() {
         //Override if the game has customizable rules
     }
 
     /**
      * places the data from this.config into the GUI.
-     *
      */
     protected void initStarterGui() {
         // do nothing without a game config
@@ -482,7 +482,7 @@ public abstract class GameMainActivity extends Activity implements
         // Set the remote widget data
         initRemoteWidgets();
 
-        //Set up the Setttings Tab
+        //Set up the Settings Tab
         initSettingsTab();
 
         // Set myself as the listener for the buttons
@@ -492,7 +492,7 @@ public abstract class GameMainActivity extends Activity implements
         v.setOnClickListener(this);
         v = findViewById(R.id.playGameButton);
         v.setOnClickListener(this);
-        v = findViewById(R.id.on_screenLogging);
+        v = findViewById(R.id.onScreenLogging);
         v.setOnClickListener(this);
         v = findViewById(R.id.debugLogging);
         v.setOnClickListener(this);
@@ -500,8 +500,8 @@ public abstract class GameMainActivity extends Activity implements
 
         String ipCode = IPCoder.encodeLocalIP();
         String ipAddress = IPCoder.getLocalIpAddress();
-        TextView ipText = (TextView)findViewById(R.id.ipCodeLabel);
-        ipText.setText(ipText.getText()+ipCode+" ("+ipAddress+") ");
+        TextView ipText = (TextView) findViewById(R.id.ipCodeLabel);
+        ipText.setText(ipText.getText() + ipCode + " (" + ipAddress + ") ");
 
     }// initStarterGui
 
@@ -517,6 +517,24 @@ public abstract class GameMainActivity extends Activity implements
             case R.id.menu_help:
                 Logger.log(TAG, "This is the help button!");
                 return true;
+            case R.id.save_game:
+                Logger.log(TAG, "This is the save button!");
+                if (this.game != null) {
+                    Logger.log(TAG, "The Game Exists!");
+                    MessageBox.popUpSaveGame("Name your game:", this);
+                } else {
+                    Logger.log(TAG, "No Game Exists!");
+                    MessageBox.popUpMessage("You cannot save a game without first starting a game (Click Anywhere to dismiss).", this);
+                }
+                return true;
+            case R.id.load_game:
+                Logger.log(TAG, "This is the loading button!");
+                MessageBox.popUpLoadGame("Select Your Game: ", this);
+                return true;
+            case R.id.delete_game:
+                Logger.log(TAG, "This is the delete button!");
+                MessageBox.popUpDeleteGame("Select the Game to Delete: ", this);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -530,7 +548,7 @@ public abstract class GameMainActivity extends Activity implements
      */
     public void onClick(View button) {
 
-        Logger.log(TAG, "Clicked "+button);
+        Logger.log(TAG, "Clicked " + button);
 
         // if the GUI many not have been fully initialized, ignore
         if (justStarted) {
@@ -564,8 +582,7 @@ public abstract class GameMainActivity extends Activity implements
             GameConfig configTemp = scrapeData();
             if (configTemp.saveConfig(saveFileName(), this)) {
                 MessageBox.popUpMessage(getString(R.string.Saved_Config_Msg), this);
-            }
-            else {
+            } else {
                 MessageBox.popUpMessage(getString(R.string.Saved_Config_Error_Msg), this);
             }
         }
@@ -581,19 +598,19 @@ public abstract class GameMainActivity extends Activity implements
         }
 
         //On-screen debugging checkbox
-        else if(button.getId() == R.id.on_screenLogging){
-            if(((CheckBox)button).isChecked()){
+        else if (button.getId() == R.id.onScreenLogging) {
+            if (((CheckBox) button).isChecked()) {
                 Logger.setToastValue(true);
-            }else{
+            } else {
                 Logger.setToastValue(false);
             }
         }
 
         //Console debugging checkbox
-        else if(button.getId() == R.id.debugLogging){
-            if(((CheckBox)button).isChecked()){
+        else if (button.getId() == R.id.debugLogging) {
+            if (((CheckBox) button).isChecked()) {
                 Logger.setDebugValue(true);
-            }else{
+            } else {
                 Logger.setDebugValue(false);
             }
         }
@@ -604,12 +621,12 @@ public abstract class GameMainActivity extends Activity implements
         GameConfig finalConfig = scrapeData();
         //Saving the user's inputs in case they want to restart the game later
         this.restartConfig = finalConfig;
-        return launchGame(finalConfig);
+        return launchGame(finalConfig, null);
     }
 
     /**
      * removePlayer
-     *
+     * <p>
      * removes the player in the table associated with a given TableRow object
      *
      * <p>
@@ -619,7 +636,7 @@ public abstract class GameMainActivity extends Activity implements
     private void removePlayer(TableRow row) {
         // first, make sure that we won't exceed the min number of players
         if (this.tableRows.size() <= config.getMinPlayers()) {
-            MessageBox.popUpMessage(getString(R.string.Min_Player_Error_Msg),this);
+            MessageBox.popUpMessage(getString(R.string.Min_Player_Error_Msg), this);
             return;
         }
         this.playerTable.removeView(row);
@@ -629,17 +646,17 @@ public abstract class GameMainActivity extends Activity implements
 
     /**
      * addPlayer
-     *
+     * <p>
      * adds a new, blank row to the player table and initializes instance
      * variables and listeners appropriately
      *
      * @return a reference to the TableRow object that was created or null on
-     *         failure
+     * failure
      */
     private TableRow addPlayer() {
         // first, make sure that we won't exceed the max number of players
         if (this.tableRows.size() >= config.getMaxPlayers()) {
-            MessageBox.popUpMessage(getString(R.string.Max_Player_Error_Msg),	this);
+            MessageBox.popUpMessage(getString(R.string.Max_Player_Error_Msg), this);
             return null;
         }
 
@@ -662,17 +679,17 @@ public abstract class GameMainActivity extends Activity implements
         // link player name field and spinner
         TextView playerName = (TextView) row
                 .findViewById(R.id.playerNameEditText);
-        typeSpinner.setOnItemSelectedListener(new SpinnerListListener(playerName, availTypes.length-1));
+        typeSpinner.setOnItemSelectedListener(new SpinnerListListener(playerName, availTypes.length - 1));
         typeSpinner.setSelection(0);
 
         ArrayAdapter<CharSequence> adapter2 = new ArrayAdapter<CharSequence>(
                 this, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        for (int j = 0; j < availTypes.length-1; j++) {
+        for (int j = 0; j < availTypes.length - 1; j++) {
             // leaves out the last item (network player)
             adapter2.add(availTypes[j].getTypeName());
         }
-        Spinner remoteTypeSpinner = (Spinner)findViewById(R.id.remote_player_spinner);
+        Spinner remoteTypeSpinner = (Spinner) findViewById(R.id.remote_player_spinner);
         remoteTypeSpinner.setAdapter(adapter2);
 
         // set myself up as the button listener for the button
@@ -689,7 +706,7 @@ public abstract class GameMainActivity extends Activity implements
 
     /**
      * scrapeData
-     *
+     * <p>
      * retrieves all the data from the GUI and creates a new GameConfig object
      * with it
      */
@@ -699,7 +716,7 @@ public abstract class GameMainActivity extends Activity implements
         GameConfig result = config.copyWithoutPlayers();
 
         // Set remote/local
-        TabHost tabHost = (TabHost)findViewById(R.id.tabHost);
+        TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
         result.setLocal(tabHost.getCurrentTab() == 0);
 
         // Retrieve the info for each player and add to the config
@@ -719,17 +736,17 @@ public abstract class GameMainActivity extends Activity implements
         }//for
 
         //Set the remote name
-        EditText remoteNameEditText = (EditText)findViewById(R.id.remoteNameEditText);
+        EditText remoteNameEditText = (EditText) findViewById(R.id.remoteNameEditText);
         String remoteName = remoteNameEditText.getText().toString();
         result.setRemoteName(remoteName);
 
         //index of remote player type
-        Spinner remoteTypeSpinner = (Spinner)findViewById(R.id.remote_player_spinner);
+        Spinner remoteTypeSpinner = (Spinner) findViewById(R.id.remote_player_spinner);
         int selIndex = remoteTypeSpinner.getSelectedItemPosition();
         result.setRemoteSelType(selIndex);
 
         //Set the IP code
-        EditText ipCodeEditText = (EditText)findViewById(R.id.remoteIPCodeEditText);
+        EditText ipCodeEditText = (EditText) findViewById(R.id.remoteIPCodeEditText);
         String ipCode = ipCodeEditText.getText().toString();
         result.setIpCode(ipCode);
 
@@ -753,18 +770,18 @@ public abstract class GameMainActivity extends Activity implements
             String negLabel =
                     getString(R.string.dialog_continue_label);
             MessageBox.popUpChoice(quitQuestion, posLabel, negLabel,
-                    new OnClickListener(){
+                    new OnClickListener() {
                         public void onClick(DialogInterface di, int val) {
                             // if the user says that he wants to quit, exit the
                             // application
                             System.exit(0);
-                        }},
+                        }
+                    },
                     null,
                     this);
             // return 'true' because we have handled this event
             return true;
-        }
-        else {
+        } else {
             // otherwise (not BACK key, or game is over), allow superclass method
             // to handle it
             return super.onKeyDown(keyCode, event);
@@ -783,28 +800,29 @@ public abstract class GameMainActivity extends Activity implements
     /**
      * marks the game as being over
      *
-     * @param b
-     * 			tells whether the game is over
+     * @param b tells whether the game is over
      */
     public void setGameOver(boolean b) {
         gameIsOver = b;
     }// setGameOver
 
+    public boolean getGameOver() {
+        return gameIsOver;
+    }
+
     /**
-     *  the label for the local tab header
+     * the label for the local tab header
      *
-     * @return
-     * 		the label for the local tab header
+     * @return the label for the local tab header
      */
     private String localTabString() {
         return this.getResources().getString(R.string.local_tab);
     }// localTabString
 
     /**
-     *  the label for the remote tab header
+     * the label for the remote tab header
      *
-     * @return
-     * 		the label for the remote tab header
+     * @return the label for the remote tab header
      */
     private String remoteTabString() {
         return this.getResources().getString(R.string.remote_tab);
@@ -812,12 +830,11 @@ public abstract class GameMainActivity extends Activity implements
 
 
     /**
-     *  the label for the settings tab header
+     * the label for the settings tab header
      *
-     * @return
-     * 		the label for the settings tab header
+     * @return the label for the settings tab header
      */
-    private String settingsTabString(){
+    private String settingsTabString() {
         return this.getResources().getString(R.string.settings_tab);
     }
 
@@ -837,10 +854,8 @@ public abstract class GameMainActivity extends Activity implements
         /**
          * constructor
          *
-         * @param txt
-         * 			the TextView object
-         * @param idxNum
-         * 			the index of the "Network Player" item in the spinner
+         * @param txt    the TextView object
+         * @param idxNum the index of the "Network Player" item in the spinner
          */
         public SpinnerListListener(TextView txt, int idxNum) {
             correspondingTextField = txt;
@@ -850,14 +865,10 @@ public abstract class GameMainActivity extends Activity implements
         /**
          * callback method when an item is selected
          *
-         * @param parent
-         *		the AdapterView where the selection happened
-         * @param view
-         *		the view within the AdapterView that was clicked
-         * @param position
-         *		the position in the spinner of the new selection
-         * @param id
-         *		the row id of the item that is selected
+         * @param parent   the AdapterView where the selection happened
+         * @param view     the view within the AdapterView that was clicked
+         * @param position the position in the spinner of the new selection
+         * @param id       the row id of the item that is selected
          */
         public void onItemSelected(AdapterView<?> parent, View view, int position,
                                    long id) {
@@ -869,8 +880,7 @@ public abstract class GameMainActivity extends Activity implements
         /**
          * callback method when nothing is selected
          *
-         * @param parent
-         *		the AdapterView where the selection happened
+         * @param parent the AdapterView where the selection happened
          */
         public void onNothingSelected(AdapterView<?> parent) {
             // do nothing
@@ -881,8 +891,7 @@ public abstract class GameMainActivity extends Activity implements
     /**
      * finishes the activity
      *
-     * @param v
-     * 		the object that cause the callback
+     * @param v the object that cause the callback
      */
     public void doFinish(View v) {
         finish();
@@ -892,13 +901,88 @@ public abstract class GameMainActivity extends Activity implements
      * Restarts the activity (the game) with the configuration the user selected when they originally
      * started the game
      */
-    public void restartGame(){
+    public void restartGame() {
         //Might need to fake a configuration for the restart to work properly
-        String msg = launchGame(this.restartConfig);
+        String msg = launchGame(this.restartConfig, null);
         if (msg != null) {
             // we have an error message
             MessageBox.popUpMessage(msg, this);
         }
     }
 
+    /**
+     * saveGame, saves the current configuration and gameState
+     *
+     * @param gameName
+     * @return String representation of the gameState
+     */
+    public GameState saveGame(String gameName) {
+        Logger.log(TAG, "Saving: " + gameName);
+        config.saveConfig(gameName + ".c", this);
+        GameState gameState = getGameState();
+        Saving.writeToFile(gameState, gameName, this.getApplicationContext());
+        return gameState;
+    }
+
+    /**
+     * loadGame, load the config and gameState for selected gameName
+     * NOTE: This should be called and overritten by your Game's MainActivity
+     *
+     * @param gameName
+     * @return null
+     */
+    public GameState loadGame(String gameName) {
+        config.restoreSavedConfig(gameName + ".c", this);
+        // Sub class should do this part
+        return null;
+    }
+
+    /**
+     * Gets the current gameState to save
+     *
+     * @return the current GameState
+     */
+    protected GameState getGameState() {
+        return game.getGameState();
+    }
+
+    /**
+     * startLoadedGame, starts the loaded GameState
+     *
+     * @param gameState
+     */
+    public void startLoadedGame(GameState gameState) {
+        String msg = launchGame(this.config, gameState);
+        if (msg != null) {
+            // we have an error message/
+            MessageBox.popUpMessage(msg, this);
+        }
+    }
+
+    public String getGameString(String gameName) {
+        return this.getString(R.string.app_name) + "_" + gameName;
+    }
+
+    //////////////////////
+    // TESTING
+    //////////////////////
+
+    /*
+     * gets the GameConfig for this game
+     */
+    public GameConfig getConfig() {
+        return this.config;
+    }
+
+    public boolean isGameNull() {
+        return game == null;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    ///////////////////////
+    //END TESTING
+    ///////////////////////
 }

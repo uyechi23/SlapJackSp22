@@ -21,7 +21,7 @@ public interface Animator {
      * value during the animation will have no effect.
      *
      * @return the time interval (in milliseconds) between calls to this class'
-     *         "tick" method.
+     * "tick" method.
      */
     public int interval();
 
@@ -39,7 +39,7 @@ public interface Animator {
      * Tells whether the animation should be paused.
      *
      * @return a true/false value that says whether the animation should be
-     *         paused.
+     * paused.
      */
     public boolean doPause();
 
@@ -57,8 +57,7 @@ public interface Animator {
      * modify an instance variable that gives the position of an object) before
      * the frame is drawn.
      *
-     * @param canvas
-     *            the Canvas object on which to draw the animation-frame.
+     * @param canvas the Canvas object on which to draw the animation-frame.
      */
     public void tick(Canvas canvas);
 

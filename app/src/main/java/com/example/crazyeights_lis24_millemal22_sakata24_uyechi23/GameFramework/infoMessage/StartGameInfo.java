@@ -18,9 +18,8 @@ public class StartGameInfo extends GameInfo {
     /**
      * constructor
      *
-     * @param allPlayerNames
-     * 		an array containing the names of all the players that are playing
-     * 		the game, in player-ID order.
+     * @param allPlayerNames an array containing the names of all the players that are playing
+     *                       the game, in player-ID order.
      */
     public StartGameInfo(String[] allPlayerNames) {
         this.allPlayerNames = allPlayerNames;
@@ -29,8 +28,7 @@ public class StartGameInfo extends GameInfo {
     /**
      * getter-method for the array of player names
      *
-     * @return
-     * 		the array of player names
+     * @return the array of player names
      */
     public String[] getPlayerNames() {
         return allPlayerNames;

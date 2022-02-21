@@ -11,36 +11,37 @@ import java.util.Enumeration;
  *
  * @author Steven R. Vegdahl
  * @version July 2013
- *
  */
 public class IPCoder {
     //Tag for logging
     private static final String TAG = "IPCoder";
+
     /**
      * gets the IP address of the current device
      *
-     * @return
-     * 		the IP address of the current device, or and error message if
-     * 		an IP address cannot be determined
+     * @return the IP address of the current device, or and error message if
+     * an IP address cannot be determined
      */
     public static String getLocalIpAddress() {
         try {
             // loop through the device's network interfaces and internet address until one is found
             // that is a well-formed UP address; return it when found
-            for (Enumeration<NetworkInterface> en = NetworkInterface
-                    .getNetworkInterfaces(); en.hasMoreElements();) {
-                NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf
-                        .getInetAddresses(); enumIpAddr.hasMoreElements();) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress()) {
-                        return inetAddress.getHostAddress().toString();
+            Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
+            if (en != null) {
+                while (en.hasMoreElements()) {
+                    NetworkInterface intf = en.nextElement();
+                    for (Enumeration<InetAddress> enumIpAddr = intf
+                            .getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                        InetAddress inetAddress = enumIpAddr.nextElement();
+                        if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress()) {
+                            return inetAddress.getHostAddress().toString();
+                        }
                     }
                 }
             }
         } catch (SocketException ex) {
             //Log.e("IPCoder"/*this.toString()*/, ex.toString());
-            Logger.log(TAG, ""+ex.toString(), Logger.ERROR);
+            Logger.log(TAG, "" + ex.toString(), Logger.ERROR);
         }
         return "Unable to determine IP address";
     }
@@ -48,9 +49,8 @@ public class IPCoder {
     /**
      * returns address of the current device as a 64-bit non-negative number
      *
-     * @return
-     * 		a long value that represents the current IP address as an integer, or -1
-     * 		if the IP address could not be determined
+     * @return a long value that represents the current IP address as an integer, or -1
+     * if the IP address could not be determined
      */
     public static long getLocalIpAddressAsNumber() {
         // the value we're building
@@ -68,14 +68,13 @@ public class IPCoder {
                 val = 0;
                 for (int i = 0; i < 4; i++) {
                     int prev = idx;
-                    idx = s.indexOf(".", idx+1);
-                    int num = Integer.parseInt(s.substring(prev+1, idx));
+                    idx = s.indexOf(".", idx + 1);
+                    int num = Integer.parseInt(s.substring(prev + 1, idx));
                     val *= 256;
                     val += num;
                 }
             }
-        }
-        catch (Exception x) {
+        } catch (Exception x) {
             // return -1 if an exception occurs
             val = -1;
         }
@@ -90,9 +89,8 @@ public class IPCoder {
     /**
      * Encodes the local IP address as base-36 number, converted to a string
      *
-     * @return
-     * 		the encoded number-string, or "*invalid*" if the conversion could not
-     * 		be done
+     * @return the encoded number-string, or "*invalid*" if the conversion could not
+     * be done
      */
     public static String encodeLocalIP() {
 
@@ -110,7 +108,7 @@ public class IPCoder {
         }
         String rtnVal = "";
         do {
-            rtnVal = codes.charAt((int)(val%36)) + rtnVal;
+            rtnVal = codes.charAt((int) (val % 36)) + rtnVal;
             val = val / 36;
 
         } while (val > 0);
@@ -121,11 +119,9 @@ public class IPCoder {
      * decode the IP address back into a well-formed IP string (i.e., with
      * periods and digits
      *
-     * @param codedIp
-     * 		the IP code to decode
-     * @return
-     * 		the decoded IP, or "*invalid*" if not a valid coded (or already
-     * 		decoded) IP code
+     * @param codedIp the IP code to decode
+     * @return the decoded IP, or "*invalid*" if not a valid coded (or already
+     * decoded) IP code
      */
     public static String decodeIp(String codedIp) {
 
@@ -153,7 +149,7 @@ public class IPCoder {
         // convert the value into an IP code
         String rtnVal = "";
         for (int i = 0; i < 4; i++) {
-            rtnVal = "."+(val%256) + rtnVal;
+            rtnVal = "." + (val % 256) + rtnVal;
             val /= 256;
         }
         return rtnVal.substring(1); // leave off initial '.'

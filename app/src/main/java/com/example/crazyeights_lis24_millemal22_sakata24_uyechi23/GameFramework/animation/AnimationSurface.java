@@ -18,8 +18,6 @@ import android.view.View.OnTouchListener;
  * @author Steve Vegdahl
  * @author Andrew Nuxoll
  * @version July 2013
- *
- *
  */
 public class AnimationSurface extends SurfaceView implements OnTouchListener {
     //Tag for logging
@@ -37,8 +35,7 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
      * can either be done by overriding the 'createAnimator' method (which by
      * default give null, or by invoking the setAnimator method.
      *
-     * @param context
-     *            - a reference to the activity this animation is run under
+     * @param context - a reference to the activity this animation is run under
      */
     public AnimationSurface(Context context) {
         super(context);
@@ -50,10 +47,8 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
      * in the layout. It is expected that the subclass will have overridden
      * the 'createAnimator' method.
      *
-     * @param context
-     *            - a reference to the activity this animation is run under
-     * @param attrs
-     *            - set of attributes passed from system
+     * @param context - a reference to the activity this animation is run under
+     * @param attrs   - set of attributes passed from system
      */
     public AnimationSurface(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -96,6 +91,7 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
     /**
      * Creates the animator for the object. If this method returns null, then it will
      * be necessary to invoke the 'setAnimator' method before the animation can start.
+     *
      * @return the animator
      */
     public Animator createAnimator() {
@@ -121,10 +117,9 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 
     /**
      * Causes the background color to flash (change color) for the specified amount of time.
-     * @param color
-     * 			the color to flash
-     * @param millis
-     * 			the number of milliseconds to flash
+     *
+     * @param color  the color to flash
+     * @param millis the number of milliseconds to flash
      */
     public void flash(int color, int millis) {
         animationThread.flash(color, millis);
@@ -132,10 +127,9 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 
     /**
      * Thread subclass to control the game loop
-     *
+     * <p>
      * Code adapted from Android:How to Program by Deitel, et.al., first edition
      * copyright (C)2013.
-     *
      */
     private class AnimationThread extends Thread {
 
@@ -146,7 +140,9 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
         // controls animation stop/go based upon instructions from the Animator
         private boolean threadIsRunning = true;
 
-        /** ctor inits instance variables */
+        /**
+         * ctor inits instance variables
+         */
         public AnimationThread(SurfaceHolder holder) {
             surfaceHolder = holder;
             setName("AnimationThread");
@@ -155,8 +151,7 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
         /**
          * causes this thread to pause for a given interval.
          *
-         * @param interval
-         *            duration in milliseconds
+         * @param interval duration in milliseconds
          */
         private void sleep(int interval) {
             try {
@@ -170,10 +165,8 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
          * Causes the background to be changed ("flash") for the given period
          * of time.
          *
-         * @param color
-         * 			the color to flash
-         * @param millis
-         * 			the number of milliseconds for this the flash should occur
+         * @param color  the color to flash
+         * @param millis the number of milliseconds for this the flash should occur
          */
         public void flash(int color, int millis) {
             flashCount = millis; // set the flash count
@@ -220,7 +213,7 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
                         // draw the background
                         if (flashCount > 0) {
                             // we are flashing: draw the "flash" color
-                            canvas.drawRect(0,0,getWidth(),getHeight(), flashPaint);
+                            canvas.drawRect(0, 0, getWidth(), getHeight(), flashPaint);
 
                             // decrement the flash count by the number of milliseconds in
                             // our interval
@@ -230,8 +223,7 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
                             if (flashCount <= 0) {
                                 flashPaint = null;
                             }
-                        }
-                        else {
+                        } else {
                             // not flashing: draw the normal background color
                             canvas.drawRect(0, 0, getWidth(), getHeight(), backgroundPaint);
                         }
@@ -264,6 +256,8 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
             this.animator.onTouch(event);
         }
         return true;
-    };// class AnimationThread
+    }
+
+    ;// class AnimationThread
 
 }// class AnimationSurface

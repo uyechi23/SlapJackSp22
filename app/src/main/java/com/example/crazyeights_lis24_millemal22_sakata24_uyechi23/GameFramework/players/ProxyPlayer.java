@@ -1,10 +1,12 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players;
 
-import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
-import edu.up.cs301.game.GameFramework.infoMessage.BindGameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
-import edu.up.cs301.game.GameFramework.utilities.NetworkObjectPasser;
-import edu.up.cs301.game.GameFramework.utilities.Logger;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.Game;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.GameAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.BindGameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.Logger;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.NetworkObjectPasser;
 
 /**
  * A Player object that is used as a proxy for the real player that is on another
@@ -34,8 +36,7 @@ public class ProxyPlayer implements GamePlayer {
     /**
      * ProxyPlayer constructor.
      *
-     * @param portNum
-     * 		the port number through which we connect to our client
+     * @param portNum the port number through which we connect to our client
      */
     public ProxyPlayer(int portNum) {
 
@@ -55,7 +56,7 @@ public class ProxyPlayer implements GamePlayer {
                         if (obj instanceof GameAction) {
                             // if it's a game action (which it should be), send
                             // the action to the game
-                            GameAction action = (GameAction)obj;
+                            GameAction action = (GameAction) obj;
                             action.setPlayer(ProxyPlayer.this);
                             game.sendAction(action);
                         }
@@ -67,7 +68,7 @@ public class ProxyPlayer implements GamePlayer {
      * Tells whether the player is ready to play the game.
      *
      * @return a boolean value indicating whether the player is ready
-     *   to play.
+     * to play.
      */
     public boolean isReady() {
         // return value based on whether we are marked as being ready
@@ -85,8 +86,7 @@ public class ProxyPlayer implements GamePlayer {
     /**
      * Used by the game to send a GameInfo object to this player
      *
-     * @param state
-     * 		The state to send
+     * @param state The state to send
      */
     public void sendInfo(GameInfo state) {
         if (game == null && state instanceof BindGameInfo) {
@@ -95,7 +95,7 @@ public class ProxyPlayer implements GamePlayer {
             // message. Get the game from the BindGameInfo
             // object so that we have the connection for
             // future messages.
-            game = ((BindGameInfo)state).getGame();
+            game = ((BindGameInfo) state).getGame();
         }
 
         // Null out the game from the GameInfo object (if present),
@@ -125,8 +125,7 @@ public class ProxyPlayer implements GamePlayer {
     /**
      * Tells whether the this player requires a GUI.
      *
-     * @return
-     * 		false, since this player does not require a GUI
+     * @return false, since this player does not require a GUI
      */
     public boolean requiresGui() {
         return false;
@@ -135,11 +134,15 @@ public class ProxyPlayer implements GamePlayer {
     /**
      * Tells whether the this player support a GUI.
      *
-     * @return
-     * 		false, since this player does not support a GUI
+     * @return false, since this player does not support a GUI
      */
     public boolean supportsGui() {
         return false;
+    }
+
+    //TESTING
+    public GameMainActivity getActivity() {
+        return null;
     }
 }
 

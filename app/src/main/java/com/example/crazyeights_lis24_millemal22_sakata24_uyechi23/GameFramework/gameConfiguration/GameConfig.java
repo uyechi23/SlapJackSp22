@@ -1,5 +1,13 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.gameConfiguration;
 
+import static com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.EqualityMethods.arrayEquals;
+
+import android.content.Context;
+import android.util.Pair;
+
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.Logger;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,21 +15,18 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import android.content.Context;
-
-import edu.up.cs301.game.GameFramework.GameMainActivity;
-import edu.up.cs301.game.GameFramework.GamePlayer;
-import edu.up.cs301.game.GameFramework.ProxyPlayer;
-import edu.up.cs301.game.GameFramework.utilities.Logger;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.ProxyPlayer;
 
 /**
  * GameConfig class
- * <P>
+ * <p>
  * This class describes a user-specified configuration for playing a game. It
  * includes information about the number and type of players in the game and
  * other related meta-data.
- *
+ * <p>
  * A game initializes this class with some information and additional data is
  * provided by the user or loaded from a previously-saved configuration.
  *
@@ -33,10 +38,14 @@ import edu.up.cs301.game.GameFramework.utilities.Logger;
 public class GameConfig {
     //Tag for logging
     private static final String TAG = "GameConfig";
-    /** a list of all valid player types that the user chooses */
+    /**
+     * a list of all valid player types that the user chooses
+     */
     private GamePlayerType[] availTypes;
 
-    /** a list of the names of each player */
+    /**
+     * a list of the names of each player
+     */
     private ArrayList<String> selNames = new ArrayList<String>();
 
     /**
@@ -83,7 +92,9 @@ public class GameConfig {
      */
     private int minPlayers;
 
-    /** this specifies the maximum number of players that the game can handle */
+    /**
+     * this specifies the maximum number of players that the game can handle
+     */
     private int maxPlayers;
 
     /**
@@ -106,22 +117,20 @@ public class GameConfig {
      * catch and fix bad input but, ultimately, the caller is responsible for
      * creating a proper game definition. In particular, you must call addPlayer
      * sufficient times to make sure that the minimum number of players is met.
-     * <P>
+     * <p>
      * This is the version of the constructor that is expected to be called
      * when the game activity starts. It therefore automatically adds a "Network
      * Player" player-type option, which always becomes the last element in the
      * available-player list.
-     * <P>
+     * <p>
      * This constructor leave the list of local players empty, and sets the
      * remote player to have a type that corresponds to the first player in
      * the available-player list. These defaults can (and probably should) be
      * changed by calling 'addPlayer' and 'setRemoteData'.
-     *  @param minPlayers
-     * 		the minimum number of players allowed in this game
-     * @param maxPlayers
-     * 		the maximum number of players allowed in this game
-     * @param gameName
-     * 		the name of the game
+     *
+     * @param minPlayers the minimum number of players allowed in this game
+     * @param maxPlayers the maximum number of players allowed in this game
+     * @param gameName   the name of the game
      * @param portNum
      */
     public GameConfig(ArrayList<GamePlayerType> availTypes, int minPlayers,
@@ -129,14 +138,14 @@ public class GameConfig {
 
         // create an array to hold the available player types, including
         // the "WiFi Player" and the "Bluetooth Player" that will be added
-        int arrayLength = availTypes.size()+1;
+        int arrayLength = availTypes.size() + 1;
         GamePlayerType[] availArray = new GamePlayerType[arrayLength];
 
         // add the player types passed in to the constructor
         availTypes.toArray(availArray);
 
         // Add the Internet Network player to the available players list
-        availArray[arrayLength-1] = new GamePlayerType("WiFi Player"){
+        availArray[arrayLength - 1] = new GamePlayerType("WiFi Player") {
             public GamePlayer createPlayer(String name) {
                 int portNum = getPortNum();
                 Logger.log(TAG, "Port number:" + portNum);
@@ -159,8 +168,8 @@ public class GameConfig {
 
     /**
      * makes a copy of a config, but without the player information
-     * @return
-     * 		the copy of the config
+     *
+     * @return the copy of the config
      */
     public GameConfig copyWithoutPlayers() {
         return new GameConfig(availTypes, minPlayers, maxPlayers, gameName, portNum);
@@ -170,17 +179,12 @@ public class GameConfig {
      * private version of the constructor, used to support the 'copyWithoutPlayers'
      * method
      *
-     * @param availTypes
-     * 		the list of available player types (excluding the network player, which
-     * 		is added by the constructor
-     * @param minPlayers
-     * 		the minimum number of players allowed in this game
-     * @param maxPlayers
-     * 		the maximum number of players allowed in this game
-     * @param gameName
-     * 		the name of the game
-     * @param portNum
-     * 		the port number used by this game for connecting over the network
+     * @param availTypes the list of available player types (excluding the network player, which
+     *                   is added by the constructor
+     * @param minPlayers the minimum number of players allowed in this game
+     * @param maxPlayers the maximum number of players allowed in this game
+     * @param gameName   the name of the game
+     * @param portNum    the port number used by this game for connecting over the network
      */
     private GameConfig(GamePlayerType[] availTypes, int minPlayers,
                        int maxPlayers, String gameName, int portNum) {
@@ -216,13 +220,10 @@ public class GameConfig {
     /**
      * set the remove-player data
      *
-     * @param playerName
-     * 		the remote player's name
-     * @param ipCode
-     * 		the IP code used by the remote player
-     * @param menuIndex
-     * 		the index in the available-player array that denotes this
-     * 		player's type
+     * @param playerName the remote player's name
+     * @param ipCode     the IP code used by the remote player
+     * @param menuIndex  the index in the available-player array that denotes this
+     *                   player's type
      */
     public void setRemoteData(String playerName, String ipCode, int menuIndex) {
         this.ipCode = ipCode;
@@ -239,14 +240,11 @@ public class GameConfig {
      * - the IP code for the remote player (String)
      * - the list of player names (ArrayList<String>)
      * - a sequence of N Strings that denote the (menu-text) for the respective
-     *   player types, where N is the number of elements in the list of player names
+     * player types, where N is the number of elements in the list of player names
      *
-     * @param fileName
-     * 		the name of the file for storing
-     * @param activity
-     * 		the current activity
-     * @return
-     * 		a boolean that denotes whether the operation was successful
+     * @param fileName the name of the file for storing
+     * @param activity the current activity
+     * @return a boolean that denotes whether the operation was successful
      */
     public boolean saveConfig(String fileName, GameMainActivity activity) {
 
@@ -293,12 +291,9 @@ public class GameConfig {
      * Saves this configuration data in a file so that it can be later reused. The
      * format used listed in the method-header comment for the 'saveConfig' method.
      *
-     * @param fileName
-     * 		the name of the file that contains the configuration information
-     * @param activity
-     * 		the current activity
-     * @return
-     * 		a boolean that denotes whether the operation was successful
+     * @param fileName the name of the file that contains the configuration information
+     * @param activity the current activity
+     * @return a boolean that denotes whether the operation was successful
      */
     public boolean restoreSavedConfig(String fileName, GameMainActivity activity) {
 
@@ -311,7 +306,7 @@ public class GameConfig {
             ois = new ObjectInputStream(fis);
 
             // read in the remote player name and type, and the IP code
-            boolean isLocalTemp = (Boolean)ois.readObject();
+            boolean isLocalTemp = (Boolean) ois.readObject();
             String nameTemp = ois.readObject().toString();
             String typeNameTemp = ois.readObject().toString();
             String ipTemp = ois.readObject().toString();
@@ -331,7 +326,7 @@ public class GameConfig {
                 return false;
             }
             ArrayList<String> selNamesTemp = new ArrayList<String>();
-            for (Object o : (ArrayList<?>)obj) {
+            for (Object o : (ArrayList<?>) obj) {
                 // force elements to be strings
                 selNamesTemp.add(o.toString());
             }
@@ -371,30 +366,25 @@ public class GameConfig {
 
             // return "success"
             return true;
-        }
-        catch (FileNotFoundException fnfx) {
+        } catch (FileNotFoundException fnfx) {
             // if the file was not there, that's OK, we just leave the current information
             // alone; this is therefore considered a "success"
             return true;
-        }
-        catch (ClassCastException ccx) {
+        } catch (ClassCastException ccx) {
             // if there was a class cast problem anywhere, there is inconsistent data in
             // the file: abort
             return false;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // abort if I/O exception
             //.i("MainActivity", "File reading problem.");
             Logger.debugLog("MainActivity", "File reading problem.");
             return false;
-        }
-        catch (ClassNotFoundException cnfx) {
+        } catch (ClassNotFoundException cnfx) {
             // abort of there if one of the serialized objects somehow was (or contained)
             // an object in a class that we do not know about.
             Logger.debugLog("MainActivity", "Object/class reading problem");
             return false;
-        }
-        finally {
+        } finally {
             // close the stream
             if (ois != null) {
                 try {
@@ -410,11 +400,9 @@ public class GameConfig {
      * helper-method to convert a menu-item string to a GamePlayerType object in the
      * available player list.
      *
-     * @param menuString
-     * 		the string in the menu that corrsponds to the given player type
-     * @return
-     * 		the GamePlayerType object that corresponds to that string, or null
-     * 		if no such GamePlayerType object exists
+     * @param menuString the string in the menu that corrsponds to the given player type
+     * @return the GamePlayerType object that corresponds to that string, or null
+     * if no such GamePlayerType object exists
      */
     private GamePlayerType findPlayerType(String menuString) {
         // search/match the available-types array, returning the
@@ -438,9 +426,7 @@ public class GameConfig {
     }// getAvailTypes
 
     /**
-     *
-     * @return
-     * 		the port number used by this game for internet connections
+     * @return the port number used by this game for internet connections
      */
     public int getPortNum() {
         return portNum;
@@ -448,13 +434,11 @@ public class GameConfig {
 
     /**
      * addPlayer
-     *
+     * <p>
      * adds a new player to the configuration
      *
-     * @param name
-     *            the player's name
-     * @param typeIndex
-     *            valid index of the player's type in availTypes
+     * @param name      the player's name
+     * @param typeIndex valid index of the player's type in availTypes
      */
     public void addPlayer(String name, int typeIndex) {
         // adjust illegal input
@@ -469,8 +453,7 @@ public class GameConfig {
         }
 
         // don't go over the maximum
-        if (selNames.size() >= this.maxPlayers)
-            return;
+        if (selNames.size() >= this.maxPlayers) return;
 
         // append the new values
         selNames.add(name);
@@ -480,11 +463,10 @@ public class GameConfig {
 
     /**
      * removePlayer
-     *
+     * <p>
      * removes a player from the configuration
      *
-     * @param index
-     *            of the player to remove
+     * @param index of the player to remove
      */
     public void removePlayer(int index) {
         // catch and ignore invalid index
@@ -492,6 +474,7 @@ public class GameConfig {
             return;
 
         this.selNames.remove(index);
+        this.selTypes.remove(index);
     }// removePlayer
 
     /**
@@ -499,9 +482,8 @@ public class GameConfig {
      */
     public String[] getSelNames() {
         if (isLocal) {
-            return (String[]) this.selNames.toArray();
-        }
-        else {
+            return Arrays.copyOf(this.selNames.toArray(), this.selNames.size(), String[].class);
+        } else {
             return new String[]{remoteName};
         }
     }// getSelNames
@@ -509,8 +491,7 @@ public class GameConfig {
     /**
      * get the name of the player at a given index
      *
-     * @param index
-     *            of the player whose name is wanted
+     * @param index of the player whose name is wanted
      * @return the player's name or null if index is invalid
      */
     public String getSelName(int index) {
@@ -519,28 +500,23 @@ public class GameConfig {
             // otherwise, return the appropriate player's name
             if ((index < 0) || (index >= selNames.size())) {
                 return null;
-            }
-            else {
+            } else {
                 return this.selNames.get(index);
             }
-        }
-        else { // we're remote: the only valid index is zero, so
+        } else { // we're remote: the only valid index is zero, so
             // return the remote name or null, depending on whether the
             // index is zero
             if (index == 0) {
                 return remoteName;
-            }
-            else {
+            } else {
                 return null;
             }
         }
     }// getSelName
 
     /**
-     * @return
-     * 		an array of GamePlayerType objects that correspond to whether
-     * 		a local or remote game was selected
-     *
+     * @return an array of GamePlayerType objects that correspond to whether
+     * a local or remote game was selected
      */
     public GamePlayerType[] getSelTypes() {
         if (isLocal) {
@@ -552,19 +528,17 @@ public class GameConfig {
                 ++index;
             }
             return retVal;
-        }
-        else {
+        } else {
             // remote game: create a one-element array with a clone of the remote
             // player type
-            return new GamePlayerType[]{(GamePlayerType)remoteSelType.clone()};
+            return new GamePlayerType[]{(GamePlayerType) remoteSelType.clone()};
         }
     }// getSelTypes
 
     /**
      * get the type of the player at a given index
      *
-     * @param index
-     *            of the player whose type is wanted
+     * @param index of the player whose type is wanted
      * @return the player's name or null if index is invalid
      */
     public GamePlayerType getSelType(int index) {
@@ -573,18 +547,15 @@ public class GameConfig {
             // if OK, then return the appropriate object
             if ((index < 0) || (index >= selNames.size())) {
                 return null;
-            }
-            else {
+            } else {
                 return this.selTypes.get(index);
             }
-        }
-        else {
+        } else {
             // remote game: only legal index is 0; return element
             // 0 or null, depending on index
             if (index == 0) {
-                return(remoteSelType);
-            }
-            else {
+                return (remoteSelType);
+            } else {
                 return null;
             }
         }
@@ -601,8 +572,7 @@ public class GameConfig {
      * sets the attribute that tells whether the current configuration denotes
      * a local game
      *
-     * @param isLocal
-     *            whether the game is to be set to "local game"
+     * @param isLocal whether the game is to be set to "local game"
      */
     public void setLocal(boolean isLocal) {
         this.isLocal = isLocal;
@@ -616,8 +586,7 @@ public class GameConfig {
     }// getRemoteName
 
     /**
-     * @return
-     * 		the type of the remote player
+     * @return the type of the remote player
      */
     public GamePlayerType getRemoteSelType() {
         return remoteSelType;
@@ -626,8 +595,7 @@ public class GameConfig {
     /**
      * sets the remote player name
      *
-     * @param remoteName
-     *            the name
+     * @param remoteName the name
      */
     public void setRemoteName(String remoteName) {
         this.remoteName = remoteName;
@@ -636,10 +604,9 @@ public class GameConfig {
     /**
      * sets the remote player type
      *
-     * @param
-     * 		idx index in the list of available types that
-     * 		corresponds to the player type to which the
-     * 		remote player is to be set
+     * @param idx index in the list of available types that
+     *            corresponds to the player type to which the
+     *            remote player is to be set
      */
     public void setRemoteSelType(int idx) {
         // check invalid indices; then set type
@@ -657,8 +624,7 @@ public class GameConfig {
     /**
      * sets the config's IP code
      *
-     * @param ipCode
-     *            the code to set
+     * @param ipCode the code to set
      */
     public void setIpCode(String ipCode) {
         this.ipCode = ipCode;
@@ -679,10 +645,8 @@ public class GameConfig {
     }
 
     /**
-     * @return
-     * 		the current number of players specified in the game, corresponding
-     * 		to whether the configuration is for a local or remote game
-     *
+     * @return the current number of players specified in the game, corresponding
+     * to whether the configuration is for a local or remote game
      */
     public int getNumPlayers() {
         return isLocal ? selNames.size() : 1;
@@ -712,12 +676,80 @@ public class GameConfig {
     /**
      * sets whether the configuration is modifiable
      *
-     * @param userModifiable
-     *       whether the configuration is to be made modifiable
+     * @param userModifiable whether the configuration is to be made modifiable
      */
     public void setUserModifiable(boolean userModifiable) {
         this.userModifiable = userModifiable;
     }// setUserModifiable
+
+    /**
+     * This makes sure the gameConfig is in the expect starting state
+     *
+     * @return Pair<Boolean, String> Where the boolean is false if in an unexpected state and
+     * the String is the error message
+     */
+    public Pair<Boolean, String> test_gameConfig() {
+        String ret_val = "";
+        boolean b = true;
+        if (!isLocal) {
+            b = false;
+            ret_val += "GameConfig is not Local\n";
+        }
+        if (!userModifiable) {
+            b = false;
+            ret_val += "GameConfig is not user Modifiable\n";
+        }
+        if (minPlayers > maxPlayers) {
+            b = false;
+            ret_val += "GameConfig: minPlayers is greater than maxPlayers\n";
+        }
+        if (minPlayers < 1) {
+            b = false;
+            ret_val += "GameConfig: minPlayers must greater than 0\n";
+        }
+        if (maxPlayers < 1) {
+            b = false;
+            ret_val += "GameConfig: maxPlayers must greater than 0\n";
+        }
+        if (!availTypes[availTypes.length - 1].getTypeName().equals("WiFi Player")) {
+            b = false;
+            ret_val += "GameConfig: Last Available Player is not a WiFi Player\n";
+        }
+        if (getGameName().equals("")) {
+            b = false;
+            ret_val += "GameConfig: Game Name was not set\n";
+        }
+        return new Pair(b, ret_val);
+    }
+
+    /**
+     * Tests if two gameConfigs are equal
+     *
+     * @param object - Hopefully and GameConfig object
+     * @return true if the objects have the same values throughout
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof GameConfig)) return false;
+        GameConfig gc = (GameConfig) object;
+        if (this.isLocal() == gc.isLocal()
+                && this.isUserModifiable() == gc.isUserModifiable()
+                && this.getRemoteName().equals(gc.getRemoteName())
+                && this.getIpCode().equals(gc.getIpCode())
+                && this.getPortNum() == gc.getPortNum()
+                && this.getMinPlayers() == gc.getMinPlayers()
+                && this.getMaxPlayers() == gc.getMaxPlayers()
+                && this.getGameName().equals(gc.getGameName())
+                //NOTE: Comparing arrays is supported by the framework!!
+                && arrayEquals(this.getAvailTypes(), gc.getAvailTypes())
+                && arrayEquals(this.getSelNames(), gc.getSelNames())
+                && arrayEquals(this.getSelTypes(), gc.getSelTypes())
+                && this.getRemoteSelType().equals(gc.getRemoteSelType())
+        ) {
+            return true;
+        }
+        return false;
+    }
 
 }// class GameConfig
 

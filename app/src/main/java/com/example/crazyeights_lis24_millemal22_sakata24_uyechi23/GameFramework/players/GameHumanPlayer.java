@@ -1,18 +1,4 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework;
-
-import edu.up.cs301.game.GameFramework.actionMessage.GameOverAckAction;
-import edu.up.cs301.game.GameFramework.actionMessage.MyNameIsAction;
-import edu.up.cs301.game.GameFramework.actionMessage.ReadyAction;
-import edu.up.cs301.game.GameFramework.infoMessage.BindGameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.GameOverInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.StartGameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.TimerInfo;
-import edu.up.cs301.game.GameFramework.utilities.GameTimer;
-import edu.up.cs301.game.GameFramework.utilities.Logger;
-import edu.up.cs301.game.GameFramework.utilities.MessageBox;
-import edu.up.cs301.game.GameFramework.utilities.Tickable;
-import edu.up.cs301.game.R;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -22,9 +8,24 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.Game;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.GameOverAckAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.MyNameIsAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.ReadyAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.BindGameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameOverInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.StartGameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.TimerInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.GameTimer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.Logger;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.MessageBox;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.Tickable;
+
 /**
  * class GameHumanPlayer
- *
+ * <p>
  * is an abstract base class for a player that is controlled by a human. For any
  * particular game, a subclass should be created that can display the current
  * game state and responds to user commands.
@@ -32,7 +33,6 @@ import android.view.View;
  * @author Steven R. Vegdahl
  * @author Andrew Nuxoll
  * @version July 2013
- *
  */
 public abstract class GameHumanPlayer implements GamePlayer, Tickable {
     //Tag for logging
@@ -44,9 +44,9 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
     protected int playerNum; // my player ID
     protected String name; // my player's name
     protected String[] allPlayerNames; // the names of all the player
+    protected GameMainActivity myActivity; // the current activity
     private Handler myHandler; // my thread's handler
     private Handler saveMe;
-    private GameMainActivity myActivity; // the current activity
     private GameTimer myTimer = new GameTimer(this); // my player's timer
     private boolean gameOver; // whether the game is over
 
@@ -140,10 +140,8 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
      * of error occurred. Caveat: if multiple flash calls overlap, the prior one
      * will take precedence.
      *
-     * @param color
-     * 			the color to flash
-     * @param duration
-     * 			the number of milliseconds the flash should last
+     * @param color    the color to flash
+     * @param duration the number of milliseconds the flash should last
      */
     protected void flash(int color, int duration) {
         // get the top view, ignoring if null
@@ -162,7 +160,6 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 
     /**
      * helper-class to finish a "flash.
-     *
      */
     private class Unflasher implements Runnable {
 
@@ -185,11 +182,10 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
 
     /**
      * helper-method to get the background color of a view
-     * @param v
-     * 			the view
-     * @return
-     * 			the (int representation) of the background color,
-     * 			or "transparent" if the color could not be deduced
+     *
+     * @param v the view
+     * @return the (int representation) of the background color,
+     * or "transparent" if the color could not be deduced
      */
     private static int getBackgroundColor(View v) {
         int color = Color.TRANSPARENT;
@@ -203,8 +199,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
     /**
      * Sends a 'state' object to the game's thread.
      *
-     * @param info
-     * 		the information object to send
+     * @param info the information object to send
      */
     public void sendInfo(GameInfo info) {
         // wait until handler is there
@@ -219,8 +214,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
     /**
      * Callback method, called when player gets a message
      *
-     * @param info
-     * 		the message
+     * @param info the message
      */
     public abstract void receiveInfo(GameInfo info);
 
@@ -253,22 +247,21 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
                 // BindGameInfo object; ignore everything else
                 if (myInfo instanceof BindGameInfo) {
                     Logger.debugLog(TAG, "binding game");
-                    BindGameInfo bgs = (BindGameInfo)myInfo;
+                    BindGameInfo bgs = (BindGameInfo) myInfo;
                     game = bgs.getGame(); // set the game
                     playerNum = bgs.getPlayerNum(); // set our player id
 
                     // respond to the game, telling it our name
                     game.sendAction(new MyNameIsAction(GameHumanPlayer.this, name));
                 }
-            }
-            else if (allPlayerNames == null) {
+            } else if (allPlayerNames == null) {
                 // here, the only thing we're looking for is a StartGameInfo object;
                 // ignore everything else
                 if (myInfo instanceof StartGameInfo) {
                     Logger.debugLog(TAG, "notification to start game");
 
                     // update our player-name array
-                    allPlayerNames = ((StartGameInfo)myInfo).getPlayerNames();
+                    allPlayerNames = ((StartGameInfo) myInfo).getPlayerNames();
 
                     // perform game-specific initialization
                     initAfterReady();
@@ -276,8 +269,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
                     // tell the game we're ready to play the game
                     game.sendAction(new ReadyAction(GameHumanPlayer.this));
                 }
-            }
-            else if (myInfo instanceof GameOverInfo) {
+            } else if (myInfo instanceof GameOverInfo) {
                 // if we're being notified the game is over, finish up
 
 
@@ -291,38 +283,37 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
                 gameOver = true;
 
                 //Since the game is over, we will ask the player if they would like to restart the game
-                String quitQuestion = ((GameOverInfo)myInfo).getMessage() + "Would you like to restart the game?";
+                String quitQuestion = ((GameOverInfo) myInfo).getMessage() + "Would you like to restart the game?";
                 String posLabel = "Yes!";
                 String negLabel = "No";
                 MessageBox.popUpChoice(quitQuestion, posLabel, negLabel,
                         //If they want to restart the game, restart it
-                        new DialogInterface.OnClickListener(){
+                        new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface di, int val) {
                                 myActivity.restartGame();
-                            }},
+                            }
+                        },
                         //If not, then just display who won the game
-                        new DialogInterface.OnClickListener(){
+                        new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface di, int val) {
                                 // perform the "gave over" behavior--by default, to show pop-up message
-                                gameIsOver(((GameOverInfo)myInfo).getMessage());
-                            }},
+                                gameIsOver(((GameOverInfo) myInfo).getMessage());
+                            }
+                        },
                         myActivity);
-            }
-            else if (myInfo instanceof TimerInfo) {
+            } else if (myInfo instanceof TimerInfo) {
                 // if we have a timer-tick, and it's our timer object,
                 // directly invoke the subclass method; otherwise, pass
                 // it on as a message
-                if (((TimerInfo)myInfo).getTimer() == myTimer) {
+                if (((TimerInfo) myInfo).getTimer() == myTimer) {
                     // checking that it's from our timer
                     timerTicked();
-                }
-                else {
+                } else {
                     receiveInfo(myInfo);
                 }
-            }
-            else {
+            } else {
                 // pass the state on to the subclass
-                    receiveInfo(myInfo);
+                receiveInfo(myInfo);
             }
         }
     }
@@ -330,8 +321,7 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
     /**
      * callback method--called when we are notified that the game is over
      *
-     * @param msg
-     * 		the "game over" message sent by the game
+     * @param msg the "game over" message sent by the game
      */
     protected void gameIsOver(String msg) {
         // the default behavior is to put a pop-up for the user to see that tells
@@ -365,5 +355,9 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
         // by default, do nothing
     }
 
+    //TESTING
+    public GameMainActivity getActivity() {
+        return myActivity;
+    }
 }// class GameHumanPlayer
 

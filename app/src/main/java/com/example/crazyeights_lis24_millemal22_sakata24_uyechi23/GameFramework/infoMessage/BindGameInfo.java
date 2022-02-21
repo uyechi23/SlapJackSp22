@@ -1,6 +1,6 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage;
 
-import edu.up.cs301.game.GameFramework.Game;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.Game;
 
 /**
  * A message from the game to a player that tells the player:
@@ -25,10 +25,8 @@ public class BindGameInfo extends GameInfo {
     /**
      * constructor
      *
-     * @param g
-     * 		the game
-     * @param pn
-     * 		the player number in the game
+     * @param g  the game
+     * @param pn the player number in the game
      */
     public BindGameInfo(Game g, int pn) {
         game = g;
@@ -38,8 +36,7 @@ public class BindGameInfo extends GameInfo {
     /**
      * getter method, returning the game
      *
-     * @return
-     * 		the game
+     * @return the game
      */
     public Game getGame() {
         return game;
@@ -48,8 +45,7 @@ public class BindGameInfo extends GameInfo {
     /**
      * getter method, returning the player ID
      *
-     * @return
-     * 		the player ID
+     * @return the player ID
      */
     public int getPlayerNum() {
         return playerNum;
@@ -59,8 +55,7 @@ public class BindGameInfo extends GameInfo {
      * Setter method for the game. It is expected that this method will be
      * used only by ProxyPlayer and ProxyGame objects.
      *
-     * @param g
-     * 		the game
+     * @param g the game
      */
     public void setGame(Game g) {
         game = g;

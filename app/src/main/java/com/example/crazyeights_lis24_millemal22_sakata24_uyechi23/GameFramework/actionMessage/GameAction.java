@@ -2,7 +2,8 @@ package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework
 
 
 import java.io.Serializable;
-import edu.up.cs301.game.GameFramework.GamePlayer;
+
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 
 /**
  * An action for a generic game.  A game action is something that a player
@@ -13,7 +14,7 @@ import edu.up.cs301.game.GameFramework.GamePlayer;
  * actions that are relevant to the particular game.  A GameAction contains
  * the player as part of its state; this way the game always knows what
  * player sent it the action.
- * <P>
+ * <p>
  * Several "generic" of GameAction classes are already defined.  These
  * include MyNameIsAction and GameOverAckAction.
  *
@@ -33,8 +34,7 @@ public abstract class GameAction implements Serializable {
     /**
      * constructor for GameAction
      *
-     * @param player
-     * 		the player who created the action
+     * @param player the player who created the action
      */
     public GameAction(GamePlayer player) {
         this.player = player;
@@ -44,17 +44,16 @@ public abstract class GameAction implements Serializable {
      * tells the player who created the action
      *
      * @return the player who created the action
-     *
      */
     public GamePlayer getPlayer() {
         return player;
     }
 
-    /** Resets the source of the action. The intent is that it be used only
-     *  by ProxyGame and ProxyPlayer.
+    /**
+     * Resets the source of the action. The intent is that it be used only
+     * by ProxyGame and ProxyPlayer.
      *
-     * @param p
-     * 		the new player to which the action is to be associated
+     * @param p the new player to which the action is to be associated
      */
     public void setPlayer(GamePlayer p) {
         this.player = p;

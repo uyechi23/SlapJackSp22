@@ -1,20 +1,22 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework;
-
-import edu.up.cs301.game.GameFramework.actionMessage.GameOverAckAction;
-import edu.up.cs301.game.GameFramework.actionMessage.MyNameIsAction;
-import edu.up.cs301.game.GameFramework.actionMessage.ReadyAction;
-import edu.up.cs301.game.GameFramework.infoMessage.BindGameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.GameOverInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.StartGameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.TimerInfo;
-import edu.up.cs301.game.GameFramework.utilities.GameTimer;
-import edu.up.cs301.game.GameFramework.utilities.Logger;
-import edu.up.cs301.game.GameFramework.utilities.MessageBox;
-import edu.up.cs301.game.GameFramework.utilities.Tickable;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players;
 
 import android.os.Handler;
 import android.os.Looper;
+
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.Game;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.GameOverAckAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.MyNameIsAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.ReadyAction;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.BindGameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameOverInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.StartGameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.TimerInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.GameTimer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.Logger;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.MessageBox;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities.Tickable;
 
 /**
  * An abstract computerized game player player. This is an abstract class, that
@@ -35,11 +37,11 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
     protected int playerNum; // which player number I am
     protected String name; // my name
     protected String[] allPlayerNames; // list of all player names, in ID order
+    protected GameMainActivity myActivity; // the game's main activity, set only
+    // this game is connected to the GUI
     private Handler myHandler; // the handler for this player's thread
     private boolean running; // whether the player's thread is running
     private boolean gameOver = false; // whether the game is over
-    private GameMainActivity myActivity; // the game's main activity, set only
-    // this game is connected to the GUI
     private GameTimer myTimer = new GameTimer(this); // my timer
 
     /**
@@ -76,8 +78,7 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
     /**
      * constructor
      *
-     * @param name
-     * 			the player's name (e.g., "John")
+     * @param name the player's name (e.g., "John")
      */
     public GameComputerPlayer(String name) {
         this.name = name;
@@ -88,8 +89,7 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
      * Should only be called if the supportsGUI method returns
      * true.
      *
-     * @param a
-     * 			the activity that is being run
+     * @param a the activity that is being run
      */
     public final void gameSetAsGui(GameMainActivity a) {
         myActivity = a;
@@ -102,8 +102,7 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
      * current screen to have a new layout, and sets up
      * listeners, animators, etc.
      *
-     * @param activity
-     * 			the activity that is being run
+     * @param activity the activity that is being run
      */
     public void setAsGui(GameMainActivity activity) {
         // default behavior is to do nothing
@@ -120,8 +119,7 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
     /**
      * Method used to send updated state to this player.
      *
-     * @param info
-     * 			the information message to send
+     * @param info the information message to send
      */
     public final void sendInfo(GameInfo info) {
         // post the state to the player's thread, waiting (if needed) until handler is there
@@ -135,7 +133,7 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
     public final void start() {
         // if the player's thread is not presently running, start it up, keeping
         // track of its handler so that messages can be sent to the thread.
-        synchronized(this) {
+        synchronized (this) {
             if (running) return;
             running = true;
             Runnable runnable = new Runnable() {
@@ -155,14 +153,12 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
      * Callback-method implemented in the subclass whenever updated
      * state is received.
      *
-     * @param info
-     * 			the object representing the information from the game
+     * @param info the object representing the information from the game
      */
     protected abstract void receiveInfo(GameInfo info);
 
     /**
      * Helper-class to post a message to this player's thread
-     *
      */
     private class MyRunnable implements Runnable {
 
@@ -183,41 +179,39 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
 
             // if it's a GameInfo object, process it
             if (data instanceof GameInfo) { // ignore non GameInfo objects
-                GameInfo myInfo = (GameInfo)data;
+                GameInfo myInfo = (GameInfo) data;
                 if (game == null) {
 
                     // CASE 1: we don't know who our game is; the only thing we're
                     // looking for is BindGameInfo object; ignore everything else
                     if (myInfo instanceof BindGameInfo) {
-                        BindGameInfo bgs = (BindGameInfo)myInfo;
+                        BindGameInfo bgs = (BindGameInfo) myInfo;
                         game = bgs.getGame(); // set our game
                         playerNum = bgs.getPlayerNum(); // set our player ID
 
                         // send a message to the game with our player's name
                         game.sendAction(new MyNameIsAction(GameComputerPlayer.this, name));
                     }
-                }
-                else if (allPlayerNames == null) {
+                } else if (allPlayerNames == null) {
 
                     // CASE 2: we don't know the names of a the players; the only thing we're
                     // looking for is a StartGameInfo object; ignore everything else
                     if (myInfo instanceof StartGameInfo) {
                         // set our instance variable with the players' names
-                        allPlayerNames = ((StartGameInfo)myInfo).getPlayerNames();
+                        allPlayerNames = ((StartGameInfo) myInfo).getPlayerNames();
                         // perform game-specific initialization
                         initAfterReady();
                         // tell game that we're ready to play
                         game.sendAction(new ReadyAction(GameComputerPlayer.this));
                     }
-                }
-                else if (myInfo instanceof GameOverInfo) {
+                } else if (myInfo instanceof GameOverInfo) {
 
                     // CASE 3: we get a "game over" message
 
                     // if we are the GUI, pop up a message box and tell the
                     // activity that the game is over
                     if (myActivity != null) {
-                        gameIsOver(((GameOverInfo)myInfo).getMessage());
+                        gameIsOver(((GameOverInfo) myInfo).getMessage());
                         myActivity.setGameOver(true);
                     }
 
@@ -226,22 +220,19 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
 
                     // mark game as being over
                     gameOver = true;
-                }
-                else if (myInfo instanceof TimerInfo) {
+                } else if (myInfo instanceof TimerInfo) {
 
                     // CASE 4: we have a timer "tick"
                     // if we have a timer-tick, and it's our timer object,
                     // directly invoke the subclass method; otherwise, pass
                     // it on as a message
-                    if (((TimerInfo)myInfo).getTimer() == myTimer) {
+                    if (((TimerInfo) myInfo).getTimer() == myTimer) {
                         // checking that it's from our timer
                         timerTicked();
-                    }
-                    else {
+                    } else {
                         receiveInfo(myInfo);
                     }
-                }
-                else {
+                } else {
                     // invoke subclass method
                     receiveInfo(myInfo);
                 }
@@ -252,8 +243,7 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
     /**
      * callback method--called when we are notified that the game is over
      *
-     * @param msg
-     * 		the "game over" message sent by the game
+     * @param msg the "game over" message sent by the game
      */
     protected void gameIsOver(String msg) {
         // the default behavior is to put a pop-up for the user to see that tells
@@ -264,21 +254,19 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
     /**
      * Sleeps for a particular amount of time. Utility method.
      *
-     * @param seconds
-     * 			the number of seconds to sleep for
+     * @param seconds the number of seconds to sleep for
      */
     protected void sleep(double seconds) {
         long milliseconds;
 
         //Since Thread.sleep takes in milliseconds, convert from seconds to milliseconds
-        milliseconds = (long)(seconds * 1000);
+        milliseconds = (long) (seconds * 1000);
 
         try {
             Logger.debugLog(TAG, "" + this.name + "Is sleeping on the thread for " + seconds + "seconds.");
             Thread.sleep(milliseconds);
             Logger.debugLog(TAG, "Sleeping on the thread complete.");
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             Logger.debugLog(TAG, "Sleeping on the thread complete.");
         }
     }
@@ -286,21 +274,20 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
     /**
      * Sleeps for a particular amount of time.
      *
-     * @param seconds: The number of seconds to sleep for
+     * @param seconds:     The number of seconds to sleep for
      * @param nanoseconds: The number of nanoseconds to sleep for
      */
-    protected void sleep(double seconds, int nanoseconds){
+    protected void sleep(double seconds, int nanoseconds) {
         long milliseconds;
 
         //Since Thread.sleep takes in milliseconds, convert from seconds to milliseconds
-        milliseconds = (long)(seconds * 1000);
+        milliseconds = (long) (seconds * 1000);
 
         try {
             Logger.debugLog(TAG, "" + this.name + "Is sleeping on the thread for " + seconds + "seconds and " + nanoseconds + "nanoseconds.");
             Thread.sleep(milliseconds, nanoseconds);
             Logger.debugLog(TAG, "Sleeping on the thread complete.");
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             Logger.debugLog(TAG, "Error while trying to sleep: " + e.getMessage());
         }
     }
@@ -313,7 +300,8 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
         return false;
     }
 
-    /** tells whether this player supports a GUI. Some computer players may be
+    /**
+     * tells whether this player supports a GUI. Some computer players may be
      * implemented to do so. In that case, they should implement the 'setAsGui'
      * method.
      */
@@ -327,5 +315,10 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
      */
     protected void timerTicked() {
         // by default, do nothing
+    }
+
+    //TESTING
+    public GameMainActivity getActivity() {
+        return myActivity;
     }
 }// class GameComputerPlayer

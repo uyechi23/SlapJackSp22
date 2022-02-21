@@ -12,8 +12,6 @@ import android.view.SurfaceView;
  *
  * @author Steve Vegdahl
  * @version 23 September 2016
- *
- *
  */
 public class FlashSurfaceView extends SurfaceView {
     //Tag for logging
@@ -56,7 +54,7 @@ public class FlashSurfaceView extends SurfaceView {
     /**
      * Flashes the SurfaceView.
      *
-     * @param color color to flash
+     * @param color  color to flash
      * @param millis duration of flash, in milliseconds
      */
     public void flash(int color, int millis) {
@@ -65,11 +63,10 @@ public class FlashSurfaceView extends SurfaceView {
 
         // if a flash is already in progress, abort this flash. Otherwise, create
         // a flasher object
-        synchronized(this) {
+        synchronized (this) {
             if (flasher == null) {
                 flasher = new Flasher(new ColorDrawable(color), saveDrawable, millis);
-            }
-            else {
+            } else {
                 return;
             }
         }
@@ -80,13 +77,13 @@ public class FlashSurfaceView extends SurfaceView {
 
     /**
      * helper method: sleeps
+     *
      * @param millis duration of sleep, in milliseconds
      */
     private static void sleep(int millis) {
         try {
             Thread.sleep(millis);
-        }
-        catch (InterruptedException ix) {
+        } catch (InterruptedException ix) {
         }
     }
 
@@ -109,9 +106,10 @@ public class FlashSurfaceView extends SurfaceView {
 
         /**
          * constructor
-         * @param flashDraw the background drawable for the flash
+         *
+         * @param flashDraw   the background drawable for the flash
          * @param restoreDraw the background drawable to restore after the flash
-         * @param millis duration of flash, in milliseconds
+         * @param millis      duration of flash, in milliseconds
          */
         public Flasher(Drawable flashDraw, Drawable restoreDraw, int millis) {
             this.flashDraw = flashDraw;

@@ -1,5 +1,9 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.utilities;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Pair;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -11,9 +15,6 @@ import java.net.Socket;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Queue;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Pair;
 
 /**
  * A class that supports two-way passing of objects across the network,
@@ -21,7 +22,6 @@ import android.util.Pair;
  *
  * @author Steven R. Vegdahl
  * @version July 2013
- *
  */
 public abstract class NetworkObjectPasser {
     /**
@@ -50,11 +50,9 @@ public abstract class NetworkObjectPasser {
     /**
      * constructor
      *
-     * @param ipAddress
-     * 		the IP address of the device to which we want to connect as a client,
-     * 		or null we are acting as the server
-     * @param port
-     * 		the port number though which to connect
+     * @param ipAddress the IP address of the device to which we want to connect as a client,
+     *                  or null we are acting as the server
+     * @param port      the port number though which to connect
      */
     public NetworkObjectPasser(String ipAddress, int port) {
 
@@ -111,7 +109,7 @@ public abstract class NetworkObjectPasser {
             this.ipAddress = ipAddress;
             this.port = port;
             this.status = RunnerStatus.WAITING;
-            Logger.debugLog(TAG, "IP Address: "+ipAddress+"   Port: "+port);
+            Logger.debugLog(TAG, "IP Address: " + ipAddress + "   Port: " + port);
         }
 
         public RunnerStatus getStatus() {
@@ -141,13 +139,12 @@ public abstract class NetworkObjectPasser {
 
                     // register that we are finished with the server socket
                     ServerSocketMap.release(port);
-                    Logger.debugLog(TAG, "Server port "+port+" is active");
+                    Logger.debugLog(TAG, "Server port " + port + " is active");
                     // set our externally-visible status to be "ready"
                     ready = true;
-                }
-                else {
+                } else {
                     // create as client socket
-                    Logger.debugLog(TAG, "Attempt to connect to port "+port);
+                    Logger.debugLog(TAG, "Attempt to connect to port " + port);
 
                     // set our internal status to be "ready"
                     status = RunnerStatus.READY;
@@ -157,13 +154,13 @@ public abstract class NetworkObjectPasser {
 
                     // set out externally-visible status to be "ready"
                     ready = true;
-                    Logger.debugLog(TAG, "Client connected to port "+port);
+                    Logger.debugLog(TAG, "Client connected to port " + port);
                 }
             } catch (IOException e) {
                 // if we could not make the connection, set our status to "failed" and return
                 status = RunnerStatus.FAILED;
-                Logger.log(TAG, "Failed to open or connect to port "+port, Logger.ERROR);
-                Logger.log(TAG, "Class: "+e.getClass()+"   Message: "+e.getMessage(), Logger.ERROR);
+                Logger.log(TAG, "Failed to open or connect to port " + port, Logger.ERROR);
+                Logger.log(TAG, "Class: " + e.getClass() + "   Message: " + e.getMessage(), Logger.ERROR);
                 return;
             }
 
@@ -177,11 +174,10 @@ public abstract class NetworkObjectPasser {
                     out = new ObjectOutputStream(outBasic);
                     in = new ObjectInputStream(inBasic);
                     out.flush();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     // if exception, return
                     Logger.log(TAG, "Failed to make the input or output stream", Logger.ERROR);
-                    Logger.log(TAG, "Class: "+e.getClass()+"   Message: "+e.getMessage(),Logger.ERROR);
+                    Logger.log(TAG, "Class: " + e.getClass() + "   Message: " + e.getMessage(), Logger.ERROR);
                     status = RunnerStatus.FAILED;
                     return;
                 }
@@ -202,16 +198,15 @@ public abstract class NetworkObjectPasser {
 
             // go into our read-object loop, passing the object to our user by
             // invoking the user's 'onReceiveObject' method on each object
-            for (;;) {
+            for (; ; ) {
                 try {
                     Logger.debugLog(TAG, "Ready to read object");
                     Object obj = in.readObject();
-                    Logger.debugLog(TAG, "object read ("+obj.getClass()+")"); //TODO: toString
+                    Logger.debugLog(TAG, "object read (" + obj.getClass() + ")"); //TODO: toString
                     onReceiveObject(obj);
-                }
-                catch (Exception x) {
-                    Logger.log(TAG, "Read Failure",Logger.ERROR);
-                    Logger.log(TAG, "Class: "+x.getClass()+"   Message: "+ x.getMessage(), Logger.ERROR);
+                } catch (Exception x) {
+                    Logger.log(TAG, "Read Failure", Logger.ERROR);
+                    Logger.log(TAG, "Class: " + x.getClass() + "   Message: " + x.getMessage(), Logger.ERROR);
                     break;
                 }
             }
@@ -222,13 +217,12 @@ public abstract class NetworkObjectPasser {
      * send an object to this NetworkObjectPasser object. This will have the
      * effect of getting the object sent across the network
      *
-     * @param obj
-     * 		the object to send
+     * @param obj the object to send
      */
     public void sendObject(Object obj) {
         // schedule the "send" in the object's "sending" thread
         //Check if the object is Serializable
-        if(!Serializable.class.isInstance(obj)){
+        if (!Serializable.class.isInstance(obj)) {
             Logger.log(TAG, "Object is not Serializable", Logger.ERROR);
         }
 
@@ -238,9 +232,9 @@ public abstract class NetworkObjectPasser {
 
     /**
      * helper class for sending objects using a dedicated thread
+     *
      * @author Steven R. Vegdahl
      * @version July 2013
-     *
      */
     private class MsgRunnable implements Runnable {
 
@@ -257,15 +251,15 @@ public abstract class NetworkObjectPasser {
         // run method, which writes out the object or, if unsuccessful,
         // queues the object up for sending later
         public void run() {
-            synchronized(this) {
-                Logger.debugLog(TAG, "Attempting to write Object: "+obj.getClass());
+            synchronized (this) {
+                Logger.debugLog(TAG, "Attempting to write Object: " + obj.getClass());
                 boolean success = false;
                 if (out != null) {
                     try {
                         // write object
                         out.writeObject(obj);
                         success = true;
-                        Logger.debugLog(TAG, "Object: "+obj.getClass()+" written");
+                        Logger.debugLog(TAG, "Object: " + obj.getClass() + " written");
                     } catch (IOException e) {
                         Logger.log(TAG, "Could not write object", Logger.ERROR);
                     }
@@ -282,8 +276,7 @@ public abstract class NetworkObjectPasser {
     /**
      * Asks whether our object is ready
      *
-     * @return
-     * 		whether the object is ready
+     * @return whether the object is ready
      */
     public boolean isReady() {
         // check if we're ready; if not, poll a few times before
@@ -293,7 +286,7 @@ public abstract class NetworkObjectPasser {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                Logger.log(TAG, "Class: "+e.getClass()+"   Message: "+ e.getMessage(), Logger.ERROR);
+                Logger.log(TAG, "Class: " + e.getClass() + "   Message: " + e.getMessage(), Logger.ERROR);
             }
         }
 
@@ -307,7 +300,6 @@ public abstract class NetworkObjectPasser {
      *
      * @author Steven R. Vegdahl
      * @version July 2013
-     *
      */
     private static class ServerSocketMap {
 
@@ -317,24 +309,22 @@ public abstract class NetworkObjectPasser {
         // have already been created. It maps the port number to the pair
         //   - server socket
         //   - number of current users of the server socket
-        private static Hashtable<Integer,Pair<ServerSocket,Integer>> map =
-                new Hashtable<Integer,Pair<ServerSocket,Integer>>();
+        private static Hashtable<Integer, Pair<ServerSocket, Integer>> map =
+                new Hashtable<Integer, Pair<ServerSocket, Integer>>();
 
         /**
          * Gets a server socket for the given port number. It returns an existing one
          * if it exists, otherwise, it creates a new one.
          *
-         * @param portNum
-         * 		the port number
-         * @return
-         * 		the server socket for that port number
+         * @param portNum the port number
+         * @return the server socket for that port number
          */
         public static ServerSocket getServerSocket(int portNum) {
             // the server socket, if any, and the number of current user
             // of that socket
-            Pair<ServerSocket,Integer> pair;
+            Pair<ServerSocket, Integer> pair;
 
-            synchronized(map) {
+            synchronized (map) {
 
                 // get the entry for this port number
                 pair = map.get(portNum);
@@ -348,16 +338,15 @@ public abstract class NetworkObjectPasser {
                         ss = new ServerSocket(portNum);
                     } catch (IOException e) {
                         Logger.log(TAG, "Failed to create the server socket", Logger.ERROR);
-                        Logger.log(TAG, "Class: "+e.getClass()+"   Message: "+e.getMessage(), Logger.ERROR);
+                        Logger.log(TAG, "Class: " + e.getClass() + "   Message: " + e.getMessage(), Logger.ERROR);
                         return null;
                     }
-                    pair = new Pair<ServerSocket,Integer>(ss,1);
+                    pair = new Pair<ServerSocket, Integer>(ss, 1);
                     map.put(portNum, pair);
-                }
-                else {
+                } else {
                     Logger.debugLog(TAG, "Incrementing connection count of Socket");
                     // entry exists; increment its user-count
-                    Pair<ServerSocket,Integer> newPair = new Pair<ServerSocket,Integer>(pair.first, pair.second+1);
+                    Pair<ServerSocket, Integer> newPair = new Pair<ServerSocket, Integer>(pair.first, pair.second + 1);
                     map.put(portNum, newPair);
                 }
             }
@@ -369,13 +358,12 @@ public abstract class NetworkObjectPasser {
         /**
          * Releases a server socket (with respect to the calling user)
          *
-         * @param portNum
-         * 		// the port number whose server socket is to be released
+         * @param portNum // the port number whose server socket is to be released
          */
         public static void release(int portNum) {
-            synchronized(map) {
+            synchronized (map) {
                 // get the socket/count pair
-                Pair<ServerSocket,Integer> pair = map.get(portNum);
+                Pair<ServerSocket, Integer> pair = map.get(portNum);
 
                 // double-check that the entry was there (it should always be,
                 // unless our caller is buggy
@@ -384,19 +372,19 @@ public abstract class NetworkObjectPasser {
                 // decrement the count and, if it's gone down to zero, close the
                 // server socket and remove the entry from our hash table and
                 ServerSocket ss = pair.first;
-                int newVal = pair.second-1;
-                Pair<ServerSocket,Integer> newPair =
-                        new Pair<ServerSocket,Integer>(ss, newVal);
+                int newVal = pair.second - 1;
+                Pair<ServerSocket, Integer> newPair =
+                        new Pair<ServerSocket, Integer>(ss, newVal);
                 map.put(portNum, newPair);
                 if (newVal <= 0) {
-                    Logger.debugLog(TAG, "Removing Port "+portNum);
+                    Logger.debugLog(TAG, "Removing Port " + portNum);
                     map.remove(portNum);
                     try {
                         Logger.debugLog(TAG, "Closing Server Socket");
                         ss.close();
                     } catch (IOException e) {
                         Logger.log(TAG, "Failed to close Server Socket", Logger.ERROR);
-                        Logger.log(TAG, "Class: "+e.getClass()+"   Message: "+e.getMessage(), Logger.ERROR);
+                        Logger.log(TAG, "Class: " + e.getClass() + "   Message: " + e.getMessage(), Logger.ERROR);
                     }
                 }
             }

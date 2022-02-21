@@ -5,14 +5,12 @@ package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework
  *
  * @author Steven R. Vegdahl
  * @version July 2013
- *
  */
 public interface Tickable {
     /**
      * callback method that is invoked when the timer "ticks"
      *
-     * @param timer
-     * 		the timer that is associated with the "tick"
+     * @param timer the timer that is associated with the "tick"
      */
     public abstract void tick(GameTimer timer);
 }
