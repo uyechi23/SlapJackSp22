@@ -7,10 +7,13 @@
     REVISIONS FROM PROJECT A
 
     Instead of using nested Linear Layouts to create a "grid", use a large SurfaceView
-    to draw objects on the screen instead. This SurfaceView will be a custom view class
-    called GameView, and will be (temporarily) used to draw the game's layout.
+    to draw objects on the screen instead.
     -->
 
-
+    <SurfaceView
+        android:id="@+id/test_surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </SurfaceView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

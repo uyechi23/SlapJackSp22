@@ -13,6 +13,7 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23;
 
 import android.os.Bundle;
+import android.view.SurfaceView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,5 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SurfaceView gui = findViewById(R.id.test_surface);
     }
 }
