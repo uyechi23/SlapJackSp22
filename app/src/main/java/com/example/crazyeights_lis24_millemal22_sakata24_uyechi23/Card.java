@@ -72,9 +72,17 @@ public class Card {
     public boolean matchSuit(Card compare) {
         return (compare.suit.equals(this.suit));
     }
-
     public boolean matchFace(Card compare) {
         return (compare.face.equals(this.face));
+    }
+
+    // isValid method - checks if this instance is a valid card play for another card
+    public boolean isValid(Card compare){
+        if(compare.getFace().equals("Eight")){
+            return matchSuit(compare);
+        }else{
+            return matchSuit(compare) && matchFace(compare);
+        }
     }
 
     // toString card method
