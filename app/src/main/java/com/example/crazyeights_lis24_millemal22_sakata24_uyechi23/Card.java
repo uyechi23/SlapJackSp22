@@ -81,7 +81,7 @@ public class Card {
         if(compare.getFace().equals("Eight")){
             return matchSuit(compare);
         }else{
-            return matchSuit(compare) && matchFace(compare);
+            return matchSuit(compare) || matchFace(compare);
         }
     }
 
