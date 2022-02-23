@@ -2,7 +2,14 @@ package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Card;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Deck;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.CrazyEightsComputerPlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.CrazyEightsHumanPlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameHumanPlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.ProxyPlayer;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class CrazyEightsGameState extends GameState {
@@ -15,15 +22,54 @@ public class CrazyEightsGameState extends GameState {
     private Deck discardPile; // cards that were discarded
 
     /* copy constructor: makes a censored copy for players */
-    public CrazyEightsGameState(CrazyEightsGameState origState) {
+    public CrazyEightsGameState(CrazyEightsGameState origState, GamePlayer p) {
+
+        String playerName;
         // copies the name of the current player
         this.playerTurn = origState.getPlayerTurn();
+        // copies the draw pile and turns it all face down
+        this.drawPile = new Deck(origState.getDrawPile());
+        this.drawPile.turnFaceDown();
+        // copies the discard pile
+        this.discardPile = new Deck(origState.getDiscardPile());
+
+        if(p instanceof ProxyPlayer) {
+            p = (ProxyPlayer) p;
+            //TODO: insert things specific to proxy player???
+            return;
+        }
+        else if(p instanceof GameComputerPlayer) {
+            CrazyEightsComputerPlayer computerPlayer = (CrazyEightsComputerPlayer) p;
+            playerName = computerPlayer.getName();
+        }
+        else {
+            CrazyEightsHumanPlayer humanPlayer = (CrazyEightsHumanPlayer) p;
+            playerName = humanPlayer.getName();
+        }
         // copies player hands
         this.playerHands = origState.getPlayerHands();
-        // copies the draw pile
-        this.drawPile = origState.getDrawPile();
-        // copies the discard pile
-        this.discardPile.addDeck(origState.getDiscardPile());
+
+        // enumeration to loop thru hashtable
+        Enumeration<String> enumeration = this.playerHands.keys();
+
+        // loops through all elements of hashtable
+        while(enumeration.hasMoreElements()) {
+
+            // key of current element
+            String key = enumeration.nextElement();
+
+            // get deck and copy it
+            Deck deckCopy = new Deck(this.playerHands.get(key));
+            this.playerHands.put(key, deckCopy);
+
+            // skips players hand
+            if(key == playerName) {
+                continue;
+            }
+
+            // facedown all other hands
+            this.playerHands.get(key).turnFaceDown();
+        }
     }
 
     // getter methods

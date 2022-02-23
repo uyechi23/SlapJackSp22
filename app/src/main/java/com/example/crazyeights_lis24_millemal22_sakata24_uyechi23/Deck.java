@@ -8,10 +8,19 @@ public class Deck implements Serializable {
 
     // initialize an ArrayList with a capacity of 52
     // the last element in this ArrayList is the top of the deck
-    public final ArrayList<Card> cards;
+    public final ArrayList<Card> cards = new ArrayList<>();
 
-    public Deck(){
-        cards = new ArrayList<>();
+    public Deck() {
+        ArrayList<Card> cards = new ArrayList<>();
+        //TODO: add cards to the deck
+    }
+
+    // deep copy ctor //
+    public Deck(Deck orig) {
+        for (Card c : orig.cards) {
+            Card cardCopy = new Card(c);
+            this.cards.add(cardCopy);
+        }
     }
 
     // add a standard 52-card set of cards to the Deck

@@ -67,6 +67,14 @@ public class Card {
         setValue(face);
     }
 
+    // deeeep copy ctor //
+    public Card(Card orig) {
+        this.face = orig.getFace();
+        this.suit = orig.getSuit();
+
+        setValue(this.face);
+    }
+
     // getter methods
     public int getValue() {
         return this.value;
