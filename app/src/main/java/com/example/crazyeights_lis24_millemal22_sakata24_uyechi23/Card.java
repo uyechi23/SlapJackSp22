@@ -169,6 +169,10 @@ public class Card {
             case "King": secondIndex = 12;
         }
 
+        // I think if this is here, we can cycle through each card in the deck, mark it
+        // as valid or invalid, then the drawing class will gray it out if it's invalid.
+        boolean validPlay = true;
+
         Bitmap bitmap = cardImages[firstIndex][secondIndex];
 
         // create the source rectangle
@@ -183,32 +187,32 @@ public class Card {
     // images
     private static int[][] resIdx = {
             {
-                    R.drawable.card_clubs_A, R.drawable.card_clubs_02, R.drawable.card_clubs_03,
-                    R.drawable.card_clubs_04, R.drawable.card_clubs_05, R.drawable.card_clubs_06,
-                    R.drawable.card_clubs_07, R.drawable.card_clubs_08, R.drawable.card_clubs_09,
-                    R.drawable.card_clubs_10, R.drawable.card_clubs_J, R.drawable.card_clubs_Q,
-                    R.drawable.card_clubs_K,
+                  //  R.drawable.card_clubs_A, R.drawable.card_clubs_02, R.drawable.card_clubs_03,
+                  //  R.drawable.card_clubs_04, R.drawable.card_clubs_05, R.drawable.card_clubs_06,
+                    //R.drawable.card_clubs_07, R.drawable.card_clubs_08, R.drawable.card_clubs_09,
+                    //R.drawable.card_clubs_10, R.drawable.card_clubs_J, R.drawable.card_clubs_Q,
+                   // R.drawable.card_clubs_K,
             },
             {
-                    R.drawable.card_diamonds_A, R.drawable.card_diamonds_02, R.drawable.card_diamonds_03,
-                    R.drawable.card_diamonds_04, R.drawable.card_diamonds_05, R.drawable.card_diamonds_06,
-                    R.drawable.card_diamonds_07, R.drawable.card_diamonds_08, R.drawable.card_diamonds_09,
-                    R.drawable.card_diamonds_10, R.drawable.card_diamonds_J, R.drawable.card_diamonds_Q,
-                    R.drawable.card_diamonds_K,
+                    //R.drawable.card_diamonds_A, R.drawable.card_diamonds_02, R.drawable.card_diamonds_03,
+                    //R.drawable.card_diamonds_04, R.drawable.card_diamonds_05, R.drawable.card_diamonds_06,
+                    //R.drawable.card_diamonds_07, R.drawable.card_diamonds_08, R.drawable.card_diamonds_09,
+                    //R.drawable.card_diamonds_10, R.drawable.card_diamonds_J, R.drawable.card_diamonds_Q,
+                    //R.drawable.card_diamonds_K,
             },
             {
-                    R.drawable.card_hearts_A, R.drawable.card_hearts_02, R.drawable.card_hearts_03,
-                    R.drawable.card_hearts_04, R.drawable.card_hearts_05, R.drawable.card_hearts_06,
-                    R.drawable.card_hearts_07, R.drawable.card_hearts_08, R.drawable.card_hearts_09,
-                    R.drawable.card_hearts_10, R.drawable.card_hearts_J, R.drawable.card_hearts_Q,
-                    R.drawable.card_hearts_K,
+                   // R.drawable.card_hearts_A, R.drawable.card_hearts_02, R.drawable.card_hearts_03,
+                   // R.drawable.card_hearts_04, R.drawable.card_hearts_05, R.drawable.card_hearts_06,
+                    //R.drawable.card_hearts_07, R.drawable.card_hearts_08, R.drawable.card_hearts_09,
+                    //R.drawable.card_hearts_10, R.drawable.card_hearts_J, R.drawable.card_hearts_Q,
+                    //R.drawable.card_hearts_K,
             },
             {
-                    R.drawable.card_spades_A, R.drawable.card_spades_02, R.drawable.card_spades_03,
-                    R.drawable.card_spades_04, R.drawable.card_spades_05, R.drawable.card_spades_06,
-                    R.drawable.card_spades_07, R.drawable.card_spades_08, R.drawable.card_spades_09,
-                    R.drawable.card_spades_10, R.drawable.card_spades_J, R.drawable.card_spades_Q,
-                    R.drawable.card_spades_K,
+            //        R.drawable.card_spades_A, R.drawable.card_spades_02, R.drawable.card_spades_03,
+              //      R.drawable.card_spades_04, R.drawable.card_spades_05, R.drawable.card_spades_06,
+                  //  R.drawable.card_spades_07, R.drawable.card_spades_08, R.drawable.card_spades_09,
+                //    R.drawable.card_spades_10, R.drawable.card_spades_J, R.drawable.card_spades_Q,
+                    //R.drawable.card_spades_K,
             },
     };
 

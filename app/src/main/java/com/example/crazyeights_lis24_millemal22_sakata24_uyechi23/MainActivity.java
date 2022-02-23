@@ -24,6 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SurfaceView gui = findViewById(R.id.test_surface);
+        SurfaceView gui = findViewById(R.id.gameBoard);
     }
 }
