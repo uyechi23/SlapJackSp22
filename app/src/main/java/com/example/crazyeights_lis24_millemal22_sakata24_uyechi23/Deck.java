@@ -44,8 +44,23 @@ public class Deck implements Serializable {
         }
     }
 
+    // retrieve a specific card
+    public Card removeSpecific(int index){
+        synchronized (this.cards){
+            if(this.cards.isEmpty()) return null;
+            return this.cards.remove(index);
+        }
+    }
+
+    // empty the entire deck
+    public void emptyDeck(){
+        synchronized (this.cards){
+            this.cards.removeAll(this.cards);
+        }
+    }
+
     // view top card of deck
-    public Card peakTopCard(){
+    public Card peekTopCard(){
         synchronized (this.cards) {
             if (this.cards.isEmpty()) return null;
             return this.cards.get(this.cards.size() - 1);

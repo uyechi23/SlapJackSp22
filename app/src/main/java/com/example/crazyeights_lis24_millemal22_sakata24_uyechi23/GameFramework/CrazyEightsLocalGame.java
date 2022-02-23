@@ -25,7 +25,6 @@ public class CrazyEightsLocalGame extends LocalGame{
         CrazyEightsGameState newState = new CrazyEightsGameState(state);
 
         newState.turnDrawPileFaceDown();
-        newState.turnHandOverExcept();
 
     }
 
