@@ -14,6 +14,8 @@ public class CrazyEightsGameState extends GameState {
     private Deck drawPile; // cards to be drawn from
     private Deck discardPile; // cards that were discarded
 
+
+
     /* copy constructor: makes a censored copy for players */
     public CrazyEightsGameState(CrazyEightsGameState origState) {
         // copies the name of the current player
