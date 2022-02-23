@@ -13,10 +13,11 @@ public class CrazyEightsGameState extends GameState {
     /*
         Instance var
      */
-    private String playerTurn; // name of player whos turn it is
+    private String playerTurn; // name of player whose turn it is
     private Hashtable<String, ArrayList<Card>> playerHands; // all players hands
     private ArrayList<Card> drawPile; // cards to be drawn from
     private ArrayList<Card> discardPile; // cards that were discarded
+
 
     /* copy constructor: makes a censored copy for players */
     public CrazyEightsGameState(CrazyEightsGameState origState) {
