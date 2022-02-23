@@ -37,6 +37,9 @@ public class CrazyEightsGameState extends GameState {
     }
 
     /* TODO copy constructor: makes a censored copy for players */
+
+
+    /* copy constructor: makes a censored copy for players */
     public CrazyEightsGameState(CrazyEightsGameState origState) {
         // copies the name of the current player
         this.playerTurn = origState.getPlayerTurn();
