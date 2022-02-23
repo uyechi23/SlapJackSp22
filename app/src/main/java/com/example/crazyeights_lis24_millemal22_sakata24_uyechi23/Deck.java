@@ -44,6 +44,14 @@ public class Deck implements Serializable {
         }
     }
 
+    // view top card of deck
+    public Card peakTopCard(){
+        synchronized (this.cards) {
+            if (this.cards.isEmpty()) return null;
+            return this.cards.get(this.cards.size() - 1);
+        }
+    }
+
     // turn all cards in the deck face-down
     // this will be used when making copies of the GameState to send to players,
     // since players will not need to know what cards are in the deck.
