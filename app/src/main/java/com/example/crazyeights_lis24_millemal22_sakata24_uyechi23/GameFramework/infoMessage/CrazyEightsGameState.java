@@ -70,12 +70,12 @@ public class CrazyEightsGameState extends GameState {
     /* copy constructor: makes a censored copy for players */
     public CrazyEightsGameState(CrazyEightsGameState origState, GamePlayer p) {
 
-        String playerName;
+        String playerName = ""; // TODO: set playerName to be the player name of the GamePlayer
         // copies the name of the current player
         this.playerTurn = origState.getPlayerTurn();
         // copies the draw pile and turns it all face down
         this.drawPile = new Deck(origState.getDrawPile());
-        this.drawPile.turnFaceDown();
+        turnDrawPileFaceDown();
         // copies the discard pile
         this.discardPile.addDeck(origState.getDiscardPile());
         // sets the currentSuit and currentFace to the top card
@@ -84,8 +84,8 @@ public class CrazyEightsGameState extends GameState {
         this.discardPile = new Deck(origState.getDiscardPile());
 
         if(p instanceof ProxyPlayer) {
-            p = (ProxyPlayer) p;
-            //TODO: insert things specific to proxy player???
+            ProxyPlayer proxyPlayer = (ProxyPlayer) p;
+            // TODO: find a way to get a proxy player's name
             return;
         }
         else if(p instanceof GameComputerPlayer) {
@@ -99,27 +99,8 @@ public class CrazyEightsGameState extends GameState {
         // copies player hands
         this.playerHands = origState.getPlayerHands();
 
-        // enumeration to loop thru hashtable
-        Enumeration<String> enumeration = this.playerHands.keys();
-
-        // loops through all elements of hashtable
-        while(enumeration.hasMoreElements()) {
-
-            // key of current element
-            String key = enumeration.nextElement();
-
-            // get deck and copy it
-            Deck deckCopy = new Deck(this.playerHands.get(key));
-            this.playerHands.put(key, deckCopy);
-
-            // skips players hand
-            if(key == playerName) {
-                continue;
-            }
-
-            // facedown all other hands
-            this.playerHands.get(key).turnFaceDown();
-        }
+        // censor all but GamePlayer p
+        turnHandsOverExcept(playerName);
     }
 
     // getter methods
@@ -148,7 +129,7 @@ public class CrazyEightsGameState extends GameState {
     }
 
     // nullify all player's hands except one
-    public void turnHandOverExcept(String noFlipPlayer) {
+    public void turnHandsOverExcept(String noFlipPlayer) {
         // retrieve key set (all players in Strings)
         Set<String> keySet = this.playerHands.keySet();
 
