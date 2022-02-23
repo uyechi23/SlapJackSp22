@@ -22,7 +22,7 @@ public class CrazyEightsLocalGame extends LocalGame{
 
         // make a copy of the game state and nullify any
         // data the player shouldn't have access to
-        CrazyEightsGameState newState = new CrazyEightsGameState(state);
+        CrazyEightsGameState newState = new CrazyEightsGameState(state, p);
 
         newState.turnDrawPileFaceDown();
 

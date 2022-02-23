@@ -7,7 +7,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Deck;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
 
-public class CrazyEightsHumanPlayer extends GameHumanPlayer{
+public class CrazyEightsHumanPlayer extends GameHumanPlayer {
     /**
      * instance variables
      */
@@ -34,5 +34,9 @@ public class CrazyEightsHumanPlayer extends GameHumanPlayer{
     @Override
     public void setAsGui(GameMainActivity activity) {
 
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
