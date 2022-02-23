@@ -3,6 +3,7 @@ package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework
 import android.view.View;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Card;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Deck;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
 
@@ -10,7 +11,7 @@ public class CrazyEightsHumanPlayer extends GameHumanPlayer{
     /**
      * instance variables
      */
-    private Card[] myHand; // my hand
+    private Deck myHand; // my hand
     /**
      * constructor
      *

@@ -8,9 +8,14 @@ public class Deck implements Serializable {
 
     // initialize an ArrayList with a capacity of 52
     // the last element in this ArrayList is the top of the deck
-    public final ArrayList<Card> cards = new ArrayList<>(52);
+    public final ArrayList<Card> cards;
 
     public Deck(){
+        cards = new ArrayList<>();
+    }
+
+    // add a standard 52-card set of cards to the Deck
+    public void add52(){
         for(char s : "SHDC".toCharArray()){
             for(char f : "AKQJ098765432".toCharArray()){
                 Card newCard = new Card("" + s + f);
@@ -28,13 +33,31 @@ public class Deck implements Serializable {
     // get the number of cards in the deck
     public int size(){ return this.cards.size(); }
 
+    // determine if the deck is empty
+    public boolean isEmpty(){ return this.size() <= 0; }
+
     // retrieve the top card
-    public Card removeTop(){
+    public Card removeTopCard(){
         synchronized (this.cards) {
             if (this.cards.isEmpty()) return null;
             return this.cards.remove(this.cards.size() - 1);
         }
     }
+
+    // turn all cards in the deck face-down
+    // this will be used when making copies of the GameState to send to players,
+    // since players will not need to know what cards are in the deck.
+    // Does not modify the size of the deck, but prevents players from seeing what's in it
+    public void turnFaceDown(){
+        synchronized(this.cards){
+            for(int i = 0; i < cards.size(); i++){
+                cards.set(i, null);
+            }
+        }
+    }
+
+    // append another deck to this one
+    public void addDeck(Deck d){ this.cards.addAll(d.cards); }
 
     // toString method
     public String toString(){
