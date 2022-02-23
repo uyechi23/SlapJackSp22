@@ -13,6 +13,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
  */
 
 public interface GamePlayer {
+
     // sets this player as the GUI player (implemented as final in the
     // major player classes)
     public abstract void gameSetAsGui(GameMainActivity activity);
