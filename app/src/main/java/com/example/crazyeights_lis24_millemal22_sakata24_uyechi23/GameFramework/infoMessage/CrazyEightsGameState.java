@@ -1,5 +1,7 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage;
 
+import androidx.annotation.NonNull;
+
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Card;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Deck;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.CrazyEightsComputerPlayer;
@@ -9,9 +11,8 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.ProxyPlayer;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -38,7 +39,6 @@ public class CrazyEightsGameState extends GameState {
     private String currentFace; // top card current face
 //    private Card c = new com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Card(); // Card object
 
-    /* TODO constructor */
     public CrazyEightsGameState(String initTurn, String[] players) {
         // set the current player
         this.playerTurn = initTurn;
@@ -64,13 +64,10 @@ public class CrazyEightsGameState extends GameState {
         currentFace = this.getDiscardPile().peekTopCard().getFace();
     }
 
-    /* TODO copy constructor: makes a censored copy for players */
-
-
     /* copy constructor: makes a censored copy for players */
     public CrazyEightsGameState(CrazyEightsGameState origState, GamePlayer p) {
 
-        String playerName = ""; // TODO: set playerName to be the player name of the GamePlayer
+        String playerName; // TODO: set playerName to be the player name of the GamePlayer
         // copies the name of the current player
         this.playerTurn = origState.getPlayerTurn();
         // copies the draw pile and turns it all face down
@@ -136,12 +133,13 @@ public class CrazyEightsGameState extends GameState {
         // for each key (player), turn their hands face-down unless it's the player
         for(String key : keySet){
             if(!key.equals(noFlipPlayer) && this.playerHands.get(key) != null){
-                this.playerHands.get(key).turnFaceDown();
+                Objects.requireNonNull(this.playerHands.get(key)).turnFaceDown();
             }
         }
     }
 
     /* TODO */
+    @NonNull
     @Override
     public String toString() {
         String s = "";
@@ -175,7 +173,7 @@ public class CrazyEightsGameState extends GameState {
         }else{
             // if it isn't, get the reference to the current player's
             // hand and add the top card of the draw pile to it
-            playerHands.get(playerTurn).add(drawPile.removeTopCard());
+            Objects.requireNonNull(playerHands.get(playerTurn)).add(drawPile.removeTopCard());
             return true;
         }
     }
@@ -186,10 +184,10 @@ public class CrazyEightsGameState extends GameState {
         if(playerHands.get(playerTurn) == null) return false;
 
         // check if the index given to the method is valid
-        if(index < 0 || index >= playerHands.get(playerTurn).size()) return false;
+        if(index < 0 || index >= Objects.requireNonNull(playerHands.get(playerTurn)).size()) return false;
 
         // remove the specified card in the player's hand and add it to the top of the discard pile
-        discardPile.add(playerHands.get(playerTurn).removeSpecific(index));
+        discardPile.add(Objects.requireNonNull(playerHands.get(playerTurn)).removeSpecific(index));
         setSuit(this.discardPile.peekTopCard().getSuit());
         setFace(this.discardPile.peekTopCard().getFace());
         return true;
