@@ -27,3 +27,6 @@ This project is an Android app that runs Crazy Eights. Not much is implemented a
 - February 11, 2022
     - Added requirements.md
     - Updated activity_main.xml to show improved UI
+- February 23, 2022
+    - Fully implemented game state
+    - Semi-completed Card and Deck classes
