@@ -11,6 +11,20 @@ import android.graphics.RectF;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Card
+ *
+ * A Card object that has values and faces. Includes compare methods and
+ * a copy constructor. Also includes the ability to draw itself which will be
+ * implemented in the future.
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 24 February 2022
+ */
 public class Card {
 
     // instance variables of card
@@ -20,6 +34,42 @@ public class Card {
     public String suit;
     public String face;
     public int value;
+
+    // array that contains the android resource indices for the 52 card
+    // images
+    private int[][] resIdx = {
+            {
+                    R.drawable.card_clubs_a, R.drawable.card_clubs_02, R.drawable.card_clubs_03,
+                    R.drawable.card_clubs_04, R.drawable.card_clubs_05, R.drawable.card_clubs_06,
+                    R.drawable.card_clubs_07, R.drawable.card_clubs_08, R.drawable.card_clubs_09,
+                    R.drawable.card_clubs_10, R.drawable.card_clubs_j, R.drawable.card_clubs_q,
+                    R.drawable.card_clubs_k,
+            },
+            {
+                    R.drawable.card_diamonds_a, R.drawable.card_diamonds_02, R.drawable.card_diamonds_03,
+                    R.drawable.card_diamonds_04, R.drawable.card_diamonds_05, R.drawable.card_diamonds_06,
+                    R.drawable.card_diamonds_07, R.drawable.card_diamonds_08, R.drawable.card_diamonds_09,
+                    R.drawable.card_diamonds_10, R.drawable.card_diamonds_j, R.drawable.card_diamonds_q,
+                    R.drawable.card_diamonds_k,
+            },
+            {
+                    R.drawable.card_hearts_a, R.drawable.card_hearts_02, R.drawable.card_hearts_03,
+                    R.drawable.card_hearts_04, R.drawable.card_hearts_05, R.drawable.card_hearts_06,
+                    R.drawable.card_hearts_07, R.drawable.card_hearts_08, R.drawable.card_hearts_09,
+                    R.drawable.card_hearts_10, R.drawable.card_hearts_j, R.drawable.card_hearts_q,
+                    R.drawable.card_hearts_k,
+            },
+            {
+                    R.drawable.card_spades_a, R.drawable.card_spades_02, R.drawable.card_spades_03,
+                    R.drawable.card_spades_04, R.drawable.card_spades_05, R.drawable.card_spades_06,
+                    R.drawable.card_spades_07, R.drawable.card_spades_08, R.drawable.card_spades_09,
+                    R.drawable.card_spades_10, R.drawable.card_spades_j, R.drawable.card_spades_q,
+                    R.drawable.card_spades_k,
+            },
+    };
+
+    // the array of card images
+    private Bitmap[][] cardImages = null;
 
     public Card(String chars){
 
@@ -67,6 +117,14 @@ public class Card {
         setValue(face);
     }
 
+    // deeeep copy ctor //
+    public Card(Card orig) {
+        this.face = orig.getFace();
+        this.suit = orig.getSuit();
+
+        setValue(this.face);
+    }
+
     // getter methods
     public int getValue() {
         return this.value;
@@ -77,6 +135,8 @@ public class Card {
     public String getSuit() {
         return this.suit;
     }
+    public int[][] getResIdx() { return this.resIdx; }
+    public Bitmap[][] getCardImages() { return this.cardImages; }
 
     // setter method for value
     public void setValue(String face){
@@ -182,50 +242,13 @@ public class Card {
         g.drawBitmap(bitmap, r, where, p);
     }
 
-
-    // array that contains the android resource indices for the 52 card
-    // images
-    private static int[][] resIdx = {
-            {
-                  //  R.drawable.card_clubs_A, R.drawable.card_clubs_02, R.drawable.card_clubs_03,
-                  //  R.drawable.card_clubs_04, R.drawable.card_clubs_05, R.drawable.card_clubs_06,
-                    //R.drawable.card_clubs_07, R.drawable.card_clubs_08, R.drawable.card_clubs_09,
-                    //R.drawable.card_clubs_10, R.drawable.card_clubs_J, R.drawable.card_clubs_Q,
-                   // R.drawable.card_clubs_K,
-            },
-            {
-                    //R.drawable.card_diamonds_A, R.drawable.card_diamonds_02, R.drawable.card_diamonds_03,
-                    //R.drawable.card_diamonds_04, R.drawable.card_diamonds_05, R.drawable.card_diamonds_06,
-                    //R.drawable.card_diamonds_07, R.drawable.card_diamonds_08, R.drawable.card_diamonds_09,
-                    //R.drawable.card_diamonds_10, R.drawable.card_diamonds_J, R.drawable.card_diamonds_Q,
-                    //R.drawable.card_diamonds_K,
-            },
-            {
-                   // R.drawable.card_hearts_A, R.drawable.card_hearts_02, R.drawable.card_hearts_03,
-                   // R.drawable.card_hearts_04, R.drawable.card_hearts_05, R.drawable.card_hearts_06,
-                    //R.drawable.card_hearts_07, R.drawable.card_hearts_08, R.drawable.card_hearts_09,
-                    //R.drawable.card_hearts_10, R.drawable.card_hearts_J, R.drawable.card_hearts_Q,
-                    //R.drawable.card_hearts_K,
-            },
-            {
-            //        R.drawable.card_spades_A, R.drawable.card_spades_02, R.drawable.card_spades_03,
-              //      R.drawable.card_spades_04, R.drawable.card_spades_05, R.drawable.card_spades_06,
-                  //  R.drawable.card_spades_07, R.drawable.card_spades_08, R.drawable.card_spades_09,
-                //    R.drawable.card_spades_10, R.drawable.card_spades_J, R.drawable.card_spades_Q,
-                    //R.drawable.card_spades_K,
-            },
-    };
-
-    // the array of card images
-    private static Bitmap[][] cardImages = null;
-
     /**
      * initializes the card images
      *
      * @param activity
      * 		the current activity
      */
-    public static void initImages(Activity activity) {
+    public void initImages(Activity activity) {
         // if it's already initialized, then ignore
         if (cardImages != null) return;
 

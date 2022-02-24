@@ -4,14 +4,37 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Deck
+ *
+ * A Deck object simply contains an ArrayList of cards and has methods to shuffle
+ * and turn over cards (set to null objects), with other methods to help with the
+ * manipulation of the cards within the "cards" ArrayList.
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 24 February 2022
+ */
 public class Deck implements Serializable {
 
     // initialize an ArrayList with a capacity of 52
     // the last element in this ArrayList is the top of the deck
-    public final ArrayList<Card> cards;
+    public final ArrayList<Card> cards = new ArrayList<>();
 
-    public Deck(){
-        cards = new ArrayList<>();
+    public Deck() {
+        ArrayList<Card> cards = new ArrayList<>();
+        //TODO: add cards to the deck
+    }
+
+    // deep copy ctor //
+    public Deck(Deck orig) {
+        for (Card c : orig.cards) {
+            Card cardCopy = new Card(c);
+            this.cards.add(cardCopy);
+        }
     }
 
     // add a standard 52-card set of cards to the Deck
@@ -41,6 +64,29 @@ public class Deck implements Serializable {
         synchronized (this.cards) {
             if (this.cards.isEmpty()) return null;
             return this.cards.remove(this.cards.size() - 1);
+        }
+    }
+
+    // retrieve a specific card
+    public Card removeSpecific(int index){
+        synchronized (this.cards){
+            if(this.cards.isEmpty()) return null;
+            return this.cards.remove(index);
+        }
+    }
+
+    // empty the entire deck
+    public void emptyDeck(){
+        synchronized (this.cards){
+            this.cards.removeAll(this.cards);
+        }
+    }
+
+    // view top card of deck
+    public Card peekTopCard(){
+        synchronized (this.cards) {
+            if (this.cards.isEmpty()) return null;
+            return this.cards.get(this.cards.size() - 1);
         }
     }
 

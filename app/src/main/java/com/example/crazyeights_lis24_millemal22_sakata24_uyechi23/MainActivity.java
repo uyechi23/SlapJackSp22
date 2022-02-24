@@ -17,6 +17,18 @@ import android.view.SurfaceView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * MainActivity
+ *
+ * The MainActivity runs onCreate when the app is run and starts the game.
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 24 February 2022
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
