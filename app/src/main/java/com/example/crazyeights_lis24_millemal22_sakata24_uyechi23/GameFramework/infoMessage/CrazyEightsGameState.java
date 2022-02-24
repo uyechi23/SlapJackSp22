@@ -7,7 +7,6 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Deck;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.CrazyEightsComputerPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.CrazyEightsHumanPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameHumanPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.ProxyPlayer;
 
@@ -17,7 +16,8 @@ import java.util.Set;
 
 /**
  * CrazyEightsGameState
- * Creates the decks, each player's hand, and verifies each game action
+ *
+ * Creates the decks, each player's hand, and verifies functionality of each game action
  *
  * @author Selena Li
  * @author Maliyah Miller
@@ -28,19 +28,23 @@ import java.util.Set;
  */
 
 public class CrazyEightsGameState extends GameState {
-    /*
-        Instance vars
-     */
+    /* Instance variables */
     private String playerTurn; // name of player whose turn it is
     private Hashtable<String, Deck> playerHands; // all players hands
     private Deck drawPile; // cards to be drawn from
     private Deck discardPile; // cards that were discarded
     private String currentSuit; // top card current suit
     private String currentFace; // top card current face
-//    private Card c = new com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Card(); // Card object
 
+    /**
+     * CrazyEightsGameState constructor
+     *
+     * Initializes the instance variables for start of game
+     *
+     * @param initTurn
+     * @param players
+     */
     public CrazyEightsGameState(String initTurn, String[] players) {
-        // set the current player
         this.playerTurn = initTurn;
 
         // create a hashtable of player hands
@@ -64,7 +68,14 @@ public class CrazyEightsGameState extends GameState {
         currentFace = this.getDiscardPile().peekTopCard().getFace();
     }
 
-    /* copy constructor: makes a censored copy for players */
+    /**
+     * Copy Constructor
+     *
+     * Makes a censored copy for players
+     *
+     * @param origState
+     * @param p
+     */
     public CrazyEightsGameState(CrazyEightsGameState origState, GamePlayer p) {
 
         String playerName; // TODO: set playerName to be the player name of the GamePlayer
@@ -100,15 +111,42 @@ public class CrazyEightsGameState extends GameState {
         turnHandsOverExcept(playerName);
     }
 
-    // getter methods
-    public String getPlayerTurn() { return this.playerTurn; }
-    public Hashtable<String, Deck> getPlayerHands() { return this.playerHands; }
+    /**
+     * Setter methods:
+     *
+     * setSuit(): Returns the current suit as a String (@param suit)
+     * setFace(): Returns the current face as a String (@param face)
+     *
+     * @return void
+     */
+    public void setSuit(String suit){ this.currentSuit = suit; }
+    public void setFace(String face){ this.currentFace = face; }
+
+    /**
+     * Getter methods:
+     *
+     * getDrawPile(): Gets the draw pile (@return Deck)
+     * getDiscardPile(): Gets the discard pile (@return Deck)
+     * getPlayerHands(): Gets the hands of the player (@return Hashtable)
+     * getPlayerTurn(): Gets who the current player is (@return String)
+     * getCurrentFace(): Gets the current card's face (@return String)
+     * getCurrentSuit(): Gets the current card's suit (@return String)
+     */
     public Deck getDrawPile() { return this.drawPile; }
     public Deck getDiscardPile() { return this.discardPile; }
+    public Hashtable<String, Deck> getPlayerHands() { return this.playerHands; }
+    public String getPlayerTurn() { return this.playerTurn; }
     public String getCurrentFace() { return this.currentFace; }
     public String getCurrentSuit() { return this.currentSuit; }
 
-    // nullify the cards in the deck (turn them face-down so data of card is unknown)
+    /**
+     * turnDrawPileFaceDown
+     *
+     * Nullifies the cards in the deck
+     * Turns them face-down so data of card is unknown
+     *
+     * @return void
+     */
     public void turnDrawPileFaceDown() {
         if(!this.drawPile.isEmpty()) {
             // remove the top card in the deck
@@ -125,7 +163,15 @@ public class CrazyEightsGameState extends GameState {
         }
     }
 
-    // nullify all player's hands except one
+    /**
+     * turnHandOverExcept()
+     *
+     * Nullifies all player's hands except one
+     *
+     * @param noFlipPlayer
+     *
+     * @return void
+     */
     public void turnHandsOverExcept(String noFlipPlayer) {
         // retrieve key set (all players in Strings)
         Set<String> keySet = this.playerHands.keySet();
@@ -138,7 +184,13 @@ public class CrazyEightsGameState extends GameState {
         }
     }
 
-    /* TODO */
+    /**
+     * toString()
+     *
+     * Describes state of game as a string
+     *
+     * @return String
+     */
     @NonNull
     @Override
     public String toString() {
@@ -164,7 +216,13 @@ public class CrazyEightsGameState extends GameState {
         return s;
     }
 
-    // draw a card from the deck to the current player's hand
+    /**
+     * drawCard()
+     *
+     * Draws a card from the deck to the current player's hand
+     *
+     * @return boolean
+     */
     public boolean drawCard() {
         // checks if the draw pile is empty
         if(drawPile.isEmpty()){
@@ -178,7 +236,15 @@ public class CrazyEightsGameState extends GameState {
         }
     }
 
-    // play a specific, indexed card from the current player's hand
+    /**
+     * playCard()
+     *
+     * Plays a specific, indexed card from the current player's hand
+     *
+     * @param index
+     *
+     * @return boolean
+     */
     public boolean playCard(int index) {
         // check if the player's hand is empty
         if(playerHands.get(playerTurn) == null) return false;
@@ -193,7 +259,15 @@ public class CrazyEightsGameState extends GameState {
         return true;
     }
 
-    // set the current suit if the card played was an eight
+    /**
+     * setSuitDueToEight()
+     *
+     * Sets the current suit if the card played was an eight
+     *
+     * @param newSuit
+     *
+     * @return boolean
+     */
     public boolean setSuitDueToEight(String newSuit) {
         // if the top card is not equal to eight, then do nothing and return false
         if(!discardPile.peekTopCard().face.equals("Eight")) return false;
@@ -203,12 +277,8 @@ public class CrazyEightsGameState extends GameState {
         return true;
     }
 
-    // set the current suit and face
-    public void setSuit(String suit){ this.currentSuit = suit; }
-    public void setFace(String face){ this.currentFace = face; }
-
     /*
-     * Other methods to implement (possibly):
+     * TODO: Other methods to implement (possibly):
      * - startGame
      * - exitGame
      * - restartGame
