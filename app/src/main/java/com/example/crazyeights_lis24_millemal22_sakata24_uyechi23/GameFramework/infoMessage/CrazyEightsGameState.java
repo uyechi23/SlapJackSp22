@@ -64,6 +64,7 @@ public class CrazyEightsGameState extends GameState {
         this.discardPile = new Deck();
         this.discardPile.add(this.drawPile.removeTopCard());
 
+
         // set current suit and face to be empty
         currentSuit = this.getDiscardPile().peekTopCard().getSuit();
         currentFace = this.getDiscardPile().peekTopCard().getFace();
@@ -112,6 +113,7 @@ public class CrazyEightsGameState extends GameState {
         turnHandsOverExcept(playerName);
     }
 
+
     /**
      * Setter methods:
      *
@@ -133,12 +135,14 @@ public class CrazyEightsGameState extends GameState {
      * getCurrentFace(): Gets the current card's face (@return String)
      * getCurrentSuit(): Gets the current card's suit (@return String)
      */
+
     public Deck getDrawPile() { return this.drawPile; }
     public Deck getDiscardPile() { return this.discardPile; }
     public Hashtable<String, Deck> getPlayerHands() { return this.playerHands; }
     public String getPlayerTurn() { return this.playerTurn; }
     public String getCurrentFace() { return this.currentFace; }
     public String getCurrentSuit() { return this.currentSuit; }
+
 
     /**
      * turnDrawPileFaceDown
@@ -158,11 +162,13 @@ public class CrazyEightsGameState extends GameState {
             // if there are no cards this method call does nothing
             this.drawPile.turnFaceDown();
 
-            // if the draw pile was not empty at the start (i.e., Card c is not null),
+            // if the draw pile was not empty at the start
+            // (i.e., Card c is not null),
             // add the top card back to the top of the deck
             this.drawPile.add(c);
         }
     }
+
 
     /**
      * turnHandOverExcept()
