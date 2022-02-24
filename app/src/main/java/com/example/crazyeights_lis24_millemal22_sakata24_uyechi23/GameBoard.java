@@ -13,7 +13,9 @@ import android.widget.LinearLayout;
 
 /**
  * @author Jake Uyechi
- * @
+ * @author Maliyah Miller
+ * @author Selena Li
+ * @author Tyler Sakata
  */
 public class GameBoard extends SurfaceView {
 

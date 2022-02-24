@@ -6,6 +6,12 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameHumanPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 
+/**
+ * @author Jake Uyechi
+ * @author Maliyah Miller
+ * @author Selena Li
+ * @author Tyler Sakata
+ */
 public class CrazyEightsLocalGame extends LocalGame{
 
     // game state

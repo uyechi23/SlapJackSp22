@@ -14,7 +14,12 @@ public class CrazyEightsGameState extends GameState {
     private Deck drawPile; // cards to be drawn from
     private Deck discardPile; // cards that were discarded
 
-
+    public CrazyEightsGameState() {
+        this.playerTurn = "";
+        this.playerHands = null;
+        this.drawPile = null;
+        this.discardPile = null;
+    }
 
     /* copy constructor: makes a censored copy for players */
     public CrazyEightsGameState(CrazyEightsGameState origState) {
@@ -30,11 +35,14 @@ public class CrazyEightsGameState extends GameState {
 
     // getter methods
     public String getPlayerTurn() { return this.playerTurn; }
-    public Hashtable<String, Deck> getPlayerHands() { return this.playerHands; }
+    public Hashtable<String, Deck> getPlayerHands() {
+        return this.playerHands;
+    }
     public Deck getDrawPile() { return this.drawPile; }
     public Deck getDiscardPile() { return this.discardPile; }
 
-    // nullify the cards in the deck (turn them face-down so data of card is unknown)
+    // nullify the cards in the deck
+    // (turn them face-down so data of card is unknown)
     public void turnDrawPileFaceDown() {
         if(!this.drawPile.isEmpty()) {
             // remove the top card in the deck
@@ -45,13 +53,15 @@ public class CrazyEightsGameState extends GameState {
             // if there are no cards this method call does nothing
             this.drawPile.turnFaceDown();
 
-            // if the draw pile was not empty at the start (i.e., Card c is not null),
+            // if the draw pile was not empty at the start
+            // (i.e., Card c is not null),
             // add the top card back to the top of the deck
             this.drawPile.add(c);
         }
     }
 
-    // nullify a particular player's hand (a player should only be able to see their own hand)
+    // nullify a particular player's hand
+    // (a player should only be able to see their own hand)
     public void turnHandOverExcept() {
 
     }
