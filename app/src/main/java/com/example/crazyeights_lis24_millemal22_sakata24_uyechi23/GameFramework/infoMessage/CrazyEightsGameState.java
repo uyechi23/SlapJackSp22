@@ -12,6 +12,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
 
 import java.util.Hashtable;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -41,11 +42,11 @@ public class CrazyEightsGameState extends GameState {
      *
      * Initializes the instance variables for start of game
      *
-     * @param initTurn
-     * @param players
+     * @param players - a String array of player names
      */
-    public CrazyEightsGameState(String initTurn, String[] players) {
-        this.playerTurn = initTurn;
+    public CrazyEightsGameState(String[] players) {
+        Random rand = new Random();
+        this.playerTurn = players[rand.nextInt(players.length)];
 
         // create a hashtable of player hands
         // given an array of players, iterate through each and make an entry in the hashtable
