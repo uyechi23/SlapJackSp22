@@ -11,6 +11,20 @@ import android.graphics.RectF;
 
 import androidx.annotation.NonNull;
 
+/**
+ * Card
+ *
+ * A Card object that has values and faces. Includes compare methods and
+ * a copy constructor. Also includes the ability to draw itself which will be
+ * implemented in the future.
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 24 February 2022
+ */
 public class Card {
 
     // instance variables of card

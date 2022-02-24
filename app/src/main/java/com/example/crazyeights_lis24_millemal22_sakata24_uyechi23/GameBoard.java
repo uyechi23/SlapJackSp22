@@ -12,8 +12,17 @@ import android.view.SurfaceView;
 import android.widget.LinearLayout;
 
 /**
+ * GameBoard
+ *
+ * A GameBoard object is an extension of SurfaceView class that allows the game to
+ * be drawn on the screen.
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
  * @author Jake Uyechi
- * @
+ * @author Tyler Sakata
+ *
+ * @version 24 February 2022
  */
 public class GameBoard extends SurfaceView {
 

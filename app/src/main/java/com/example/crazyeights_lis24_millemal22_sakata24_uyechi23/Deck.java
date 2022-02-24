@@ -4,6 +4,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Deck
+ *
+ * A Deck object simply contains an ArrayList of cards and has methods to shuffle
+ * and turn over cards (set to null objects), with other methods to help with the
+ * manipulation of the cards within the "cards" ArrayList.
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 24 February 2022
+ */
 public class Deck implements Serializable {
 
     // initialize an ArrayList with a capacity of 52

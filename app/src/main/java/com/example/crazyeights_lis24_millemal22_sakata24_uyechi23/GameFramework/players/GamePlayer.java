@@ -11,7 +11,6 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
  * @author Andrew M. Nuxoll
  * @version July 2013
  */
-
 public interface GamePlayer {
 
     // sets this player as the GUI player (implemented as final in the

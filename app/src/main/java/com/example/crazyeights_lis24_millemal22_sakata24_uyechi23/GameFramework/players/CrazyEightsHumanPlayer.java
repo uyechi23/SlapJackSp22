@@ -7,6 +7,19 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Deck;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
 
+/**
+ * CrazyEightsHumanPlayer
+ *
+ * A player object that extends from GameHumanPlayer. It operates similar to its parent.
+ * (for now)
+ *
+ * @author Selena Li
+ * @author Maliyah Miller
+ * @author Jake Uyechi
+ * @author Tyler Sakata
+ *
+ * @version 24 February 2022
+ */
 public class CrazyEightsHumanPlayer extends GameHumanPlayer {
     /**
      * instance variables
