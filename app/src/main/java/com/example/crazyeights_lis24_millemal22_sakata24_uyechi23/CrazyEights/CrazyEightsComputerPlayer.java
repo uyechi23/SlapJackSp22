@@ -1,6 +1,7 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
 
 /**
  * CrazyEightsComputerPlayer

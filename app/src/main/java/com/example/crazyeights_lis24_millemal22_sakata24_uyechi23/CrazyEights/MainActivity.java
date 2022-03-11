@@ -10,12 +10,14 @@
  * simulating a game of Crazy Eights.
  */
 
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import android.os.Bundle;
 import android.view.SurfaceView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
 
 /**
  * MainActivity

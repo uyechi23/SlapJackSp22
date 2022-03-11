@@ -1,9 +1,7 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.LocalGame;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.actionMessage.GameAction;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.CrazyEightsGameState;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameHumanPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 
 /**
@@ -19,7 +17,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
  *
  * @version 24 February 2022
  */
-public class CrazyEightsLocalGame extends LocalGame{
+public class CrazyEightsLocalGame extends LocalGame {
 
     // game state
     CrazyEightsGameState state;

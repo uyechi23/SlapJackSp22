@@ -1,11 +1,8 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import androidx.annotation.NonNull;
 
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Card;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Deck;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.CrazyEightsComputerPlayer;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.CrazyEightsHumanPlayer;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameState;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.ProxyPlayer;

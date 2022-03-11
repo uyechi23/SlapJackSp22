@@ -1,11 +1,11 @@
-package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players;
+package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import android.view.View;
 
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Card;
-import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.Deck;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights.Deck;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.GameMainActivity;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameInfo;
+import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameHumanPlayer;
 
 /**
  * CrazyEightsHumanPlayer
