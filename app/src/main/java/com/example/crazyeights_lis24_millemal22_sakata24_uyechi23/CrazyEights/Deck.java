@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 /**
  * Deck
@@ -51,6 +52,13 @@ public class Deck implements Serializable {
 
     // shuffle the deck of cards
     public void shuffle() { synchronized(this.cards){ Collections.shuffle(this.cards); } }
+
+    // shuffle the deck of cards based on a seed
+    public void shuffleSeed(int seed){
+        synchronized(this.cards){
+            Collections.shuffle(this.cards, new Random(seed));
+        }
+    }
 
     // add a card to the top of the deck
     public void add(Card c){ synchronized(this.cards){ this.cards.add(c); } }

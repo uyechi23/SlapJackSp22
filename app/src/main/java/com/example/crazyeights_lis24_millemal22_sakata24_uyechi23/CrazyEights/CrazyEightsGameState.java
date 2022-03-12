@@ -28,6 +28,7 @@ import java.util.Set;
 public class CrazyEightsGameState extends GameState {
     /* Instance variables */
     private String playerTurn; // name of player whose turn it is
+    private int playerIndex; // ID number of the player whose turn it is
     private Hashtable<String, Deck> playerHands; // all players hands
     private Deck drawPile; // cards to be drawn from
     private Deck discardPile; // cards that were discarded
@@ -43,7 +44,8 @@ public class CrazyEightsGameState extends GameState {
      */
     public CrazyEightsGameState(String[] players) {
         Random rand = new Random();
-        this.playerTurn = players[rand.nextInt(players.length)];
+        this.playerIndex = rand.nextInt(players.length);
+        this.playerTurn = players[this.playerIndex];
 
         // create a hashtable of player hands
         // given an array of players, iterate through each and make an entry in the hashtable
@@ -63,6 +65,61 @@ public class CrazyEightsGameState extends GameState {
         while(topCard.getValue() != 8){
             this.drawPile.add(topCard);
             this.drawPile.shuffle();
+            topCard = this.drawPile.removeTopCard();
+        }
+        this.discardPile.add(topCard);
+
+        // set current suit and face
+        currentSuit = this.discardPile.peekTopCard().getSuit();
+        currentFace = this.discardPile.peekTopCard().getFace();
+
+        // distribute cards to each player
+        int perPlayer = 0;
+        if(players.length <= 4){
+            perPlayer = 7;
+        }else{
+            perPlayer = 5;
+        }
+        for(String player : players){
+            for(int i = 0; i < perPlayer; i++) {
+                if(this.drawPile != null) {
+                    this.playerHands.get(player).add(this.drawPile.removeTopCard());
+                }
+            }
+        }
+    }
+
+    /**
+     * CrazyEightsGameState constructor
+     *
+     * Initializes the instance variables for start of game
+     *
+     * @param players - a String array of player names
+     * @param randSeed - a seed to change the shuffling pattern of the deck
+     */
+    public CrazyEightsGameState(String[] players, int randSeed) {
+        Random rand = new Random(randSeed);
+        this.playerIndex = rand.nextInt(players.length);
+        this.playerTurn = players[this.playerIndex];
+
+        // create a hashtable of player hands
+        // given an array of players, iterate through each and make an entry in the hashtable
+        this.playerHands = new Hashtable<>();
+        for(String player : players){
+            this.playerHands.put(player, new Deck());
+        }
+
+        // create the draw pile as a new deck, add 52 cards, and shuffle
+        this.drawPile = new Deck();
+        this.drawPile.add52();
+        this.drawPile.shuffleSeed(randSeed);
+
+        // create an empty discard pile and add a card to it
+        this.discardPile = new Deck();
+        Card topCard = this.drawPile.removeTopCard();
+        while(topCard.getValue() != 8){
+            this.drawPile.add(topCard);
+            this.drawPile.shuffleSeed(randSeed);
             topCard = this.drawPile.removeTopCard();
         }
         this.discardPile.add(topCard);
@@ -134,13 +191,15 @@ public class CrazyEightsGameState extends GameState {
     /**
      * Setter methods:
      *
-     * setSuit(): Returns the current suit as a String (@param suit)
-     * setFace(): Returns the current face as a String (@param face)
+     * setSuit(): Sets the current suit as a String (@param suit)
+     * setFace(): Sets the current face as a String (@param face)
+     * setDrawPile(): Sets the current draw pile as a Deck (@param deck)
      *
      * @return void
      */
     public void setSuit(String suit){ this.currentSuit = suit; }
     public void setFace(String face){ this.currentFace = face; }
+    public void setDrawPile(Deck deck){ this.drawPile = deck; }
 
     /**
      * Getter methods:
@@ -280,6 +339,9 @@ public class CrazyEightsGameState extends GameState {
         discardPile.add(Objects.requireNonNull(playerHands.get(playerTurn)).removeSpecific(index));
         setSuit(this.discardPile.peekTopCard().getSuit());
         setFace(this.discardPile.peekTopCard().getFace());
+
+        // move to next player
+        nextPlayer();
         return true;
     }
 
@@ -299,6 +361,41 @@ public class CrazyEightsGameState extends GameState {
         // if the top card is an eight, set the suit to the new suit
         setSuit(newSuit);
         return true;
+    }
+
+    /**
+     * nextPlayer()
+     *
+     * changes to the next player
+     */
+    public void nextPlayer(){
+        // get the array of players from the hashtable
+        String[] players = playerHands.keySet().toArray(new String[0]);
+        // increment the player index and set the playerTurn variable to be the next player
+        this.playerIndex = (this.playerIndex + 1)%(players.length);
+        this.playerTurn = players[this.playerIndex];
+    }
+
+    /**
+     * checkIfValid()
+     *
+     * returns true if the player's hand has a valid card
+     */
+    public boolean checkIfValid(){
+        Deck currDeck = this.playerHands.get(this.playerTurn);
+        Card currCard = new Card(this.currentFace, this.currentSuit);
+        for (Card c : currDeck.cards) {
+            if (currCard.getValue() == 8) {
+                if(c.matchSuit(currCard)){
+                    return true;
+                }
+            }else{
+                if(c.matchSuit(currCard) || c.matchFace(currCard)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /*

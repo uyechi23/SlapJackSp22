@@ -13,6 +13,7 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
@@ -59,11 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 playerNames[1] = "Maliyah";
                 playerNames[2] = "Selena";
                 playerNames[3] = "Jake";
-                CrazyEightsGameState firstInstance = new CrazyEightsGameState(playerNames);
-
-                // create a new copy of the game state using the copy constructor
-                CrazyEightsHumanPlayer p1 = new CrazyEightsHumanPlayer(playerNames[0]);
-                CrazyEightsGameState firstCopy = new CrazyEightsGameState(firstInstance, p1);
+                CrazyEightsGameState firstInstance = new CrazyEightsGameState(playerNames, 10);
 
                 // methods in CrazyEightsGameState (* is essential):
                 /*
@@ -77,11 +74,15 @@ public class MainActivity extends AppCompatActivity {
                  * getCurrentSuit
                  * turnDrawPileFaceDown
                  * turnHandsOverExcept
-                 * toString*
+                 * toString
                  * drawCard*
                  * playCard*
                  * setSuitDueToEight*
+                 * nextPlayer
+                 * checkIfValid*
                  */
+
+                Log.d("Test", firstInstance.getDrawPile().toString());
 
 
             }
