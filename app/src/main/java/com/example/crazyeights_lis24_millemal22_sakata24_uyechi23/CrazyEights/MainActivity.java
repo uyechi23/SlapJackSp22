@@ -14,6 +14,9 @@ package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import android.os.Bundle;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,5 +42,50 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.c8gamestatetest);
 
         SurfaceView gui = findViewById(R.id.gameBoard);
+
+        // access the button from the c8gamestatetest file and assign an onClickListener
+        Button runTest = findViewById(R.id.RunTestButton);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // clear the current TextView (from previous test)
+                TextView currText = findViewById(R.id.EditText);
+                currText.setText("");
+
+                // new instance of the Game State is created (firstInstance)
+                // default constructor requires an array of player names
+                String[] playerNames = new String[4];
+                playerNames[0] = "Tyler";
+                playerNames[1] = "Maliyah";
+                playerNames[2] = "Selena";
+                playerNames[3] = "Jake";
+                CrazyEightsGameState firstInstance = new CrazyEightsGameState(playerNames);
+
+                // create a new copy of the game state using the copy constructor
+                CrazyEightsHumanPlayer p1 = new CrazyEightsHumanPlayer(playerNames[0]);
+                CrazyEightsGameState firstCopy = new CrazyEightsGameState(firstInstance, p1);
+
+                // methods in CrazyEightsGameState (* is essential):
+                /*
+                 * setSuit
+                 * setFace
+                 * getDrawPile
+                 * getDiscardPile
+                 * getPlayerHands
+                 * getPlayerTurn
+                 * getCurrentFace
+                 * getCurrentSuit
+                 * turnDrawPileFaceDown
+                 * turnHandsOverExcept
+                 * toString*
+                 * drawCard*
+                 * playCard*
+                 * setSuitDueToEight*
+                 */
+
+
+            }
+        };
+        runTest.setOnClickListener(listener);
     }
 }

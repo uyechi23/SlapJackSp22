@@ -1,5 +1,7 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,6 +108,7 @@ public class Deck implements Serializable {
     public void addDeck(Deck d){ this.cards.addAll(d.cards); }
 
     // toString method
+    @NonNull
     public String toString(){
 
         String ret = "";

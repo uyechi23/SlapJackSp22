@@ -59,12 +59,32 @@ public class CrazyEightsGameState extends GameState {
 
         // create an empty discard pile and add a card to it
         this.discardPile = new Deck();
-        this.discardPile.add(this.drawPile.removeTopCard());
+        Card topCard = this.drawPile.removeTopCard();
+        while(topCard.getValue() != 8){
+            this.drawPile.add(topCard);
+            this.drawPile.shuffle();
+            topCard = this.drawPile.removeTopCard();
+        }
+        this.discardPile.add(topCard);
 
+        // set current suit and face
+        currentSuit = this.discardPile.peekTopCard().getSuit();
+        currentFace = this.discardPile.peekTopCard().getFace();
 
-        // set current suit and face to be empty
-        currentSuit = this.getDiscardPile().peekTopCard().getSuit();
-        currentFace = this.getDiscardPile().peekTopCard().getFace();
+        // distribute cards to each player
+        int perPlayer = 0;
+        if(players.length <= 4){
+            perPlayer = 7;
+        }else{
+            perPlayer = 5;
+        }
+        for(String player : players){
+            for(int i = 0; i < perPlayer; i++) {
+                if(this.drawPile != null) {
+                    this.playerHands.get(player).add(this.drawPile.removeTopCard());
+                }
+            }
+        }
     }
 
     /**
