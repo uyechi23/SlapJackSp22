@@ -22,7 +22,8 @@ public class CrazyEightsLocalGame extends LocalGame {
     // game state
     CrazyEightsGameState state;
 
-    public CrazyEightsLocalGame() {
+    public CrazyEightsLocalGame(CrazyEightsGameState initState) {
+        this.state = initState;
 
     }
 

@@ -84,9 +84,27 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d("Test", firstInstance.getDrawPile().toString());
 
+                // TODO: Rig the deck somehow.
+                // first player (random) draws a card
+                firstInstance.drawCard();
+                // draws cards until first player can play a card
+                while(!firstInstance.checkIfValid()) {
+                    firstInstance.drawCard();
+                }
+                // create instance of the players hand
+                Deck newDeck = firstInstance.getPlayerHands().get(firstInstance.getPlayerTurn());
+                int loopCounter = 0;
+                // loop thru all cards in hand, do other stuff with that loop.
+                for (Card c : newDeck.cards) {
+                    if(c.value == 8) {
+                        firstInstance.playCard(loopCounter);
+                    }
+                    loopCounter++;
+                }
 
             }
         };
+        // attack on click listener to runtest button
         runTest.setOnClickListener(listener);
     }
 }
