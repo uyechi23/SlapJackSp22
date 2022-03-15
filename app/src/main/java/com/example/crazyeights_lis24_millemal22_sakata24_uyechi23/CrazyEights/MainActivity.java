@@ -113,13 +113,13 @@ public class MainActivity extends AppCompatActivity {
                 currText.append("---------------------Turn 2:---------------------\n");
                 currText.append(firstInstance.getPlayerTurn() + " draws cards.\n");
                 currText.append(firstInstance.getPlayerTurn() + " played an Ace of Hearts\n");
-                currText.append("-------------------------------------------------\n");
+                currText.append("-------------------------------------------------\n\n");
                 firstInstance.moveDraw(firstInstance.getPlayerTurn());
                 currText.append(firstInstance.toString());
 
                 // SEED 1: Tyler goes next, plays Ace of Spades
                 currText.append("---------------------Turn 3:---------------------\n");
-                currText.append(firstInstance.getPlayerTurn() + " plays an Ace of Spades\n");
+                currText.append(firstInstance.getPlayerTurn() + " played an Ace of Spades\n");
                 currText.append("-------------------------------------------------\n\n");
                 firstInstance.movePlay(2, firstInstance.getPlayerTurn());
                 currText.append(firstInstance.toString());
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 // SEED 1: Maliyah goes next, plays 8 of Hearts
                 // New Suit: Diamonds
                 currText.append("---------------------Turn 4:---------------------\n");
-                currText.append(firstInstance.getPlayerTurn() + " plays a 8 of Hearts\n");
+                currText.append(firstInstance.getPlayerTurn() + " played an 8 of Hearts\n");
                 currText.append("Declared suit: Diamonds\n");
                 currText.append("-------------------------------------------------\n\n");
                 firstInstance.movePlay(2, firstInstance.getPlayerTurn());

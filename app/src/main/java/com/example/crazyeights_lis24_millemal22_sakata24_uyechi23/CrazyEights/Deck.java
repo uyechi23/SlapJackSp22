@@ -271,7 +271,7 @@ public class Deck implements Serializable {
 
         // indicate which card is on the "top";
         // only matters for discard and draw piles
-        String ret = "TOP: ";
+        String ret = "";
 
         // iterate backwards, since the top of the deck is treated as the last index
         // if the card is null (i.e., face-down or in another player's hand),

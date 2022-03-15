@@ -342,7 +342,7 @@ public class CrazyEightsGameState extends GameState {
         // prints hand of all players
         s += "All player hands:\n\n";
         for(String player : this.playerNames){
-            s += "Player " + player + "'s hand: "
+            s += "Player " + player + "'s hand: \n"
                     + this.getPlayerHands().get(player).toString() + "\n";
         }
 
@@ -350,7 +350,7 @@ public class CrazyEightsGameState extends GameState {
         s += "Top Card of Discard Pile: " + this.getDiscardPile().peekTopCard().toString() + "\n\n";
 
         // prints the cards in the draw pile
-        s += "Cards in Draw Pile: " + getDrawPile().toString() + "\n";
+        s += "Cards in Draw Pile: \n" + getDrawPile().toString() + "\n";
 
         // prints selected suit after 8 card is played
         if (this.discardPile.peekTopCard().face.equals("Eight")) {
