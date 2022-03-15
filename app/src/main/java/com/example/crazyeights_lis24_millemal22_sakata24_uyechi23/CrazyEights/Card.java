@@ -73,10 +73,18 @@ public class Card {
     // the array of card images
     private Bitmap[][] cardImages = null;
 
+
+    /**
+     * Default Card constructor using two chars as a String
+     *
+     * @param chars - expected to be a 2-character String, the first
+     *              character representing the suit and the second
+     *              character representing the face value
+     */
     public Card(String chars){
 
-        // check that chars is non-null
-        if(chars == null) return;
+        // check that chars are valid
+        if(chars == null || chars.length() != 2) return;
 
         // this should be a String with two characters
         String[] toks = chars.split("");
@@ -87,6 +95,7 @@ public class Card {
             case "H": this.suit = "Hearts"; break;
             case "D": this.suit = "Diamonds"; break;
             case "C": this.suit = "Clubs"; break;
+            default: return;
         }
 
         // second character is the face
@@ -104,12 +113,19 @@ public class Card {
             case "4": this.face = "Four"; break;
             case "3": this.face = "Three"; break;
             case "2": this.face = "Two"; break;
+            default: return;
         }
 
         // calculate value based on face
         setValue(this.face);
     }
 
+    /**
+     * Default Card constructor using face and suit parameters
+     *
+     * @param face - the face of the card as a String
+     * @param suit - the suit of the card as a String
+     */
     public Card(String face, String suit) {
         // assign cards
         this.suit = suit;
@@ -119,28 +135,71 @@ public class Card {
         setValue(face);
     }
 
-    // deeeep copy ctor //
+    /**
+     * Deep copy constructor fot a Card
+     *
+     * @param orig - the Card to copy
+     */
     public Card(Card orig) {
         this.face = orig.getFace();
         this.suit = orig.getSuit();
-
+        this.resIdx = orig.getResIdx();
+        this.cardImages = orig.getCardImages();
         setValue(this.face);
     }
 
-    // getter methods
+    /**
+     * Gets the value of the card
+     *
+     * @return - the card's value (an int)
+     */
     public int getValue() {
         return this.value;
     }
+
+    /**
+     * Gets the face of the card
+     *
+     * @return - the card's face value (a String)
+     */
     public String getFace() {
         return this.face;
     }
+
+    /**
+     * Gets the suit of the card
+     *
+     * @return - the card's suit (a String)
+     */
     public String getSuit() {
         return this.suit;
     }
-    public int[][] getResIdx() { return this.resIdx; }
-    public Bitmap[][] getCardImages() { return this.cardImages; }
 
-    // setter method for value
+    /**
+     * Gets the resource array for card resource IDs
+     *
+     * @return - a 2D array containing resource IDs
+     */
+    public int[][] getResIdx() {
+        if(this.resIdx == null) return null;
+        return this.resIdx.clone();
+    }
+
+    /**
+     * Gets the resource array for card Bitmap images
+     *
+     * @return - a 2D array containing Bitmaps
+     */
+    public Bitmap[][] getCardImages() {
+        if(this.cardImages == null) return null;
+        return this.cardImages.clone();
+    }
+
+    /**
+     * Sets the value of the card based on it's face value
+     *
+     * @param face - the face of the card as a String
+     */
     public void setValue(String face){
         switch (face) {
             case "Ace": this.value = 1; break;
@@ -160,15 +219,39 @@ public class Card {
         }
     }
 
-    // compare methods - suit and face
+    /**
+     * Compare the suit
+     * Usage: card1.matchSuit(card2);
+     *
+     * @param compare - the Card object to compare this object to
+     *
+     * @return - a boolean; true if the Cards match suits, false otherwise
+     */
     public boolean matchSuit(Card compare) {
         return (compare.suit.equals(this.suit));
     }
+
+    /**
+     * Compare the face
+     * Usage: card1.matchFace(card2);
+     *
+     * @param compare - the Card objet to compare this object to
+     *
+     * @return - a boolean; true if the Cards match faces, false otherwise
+     */
     public boolean matchFace(Card compare) {
         return (compare.face.equals(this.face));
     }
 
-    // isValid method - checks if this instance is a valid card play for another card
+    /**
+     * Compares two cards to see if it's a valid play
+     * Usage: discardCard.isValid(handCard);
+     *
+     * @param compare - the card in the player's hand
+     *               to be played on the discard pile
+     *
+     * @return - true if parameter compare is a valid card
+     */
     public boolean isValid(Card compare){
         // if card is an 8, only check if suit matches
         // if card is anything else, check if either suit or face matches
@@ -179,7 +262,11 @@ public class Card {
         }
     }
 
-    // toString card method
+    /**
+     * toString()
+     *
+     * @return - a String representing this Card
+     */
     @NonNull
     public String toString() { return "" + this.face + " of " + this.suit; }
 
@@ -197,8 +284,8 @@ public class Card {
      * appropriate number of spots is drawn.  Otherwise the appropriate
      * picture (e.g., of a queen) is included in the card's drawing.
      *
-     * @param g  the graphics object on which to draw
-     * @param where  a rectangle that tells where the card should be drawn
+     * @param g - the graphics object on which to draw
+     * @param where - a rectangle that tells where the card should be drawn
      */
     public void drawOn(Canvas g, RectF where) {
         // create the paint object
@@ -247,28 +334,27 @@ public class Card {
     /**
      * initializes the card images
      *
-     * @param activity
-     * 		the current activity
+     * @param activity - the current activity
      */
     public void initImages(Activity activity) {
         // if it's already initialized, then ignore
-        if (cardImages != null) return;
+        if (this.cardImages != null) return;
 
         // create the outer array
-        cardImages = new Bitmap[resIdx.length][];
+        this.cardImages = new Bitmap[resIdx.length][];
 
         // loop through the resource-index array, creating a
         // "parallel" array with the images themselves
         for (int i = 0; i < resIdx.length; i++) {
             // create an inner array
-            cardImages[i] = new Bitmap[resIdx[i].length];
+            this.cardImages[i] = new Bitmap[this.resIdx[i].length];
             for (int j = 0; j < resIdx[i].length; j++) {
                 // create the bitmap from the corresponding image
                 // resource, and set the corresponding array element
-                cardImages[i][j] =
+                this.cardImages[i][j] =
                         BitmapFactory.decodeResource(
                                 activity.getResources(),
-                                resIdx[i][j]);
+                                this.resIdx[i][j]);
             }
         }
     }

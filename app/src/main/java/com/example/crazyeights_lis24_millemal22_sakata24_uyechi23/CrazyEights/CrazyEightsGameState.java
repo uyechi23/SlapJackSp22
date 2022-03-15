@@ -164,8 +164,8 @@ public class CrazyEightsGameState extends GameState {
      *
      * Makes a censored copy for players
      *
-     * @param origState
-     * @param p
+     * @param origState - the original CrazyEightsGameState
+     * @param p - the GamePlayer this object will be sent to
      */
     public CrazyEightsGameState(CrazyEightsGameState origState, GamePlayer p) {
         // take the input array as the playerNames
@@ -329,7 +329,7 @@ public class CrazyEightsGameState extends GameState {
      *
      * Describes state of game as a string
      *
-     * @return String
+     * @return String - a String representing the state of the game
      */
     @NonNull
     @Override
@@ -368,7 +368,7 @@ public class CrazyEightsGameState extends GameState {
      *
      * Draws a card from the deck to the current player's hand
      *
-     * @return boolean
+     * @return boolean - true if a card can be drawn
      */
     public boolean drawCard() {
         // checks if the draw pile is empty
@@ -386,9 +386,9 @@ public class CrazyEightsGameState extends GameState {
      *
      * Plays a specific, indexed card from the current player's hand
      *
-     * @param index
+     * @param index - the index of the Card to play based on the current player's hand
      *
-     * @return boolean
+     * @return boolean - true it's a valid call
      */
     public boolean playCard(int index) {
         // check if the player's hand is empty
@@ -414,7 +414,7 @@ public class CrazyEightsGameState extends GameState {
      *
      * Plays the most recently obtained card
      *
-     * @return boolean
+     * @return boolean - true if it's a valid call
      */
     public boolean playLastCard() {
         // check if the player's hand is empty
@@ -424,7 +424,7 @@ public class CrazyEightsGameState extends GameState {
         playCard(this.getPlayerHands().get(this.playerTurn).size() - 1);
 
         // set the hasDeclaredSuit boolean to false if top card is 8
-        setHasDeclaredSuit(!(this.getDiscardPile().peekTopCard().getFace().equals("Eight")));
+        setHasDeclaredSuit(!(this.getCurrentFace().equals("Eight")));
 
         // return true - valid action
         return true;
@@ -435,19 +435,19 @@ public class CrazyEightsGameState extends GameState {
      *
      * Sets the current suit if the card played was an eight
      *
-     * @param newSuit
+     * @param newSuit - the new suit declared by the player
      *
-     * @return boolean
+     * @return boolean - false if the top card is not an eight
      */
     public boolean setSuitDueToEight(String newSuit) {
         // if the top card is not equal to eight, then do nothing and return false
         if(!discardPile.peekTopCard().face.equals("Eight")) return false;
 
         // if the top card is an eight, set the suit to the new suit
-        setSuit(newSuit);
+        this.setSuit(newSuit);
 
         // set hasDeclaredSuit boolean to true
-        setHasDeclaredSuit(true);
+        this.setHasDeclaredSuit(true);
         return true;
     }
 
@@ -456,7 +456,7 @@ public class CrazyEightsGameState extends GameState {
      *
      * Checks if the suit needs to be changed and change it based on the most frequent suit in hand
      *
-     * @return boolean
+     * @return boolean - true if new suit needs to be declared
      */
     public boolean checkToChangeSuit() {
         if(!this.getHasDeclaredSuit()){
@@ -473,7 +473,7 @@ public class CrazyEightsGameState extends GameState {
      *
      * changes to the next player
      *
-     * @return boolean
+     * @return boolean - always true
      */
     public boolean nextPlayer(){
         // increment the player index and set the playerTurn variable to be the next player
@@ -487,7 +487,7 @@ public class CrazyEightsGameState extends GameState {
      *
      * returns true if the player's hand has a valid card
      *
-     * @return boolean
+     * @return boolean - checks if any of the cards in current player's hands are valid
      */
     public boolean checkIfValid(){
         // retrieve the hand of the current player
@@ -505,6 +505,20 @@ public class CrazyEightsGameState extends GameState {
             }
         }
         return false;
+    }
+
+    /**
+     * Check if the game is over
+     *
+     * @return String - name of the winner, null if no winner
+     */
+    public String checkGameOver(){
+        // loop through all players
+        for(String p : this.getPlayerNames()){
+            // if a player's hand is empty
+            if(this.getPlayerHands().get(p).isEmpty()) return p;
+        }
+        return null;
     }
 
     /*
