@@ -6,6 +6,8 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.ProxyPlayer;
+
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Objects;
 import java.util.Random;
@@ -179,9 +181,10 @@ public class CrazyEightsGameState extends GameState {
         this.playerTurn = origState.getPlayerTurn();
         // copies the draw pile and turns it all face down
         this.drawPile = new Deck(origState.getDrawPile());
-        turnDrawPileFaceDown();
+        this.drawPile.turnFaceDown();
         // copies the discard pile
-        this.discardPile.addDeck(origState.getDiscardPile());
+        this.discardPile = new Deck(origState.getDiscardPile());
+        turnDiscardPileFaceDown();
         // sets the currentSuit and currentFace to the top card
         this.currentFace = origState.getDiscardPile().peekTopCard().getFace();
         this.currentSuit = origState.getDiscardPile().peekTopCard().getSuit();
@@ -243,27 +246,27 @@ public class CrazyEightsGameState extends GameState {
     public boolean getHasDeclaredSuit() { return this.hasDeclaredSuit; }
 
     /**
-     * turnDrawPileFaceDown
+     * turnDiscardPileFaceDown
      *
      * Nullifies the cards in the deck
      * Turns them face-down so data of card is unknown
      *
      * @return void
      */
-    public void turnDrawPileFaceDown() {
-        if(!this.drawPile.isEmpty()) {
+    public void turnDiscardPileFaceDown() {
+        if(!this.discardPile.isEmpty()) {
             // remove the top card in the deck
             // c will be null if the deck is empty
-            Card c = this.drawPile.removeTopCard();
+            Card c = this.discardPile.removeTopCard();
 
             // turn all of the cards in the deck face-down
             // if there are no cards this method call does nothing
-            this.drawPile.turnFaceDown();
+            this.discardPile.turnFaceDown();
 
             // if the draw pile was not empty at the start
             // (i.e., Card c is not null),
             // add the top card back to the top of the deck
-            this.drawPile.add(c);
+            this.discardPile.add(c);
         }
     }
 

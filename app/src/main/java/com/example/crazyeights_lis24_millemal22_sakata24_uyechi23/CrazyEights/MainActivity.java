@@ -59,8 +59,12 @@ public class MainActivity extends AppCompatActivity {
                 playerNames[1] = "Maliyah";
                 playerNames[2] = "Selena";
                 playerNames[3] = "Jake";
+                CrazyEightsHumanPlayer player1 = new CrazyEightsHumanPlayer(playerNames[0]);
                 CrazyEightsGameState firstInstance =
                         new CrazyEightsGameState(playerNames, 1);
+//                CrazyEightsGameState firstCopy =
+//                        new CrazyEightsGameState(firstInstance, player1);
+
 
                 // implementation methods:
                 /*

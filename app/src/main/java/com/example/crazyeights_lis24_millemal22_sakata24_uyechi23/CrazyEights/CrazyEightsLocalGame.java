@@ -36,7 +36,7 @@ public class CrazyEightsLocalGame extends LocalGame {
         // data the player shouldn't have access to
         CrazyEightsGameState newState = new CrazyEightsGameState(state, p);
 
-        newState.turnDrawPileFaceDown();
+        newState.turnDiscardPileFaceDown();
 
     }
 

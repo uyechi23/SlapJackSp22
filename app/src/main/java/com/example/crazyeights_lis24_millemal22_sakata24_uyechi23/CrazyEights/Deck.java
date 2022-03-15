@@ -27,7 +27,7 @@ public class Deck implements Serializable {
 
     // initialize an ArrayList with a capacity of 52
     // the last element in this ArrayList is the top of the deck
-    public final ArrayList<Card> cards = new ArrayList<>();
+    public ArrayList<Card> cards = new ArrayList<>();
 
     public Deck() {
         ArrayList<Card> cards = new ArrayList<>();
@@ -82,6 +82,14 @@ public class Deck implements Serializable {
         synchronized (this.cards) {
             if (this.cards.isEmpty()) return null;
             return this.cards.remove(this.cards.size() - 1);
+        }
+    }
+
+    // retrieve the bottom card
+    public Card removeBottomCard(){
+        synchronized (this.cards){
+            if(this.cards.isEmpty()) return null;
+            return this.cards.remove(0);
         }
     }
 
@@ -167,7 +175,7 @@ public class Deck implements Serializable {
         // iterate backwards, since the top of the deck is treated as the last index
         synchronized (this.cards){
             for(int i = this.cards.size() - 1; i >= 0; i--){
-                ret += "[" + i + "] - " + this.cards.get(i).toString() + "\n";
+                if(this.cards.get(i) != null) ret += "[" + i + "] - " + this.cards.get(i).toString() + "\n";
             }
         }
 
@@ -175,4 +183,7 @@ public class Deck implements Serializable {
         return ret;
     }
 
+    public void setDeck(Deck deck) {
+        this.cards = deck.getCards();
+    }
 }
