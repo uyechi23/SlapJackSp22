@@ -184,12 +184,13 @@ public class CrazyEightsGameState extends GameState {
         this.drawPile.turnFaceDown();
         // copies the discard pile
         this.discardPile = new Deck(origState.getDiscardPile());
-        turnDiscardPileFaceDown();
+        this.turnDiscardPileFaceDown();
         // sets the currentSuit and currentFace to the top card
         this.currentFace = origState.getDiscardPile().peekTopCard().getFace();
         this.currentSuit = origState.getDiscardPile().peekTopCard().getSuit();
         this.discardPile = new Deck(origState.getDiscardPile());
 
+        // copies the name of players dependant on the type of player it is
         if(p instanceof ProxyPlayer) {
             ProxyPlayer proxyPlayer = (ProxyPlayer) p;
             // TODO: find a way to get a proxy player's name
@@ -203,11 +204,15 @@ public class CrazyEightsGameState extends GameState {
             CrazyEightsHumanPlayer humanPlayer = (CrazyEightsHumanPlayer) p;
             playerName = humanPlayer.getName();
         }
-        // copies player hands
-        this.playerHands = origState.getPlayerHands();
+
+        // copies the players hands
+        this.playerHands = new Hashtable<>();
+        for(String player : this.playerNames){
+            this.playerHands.put(player, new Deck(origState.getPlayerHands().get(player)));
+        }
 
         // censor all but GamePlayer p
-        turnHandsOverExcept(playerName);
+        this.turnHandsOverExcept(playerName);
     }
 
     /**

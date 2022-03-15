@@ -62,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 CrazyEightsHumanPlayer player1 = new CrazyEightsHumanPlayer(playerNames[0]);
                 CrazyEightsGameState firstInstance =
                         new CrazyEightsGameState(playerNames, 1);
-//                CrazyEightsGameState firstCopy =
-//                        new CrazyEightsGameState(firstInstance, player1);
+                CrazyEightsGameState firstCopy =
+                        new CrazyEightsGameState(firstInstance, player1);
 
 
                 // implementation methods:
@@ -148,9 +148,31 @@ public class MainActivity extends AppCompatActivity {
                 firstInstance.nextPlayer(); // move to next player
                 currText.append(firstInstance.toString());
 
+                // making second instance same seed, same names.
+                CrazyEightsGameState secondInstance =
+                        new CrazyEightsGameState(playerNames, 1);
+                // making a copy. should be same as first copy
+                CrazyEightsGameState secondCopy =
+                        new CrazyEightsGameState(secondInstance, player1);
+
+                // print the two copies
+                currText.append("-------------------------------------------------\n");
+                currText.append("COPY CONSTRUCTOR TESTS\n");
+                currText.append("-------------------------------------------------\n\n");
+                currText.append("First Copy: \n");
+                currText.append(firstCopy.toString() + "\n");
+                currText.append("-------------------------------------------------\n\n");
+                currText.append("Second Copy: \n");
+                currText.append(secondCopy.toString() + "\n");
+                // check if the two copies are identical
+                if(firstCopy.toString().equals(secondCopy.toString())) {
+                    currText.append("First copy is identical to second.\n");
+                } else {
+                    currText.append("First copy is not identical to second.\n");
+                }
             }
         };
-        // attack on click listener to runTest button
+        // attach on click listener to runTest button
         runTest.setOnClickListener(listener);
     }
 
