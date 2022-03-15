@@ -1,14 +1,11 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.infoMessage.GameState;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.ProxyPlayer;
-
 import java.util.Hashtable;
 import java.util.Objects;
 import java.util.Random;
@@ -24,7 +21,7 @@ import java.util.Set;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 24 February 2022
+ * @version 15 March 2022
  */
 
 public class CrazyEightsGameState extends GameState {
@@ -210,7 +207,6 @@ public class CrazyEightsGameState extends GameState {
         turnHandsOverExcept(playerName);
     }
 
-
     /**
      * Setter methods:
      *
@@ -236,9 +232,7 @@ public class CrazyEightsGameState extends GameState {
      * getCurrentFace(): Gets the current card's face (@return String)
      * getCurrentSuit(): Gets the current card's suit (@return String)
      * getHasDeclaredSuit(): Gets the current boolean of hasDeclaredSuit (@return boolean)
-     *
      */
-
     public Deck getDrawPile() { return this.drawPile; }
     public Deck getDiscardPile() { return this.discardPile; }
     public Hashtable<String, Deck> getPlayerHands() { return this.playerHands; }
@@ -247,7 +241,6 @@ public class CrazyEightsGameState extends GameState {
     public String getCurrentSuit() { return this.currentSuit; }
     public String[] getPlayerNames() { return this.playerNames; }
     public boolean getHasDeclaredSuit() { return this.hasDeclaredSuit; }
-
 
     /**
      * turnDrawPileFaceDown
@@ -273,7 +266,6 @@ public class CrazyEightsGameState extends GameState {
             this.drawPile.add(c);
         }
     }
-
 
     /**
      * turnHandOverExcept()
@@ -303,31 +295,27 @@ public class CrazyEightsGameState extends GameState {
     @NonNull
     @Override
     public String toString() {
-        String s = "--------------------------------------------------------------\n";
-
-        // prints hand of all players
-        s += "All player hands:\n";
-        for(String player : this.playerNames){
-            s += "Player " + player + "'s hand: " + this.getPlayerHands().get(player).toString() + "\n";
-        }
+        String s = "";
 
         // prints who's turn it is
         s += "It is " + this.playerTurn + "'s turn!\n\n";
 
+        // prints hand of all players
+        s += "All player hands:\n\n";
+        for(String player : this.playerNames){
+            s += "Player " + player + "'s hand: " + this.getPlayerHands().get(player).toString() + "\n";
+        }
+
         // prints played card (now is top of the deck)
-        s += "Top card: " + getDiscardPile().peekTopCard().toString() + "\n\n";
+        s += getPlayerTurn() + " played " + this.getDiscardPile().peekTopCard().toString() + "\n\n";
 
         // prints the cards in the draw pile
         s += "Cards in Draw Pile: " + getDrawPile().toString() + "\n";
 
         // prints selected suit after 8 card is played
         if (this.discardPile.peekTopCard().face.equals("Eight")) {
-            s += "Most recent card was an eight - new suit is " + currentSuit + "\n";
+            s += "Most recent card was an eight\nNew suit is: " + currentSuit + "\n";
         }
-
-        // separator line
-        s += "--------------------------------------------------------------\n";
-
         return s;
     }
 
@@ -425,6 +413,8 @@ public class CrazyEightsGameState extends GameState {
      * checkToChangeSuit()
      *
      * Checks if the suit needs to be changed and change it based on the most frequent suit in hand
+     *
+     * @return boolean
      */
     public boolean checkToChangeSuit() {
         if(!this.getHasDeclaredSuit()){
@@ -454,6 +444,8 @@ public class CrazyEightsGameState extends GameState {
      * checkIfValid()
      *
      * returns true if the player's hand has a valid card
+     *
+     * @return boolean
      */
     public boolean checkIfValid(){
         // retrieve the hand of the current player
@@ -472,7 +464,6 @@ public class CrazyEightsGameState extends GameState {
         }
         return false;
     }
-
 
     /*
      * TODO: Other methods to implement (possibly):
