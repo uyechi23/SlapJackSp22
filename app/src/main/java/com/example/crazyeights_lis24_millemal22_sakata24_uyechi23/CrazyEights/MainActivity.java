@@ -60,51 +60,84 @@ public class MainActivity extends AppCompatActivity {
                 playerNames[1] = "Maliyah";
                 playerNames[2] = "Selena";
                 playerNames[3] = "Jake";
-                CrazyEightsGameState firstInstance = new CrazyEightsGameState(playerNames, 10);
+                CrazyEightsGameState firstInstance = new CrazyEightsGameState(playerNames, 1);
 
-                // methods in CrazyEightsGameState (* is essential):
+                // implementation methods:
                 /*
-                 * setSuit
-                 * setFace
-                 * getDrawPile
-                 * getDiscardPile
-                 * getPlayerHands
-                 * getPlayerTurn
-                 * getCurrentFace
-                 * getCurrentSuit
-                 * turnDrawPileFaceDown
-                 * turnHandsOverExcept
-                 * toString
-                 * drawCard*
-                 * playCard*
-                 * setSuitDueToEight*
-                 * nextPlayer
-                 * checkIfValid*
+                 * PLAY CARD: GameState.playCard(index);
+                 *      The index of the card to play should be printed out in Logcat
+                 *
+                 * DRAW CARD: GameState.drawCard();
+                 *      This will find the current player and add a card to their hand
+                 *      In the actual game, the player will tap the deck multiple times
+                 *      until they have a card they can play. To test GameState, use a
+                 *      while loop to imitate this. Use with below code snippet:
+                 *
+                 *  boolean canMove = false; // have a boolean if the player can move
+                 *      // while the player can't move and there are cards in the draw pile
+                 *      while(!canMove && firstInstance.getDrawPile().size() > 0) {
+                 *          firstInstance.drawCard();
+                 *          canMove = firstInstance.checkIfValid();
+                 *      }
+                 *      if(canMove) firstInstance.playLastCard(); // if the player can move, play the last card
+                 *
+                 * CHECK IF THE SUIT NEEDS TO BE CHANGED: GameState.checkToChangeSuit();
+                 *      This detects if the most recent card was an 8, and the suit needs
+                 *      to be changed. This decision is done automatically (based on the
+                 *      most common suit in the player's hand).
+                 *
+                 * NEXT PLAYER: GameState.nextPlayer();
+                 *      Moves to next player
+                 *
+                 *
                  */
 
-                Log.d("Test", firstInstance.getDrawPile().toString());
+                // indicate game start
+                Log.d("GAME START", "Starting game...");
 
-                // TODO: Rig the deck somehow.
-                // first player (random) draws a card
-                firstInstance.drawCard();
-                // draws cards until first player can play a card
-                while(!firstInstance.checkIfValid()) {
+                // print out current game state
+                Log.d("Game State", firstInstance.toString());
+
+                // SEED 1: Selena starts, plays 7 of Hearts
+                Log.d("ACTION", "Selena plays 7 of Hearts");
+                firstInstance.playCard(1); // play the card
+                firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
+                firstInstance.nextPlayer(); // move to next player
+                Log.d("Game State", firstInstance.toString());
+
+                // SEED 1: Jake goes next, draws card(s)
+                Log.d("ACTION", "Jake draws a card.");
+                boolean canMove = false; // have a boolean if the player can move
+                // while the player can't move and there are cards in the draw pile
+                while(!canMove && firstInstance.getDrawPile().size() > 0) {
                     firstInstance.drawCard();
+                    canMove = firstInstance.checkIfValid();
                 }
-                // create instance of the players hand
-                Deck newDeck = firstInstance.getPlayerHands().get(firstInstance.getPlayerTurn());
-                int loopCounter = 0;
-                // loop thru all cards in hand, do other stuff with that loop.
-                for (Card c : newDeck.cards) {
-                    if(c.value == 8) {
-                        firstInstance.playCard(loopCounter);
-                    }
-                    loopCounter++;
-                }
+                if(canMove) firstInstance.playLastCard(); // if the player can move, play the last card
+                firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
+                firstInstance.nextPlayer(); // move to next player
+                Log.d("Game State", firstInstance.toString());
+
+                // SEED 1: Tyler goes next, plays Ace of Spades
+                Log.d("ACTION", "Tyler plays Ace of Spades");
+                firstInstance.playCard(2); // play the card
+                firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
+                firstInstance.nextPlayer();
+                Log.d("Game State", firstInstance.toString());
+
+                // SEED 1: Maliyah goes next, plays 8 of Hearts
+                // New Suit: Diamonds
+                Log.d("ACTION", "Maliyah plays 8 of Hearts.");
+                Log.d("ACTION", "Declared suit: Diamonds:");
+                firstInstance.playCard(2); // play the card
+                firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
+                firstInstance.nextPlayer(); // move to next player
+                Log.d("Game State", firstInstance.toString());
 
             }
         };
         // attack on click listener to runtest button
         runTest.setOnClickListener(listener);
     }
+
 }

@@ -1,5 +1,7 @@
 package com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.CrazyEights;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
@@ -40,14 +42,20 @@ public class Deck implements Serializable {
         }
     }
 
+    // getter method for cards
+    public ArrayList<Card> getCards() { return this.cards; }
+
     // add a standard 52-card set of cards to the Deck
     public void add52(){
+        int count = 0;
         for(char s : "SHDC".toCharArray()){
             for(char f : "AKQJ098765432".toCharArray()){
                 Card newCard = new Card("" + s + f);
                 cards.add(newCard);
+                count++;
             }
         }
+        Log.d("test", "Number of cards: " + count);
     }
 
     // shuffle the deck of cards
@@ -78,6 +86,7 @@ public class Deck implements Serializable {
     }
 
     // retrieve a specific card
+    // this will be used when a player plays a card from their hand
     public Card removeSpecific(int index){
         synchronized (this.cards){
             if(this.cards.isEmpty()) return null;
@@ -100,13 +109,45 @@ public class Deck implements Serializable {
         }
     }
 
+    // find most suits
+    public String findMostSuits(){
+        // spades - 0
+        // hearts - 1
+        // diamonds - 2
+        // clubs - 3
+        String[] suits = {"Spades", "Hearts", "Diamonds", "Clubs"};
+        int[] counts = {0, 0, 0, 0};
+
+        // categorize cards into suits and keep counts, iterating through all cards in deck
+        for(Card c : this.cards){
+            switch (c.getSuit()) {
+                case "Spades": counts[0] = counts[0] + 1; break;
+                case "Hearts": counts[1] = counts[1] + 1; break;
+                case "Diamonds": counts[2] = counts[2] + 1; break;
+                case "Clubs": counts[3] = counts[3] + 1; break;
+            }
+        }
+
+        // find the max by looping through int array
+        String ret = "Spades";
+        int max = counts[0];
+        for(int i = 0; i < counts.length; i++){
+            if(counts[i] > max){
+                ret = suits[i];
+                max = counts[i];
+            }
+        }
+
+        return ret;
+    }
+
     // turn all cards in the deck face-down
     // this will be used when making copies of the GameState to send to players,
     // since players will not need to know what cards are in the deck.
     // Does not modify the size of the deck, but prevents players from seeing what's in it
     public void turnFaceDown(){
-        synchronized(this.cards){
-            for(int i = 0; i < cards.size(); i++){
+        synchronized(this.cards) {
+            for (int i = 0; i < cards.size(); i++) {
                 cards.set(i, null);
             }
         }
@@ -119,16 +160,19 @@ public class Deck implements Serializable {
     @NonNull
     public String toString(){
 
-        String ret = "";
+        // indicate which card is on the "top";
+        // only matters for discard and draw piles
+        String ret = "TOP: ";
 
+        // iterate backwards, since the top of the deck is treated as the last index
         synchronized (this.cards){
-            for(Card c : this.cards){
-                ret += c.toString() + "\n";
+            for(int i = this.cards.size() - 1; i >= 0; i--){
+                ret += "[" + i + "] - " + this.cards.get(i).toString() + "\n";
             }
         }
 
+        // return string
         return ret;
     }
-
 
 }

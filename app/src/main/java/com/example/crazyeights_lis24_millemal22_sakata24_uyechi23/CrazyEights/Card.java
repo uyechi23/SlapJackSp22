@@ -170,6 +170,8 @@ public class Card {
 
     // isValid method - checks if this instance is a valid card play for another card
     public boolean isValid(Card compare){
+        // if card is an 8, only check if suit matches
+        // if card is anything else, check if either suit or face matches
         if(compare.getFace().equals("Eight")){
             return matchSuit(compare);
         }else{
