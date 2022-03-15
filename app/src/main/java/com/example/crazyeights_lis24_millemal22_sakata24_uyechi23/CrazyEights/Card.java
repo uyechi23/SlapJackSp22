@@ -25,7 +25,7 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.R;
  * @author Jake Uyechi
  * @author Tyler Sakata
  *
- * @version 14 March 2022
+ * @version 15 March 2022
  */
 public class Card {
 

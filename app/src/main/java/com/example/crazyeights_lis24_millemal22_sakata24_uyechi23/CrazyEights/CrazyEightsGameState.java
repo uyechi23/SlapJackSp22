@@ -6,7 +6,6 @@ import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GameComputerPlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.GamePlayer;
 import com.example.crazyeights_lis24_millemal22_sakata24_uyechi23.GameFramework.players.ProxyPlayer;
-
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Objects;
@@ -25,7 +24,6 @@ import java.util.Set;
  *
  * @version 15 March 2022
  */
-
 public class CrazyEightsGameState extends GameState {
     /* Instance variables */
     private String playerTurn; // name of player whose turn it is
