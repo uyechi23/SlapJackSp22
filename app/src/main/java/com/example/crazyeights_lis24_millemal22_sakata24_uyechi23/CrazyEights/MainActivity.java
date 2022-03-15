@@ -107,34 +107,22 @@ public class MainActivity extends AppCompatActivity {
                 currText.append("---------------------Turn 1:---------------------\n");
                 currText.append(firstInstance.getPlayerTurn() + " played a 7 of Hearts\n");
                 currText.append("-------------------------------------------------\n\n");
-                firstInstance.playCard(1); // play the card
-                firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
-                firstInstance.nextPlayer(); // move to next player
+                firstInstance.movePlay(1, firstInstance.getPlayerTurn());
                 currText.append(firstInstance.toString());
 
                 // SEED 1: Jake goes next, draws card(s)
                 currText.append("---------------------Turn 2:---------------------\n");
-                boolean canMove = false; // have a boolean if the player can move
-                // while the player can't move and there are cards in the draw pile
-                while(!canMove && firstInstance.getDrawPile().size() > 0) {
-                    firstInstance.drawCard();
-                    currText.append(firstInstance.getPlayerTurn() + " has no valid cards to play.\n");
-                    currText.append(firstInstance.getPlayerTurn() + " draws a card.\n\n");
-                    canMove = firstInstance.checkIfValid();
-                }
+                currText.append(firstInstance.getPlayerTurn() + " draws cards.\n");
+                currText.append(firstInstance.getPlayerTurn() + " played an Ace of Hearts\n");
                 currText.append("-------------------------------------------------\n");
-                if(canMove) firstInstance.playLastCard(); // if the player can move, play the last card
-                firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
-                firstInstance.nextPlayer(); // move to next player
+                firstInstance.moveDraw(firstInstance.getPlayerTurn());
                 currText.append(firstInstance.toString());
 
                 // SEED 1: Tyler goes next, plays Ace of Spades
                 currText.append("---------------------Turn 3:---------------------\n");
                 currText.append(firstInstance.getPlayerTurn() + " plays an Ace of Spades\n");
                 currText.append("-------------------------------------------------\n\n");
-                firstInstance.playCard(2); // play the card
-                firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
-                firstInstance.nextPlayer();
+                firstInstance.movePlay(2, firstInstance.getPlayerTurn());
                 currText.append(firstInstance.toString());
 
                 // SEED 1: Maliyah goes next, plays 8 of Hearts
@@ -143,9 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 currText.append(firstInstance.getPlayerTurn() + " plays a 8 of Hearts\n");
                 currText.append("Declared suit: Diamonds\n");
                 currText.append("-------------------------------------------------\n\n");
-                firstInstance.playCard(2); // play the card
-                firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
-                firstInstance.nextPlayer(); // move to next player
+                firstInstance.movePlay(2, firstInstance.getPlayerTurn());
                 currText.append(firstInstance.toString());
 
                 // making second instance same seed, same names.

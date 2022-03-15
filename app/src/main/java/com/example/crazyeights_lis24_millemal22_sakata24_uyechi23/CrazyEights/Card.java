@@ -181,9 +181,7 @@ public class Card {
 
     // toString card method
     @NonNull
-    public String toString() {
-        return "" + this.face + " of " + this.suit;
-    }
+    public String toString() { return "" + this.face + " of " + this.suit; }
 
     /*
     External Citation:
