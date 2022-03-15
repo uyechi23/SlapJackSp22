@@ -307,7 +307,7 @@ public class CrazyEightsGameState extends GameState {
         }
 
         // prints played card (now is top of the deck)
-        s += getPlayerTurn() + " played " + this.getDiscardPile().peekTopCard().toString() + "\n\n";
+        s += "Top Card of Discard Pile: " + this.getDiscardPile().peekTopCard().toString() + "\n\n";
 
         // prints the cards in the draw pile
         s += "Cards in Draw Pile: " + getDrawPile().toString() + "\n";
@@ -316,6 +316,10 @@ public class CrazyEightsGameState extends GameState {
         if (this.discardPile.peekTopCard().face.equals("Eight")) {
             s += "Most recent card was an eight\nNew suit is: " + currentSuit + "\n";
         }
+
+        // add extra newline
+        s += "\n";
+
         return s;
     }
 

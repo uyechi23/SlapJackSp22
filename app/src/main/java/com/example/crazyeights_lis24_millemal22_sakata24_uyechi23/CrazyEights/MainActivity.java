@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
                 playerNames[1] = "Maliyah";
                 playerNames[2] = "Selena";
                 playerNames[3] = "Jake";
-                CrazyEightsGameState firstInstance = new CrazyEightsGameState(playerNames, 1);
+                CrazyEightsGameState firstInstance =
+                        new CrazyEightsGameState(playerNames, 1);
 
                 // implementation methods:
                 /*
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                  *          firstInstance.drawCard();
                  *          canMove = firstInstance.checkIfValid();
                  *      }
-                 *      if(canMove) firstInstance.playLastCard(); // if the player can move, play the last card
+                 *      if(canMove) firstInstance.playLastCard(); // play the last card if possible
                  *
                  * CHECK IF THE SUIT NEEDS TO BE CHANGED: GameState.checkToChangeSuit();
                  *      This detects if the most recent card was an 8, and the suit needs
@@ -92,58 +93,56 @@ public class MainActivity extends AppCompatActivity {
                  */
 
                 // indicate game start
-                Log.d("GAME START", "Starting game...\n");
                 currText.append("GAME START: Starting game...\n\n");
 
                 // print out current game state
-                Log.d("Game State", firstInstance.toString());
-                currText.append("-----------Turn 1:-----------\n\n");
+                currText.append("INITIAL GAME STATE: \n");
                 currText.append(firstInstance.toString() + "\n");
 
                 // SEED 1: Selena starts, plays 7 of Hearts
-                Log.d("ACTION", "Selena plays 7 of Hearts");
+                currText.append("---------------------Turn 1:---------------------\n");
+                currText.append(firstInstance.getPlayerTurn() + " played a 7 of Hearts\n");
+                currText.append("-------------------------------------------------\n\n");
                 firstInstance.playCard(1); // play the card
-                //currText.append(firstInstance.getPlayerTurn() + " played a 7 of Hearts\n");
                 firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
                 firstInstance.nextPlayer(); // move to next player
-                Log.d("Game State", firstInstance.toString());
-                currText.append("-----------Turn 2:-----------\n\n" + firstInstance.toString());
+                currText.append(firstInstance.toString());
 
                 // SEED 1: Jake goes next, draws card(s)
-                Log.d("ACTION", "Jake draws a card.");
+                currText.append("---------------------Turn 2:---------------------\n");
                 boolean canMove = false; // have a boolean if the player can move
                 // while the player can't move and there are cards in the draw pile
                 while(!canMove && firstInstance.getDrawPile().size() > 0) {
                     firstInstance.drawCard();
-                    currText.append(firstInstance.getPlayerTurn() + " has no valid cards to play.\nJake draws a card.\n\n");
+                    currText.append(firstInstance.getPlayerTurn() + " has no valid cards to play.\n");
+                    currText.append(firstInstance.getPlayerTurn() + " draws a card.\n\n");
                     canMove = firstInstance.checkIfValid();
                 }
+                currText.append("-------------------------------------------------\n");
                 if(canMove) firstInstance.playLastCard(); // if the player can move, play the last card
                 firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
                 firstInstance.nextPlayer(); // move to next player
-                Log.d("Game State", firstInstance.toString());
-                currText.append("-----------Turn 3:-----------\n\n" + firstInstance.toString());
+                currText.append(firstInstance.toString());
 
                 // SEED 1: Tyler goes next, plays Ace of Spades
-                Log.d("ACTION", "Tyler plays Ace of Spades");
-                //currText.append(firstInstance.getPlayerTurn() + " plays an Ace of Spades\n");
+                currText.append("---------------------Turn 3:---------------------\n");
+                currText.append(firstInstance.getPlayerTurn() + " plays an Ace of Spades\n");
+                currText.append("-------------------------------------------------\n\n");
                 firstInstance.playCard(2); // play the card
                 firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
                 firstInstance.nextPlayer();
-                Log.d("Game State", firstInstance.toString());
-                currText.append("-----------Turn 4:-----------\n\n" + firstInstance.toString());
+                currText.append(firstInstance.toString());
 
                 // SEED 1: Maliyah goes next, plays 8 of Hearts
                 // New Suit: Diamonds
-                Log.d("ACTION", "Maliyah plays 8 of Hearts.");
-                //currText.append(firstInstance.getPlayerTurn() + " plays a 8 of Hearts\n");
-                Log.d("ACTION", "Declared suit: Diamonds:");
-                //currText.append("Declared suit: Diamonds\n");
+                currText.append("---------------------Turn 4:---------------------\n");
+                currText.append(firstInstance.getPlayerTurn() + " plays a 8 of Hearts\n");
+                currText.append("Declared suit: Diamonds\n");
+                currText.append("-------------------------------------------------\n\n");
                 firstInstance.playCard(2); // play the card
                 firstInstance.checkToChangeSuit(); // check if the suit needs to be changed
                 firstInstance.nextPlayer(); // move to next player
-                Log.d("Game State", firstInstance.toString());
-                currText.append("-----------Turn 5:-----------\n\n" + firstInstance.toString());
+                currText.append(firstInstance.toString());
 
             }
         };
