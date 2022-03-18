@@ -41,32 +41,32 @@ public class Card {
     // images
     private int[][] resIdx = {
             {
-                    R.drawable.card_clubs_A, R.drawable.card_clubs_2, R.drawable.card_clubs_3,
+                    R.drawable.card_clubs_a, R.drawable.card_clubs_2, R.drawable.card_clubs_3,
                     R.drawable.card_clubs_4, R.drawable.card_clubs_5, R.drawable.card_clubs_6,
                     R.drawable.card_clubs_7, R.drawable.card_clubs_8, R.drawable.card_clubs_9,
-                    R.drawable.card_clubs_0, R.drawable.card_clubs_J, R.drawable.card_clubs_Q,
-                    R.drawable.card_clubs_K,
+                    R.drawable.card_clubs_0, R.drawable.card_clubs_j, R.drawable.card_clubs_q,
+                    R.drawable.card_clubs_k,
             },
             {
-                    R.drawable.card_diamonds_A, R.drawable.card_diamonds_2, R.drawable.card_diamonds_3,
+                    R.drawable.card_diamonds_a, R.drawable.card_diamonds_2, R.drawable.card_diamonds_3,
                     R.drawable.card_diamonds_4, R.drawable.card_diamonds_5, R.drawable.card_diamonds_6,
                     R.drawable.card_diamonds_7, R.drawable.card_diamonds_8, R.drawable.card_diamonds_9,
-                    R.drawable.card_diamonds_0, R.drawable.card_diamonds_J, R.drawable.card_diamonds_Q,
-                    R.drawable.card_diamonds_K,
+                    R.drawable.card_diamonds_0, R.drawable.card_diamonds_j, R.drawable.card_diamonds_q,
+                    R.drawable.card_diamonds_k,
             },
             {
-                    R.drawable.card_hearts_A, R.drawable.card_hearts_2, R.drawable.card_hearts_3,
+                    R.drawable.card_hearts_a, R.drawable.card_hearts_2, R.drawable.card_hearts_3,
                     R.drawable.card_hearts_4, R.drawable.card_hearts_5, R.drawable.card_hearts_6,
                     R.drawable.card_hearts_7, R.drawable.card_hearts_8, R.drawable.card_hearts_9,
-                    R.drawable.card_hearts_0, R.drawable.card_hearts_J, R.drawable.card_hearts_Q,
-                    R.drawable.card_hearts_K,
+                    R.drawable.card_hearts_0, R.drawable.card_hearts_j, R.drawable.card_hearts_q,
+                    R.drawable.card_hearts_k,
             },
             {
-                    R.drawable.card_spades_A, R.drawable.card_spades_2, R.drawable.card_spades_3,
+                    R.drawable.card_spades_a, R.drawable.card_spades_2, R.drawable.card_spades_3,
                     R.drawable.card_spades_4, R.drawable.card_spades_5, R.drawable.card_spades_6,
                     R.drawable.card_spades_7, R.drawable.card_spades_8, R.drawable.card_spades_9,
-                    R.drawable.card_spades_0, R.drawable.card_spades_J, R.drawable.card_spades_Q,
-                    R.drawable.card_spades_K,
+                    R.drawable.card_spades_0, R.drawable.card_spades_j, R.drawable.card_spades_q,
+                    R.drawable.card_spades_k,
             },
     };
 
