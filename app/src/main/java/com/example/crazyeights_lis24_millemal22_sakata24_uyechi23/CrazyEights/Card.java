@@ -303,19 +303,19 @@ public class Card {
 
         int secondIndex = -1;
         switch(this.getFace()){
-            case "Ace": secondIndex = 0;
-            case "Two": secondIndex = 1;
-            case "Three": secondIndex = 2;
-            case "Four": secondIndex = 3;
-            case "Five": secondIndex = 4;
-            case "Six": secondIndex = 5;
-            case "Seven": secondIndex = 6;
-            case "Eight": secondIndex = 7;
-            case "Nine": secondIndex = 8;
-            case "Ten": secondIndex = 9;
-            case "Jack": secondIndex = 10;
-            case "Queen": secondIndex = 11;
-            case "King": secondIndex = 12;
+            case "Ace": secondIndex = 0; break;
+            case "Two": secondIndex = 1; break;
+            case "Three": secondIndex = 2; break;
+            case "Four": secondIndex = 3; break;
+            case "Five": secondIndex = 4; break;
+            case "Six": secondIndex = 5; break;
+            case "Seven": secondIndex = 6; break;
+            case "Eight": secondIndex = 7; break;
+            case "Nine": secondIndex = 8; break;
+            case "Ten": secondIndex = 9; break;
+            case "Jack": secondIndex = 10; break;
+            case "Queen": secondIndex = 11; break;
+            case "King": secondIndex = 12; break;
         }
 
         // I think if this is here, we can cycle through each card in the deck, mark it
